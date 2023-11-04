@@ -1,0 +1,12 @@
+development
+msys2-devel
+cmake
+ninja
+automake
+autoconf
+flex
+bison
+texinfo
+make
+git
+gcc

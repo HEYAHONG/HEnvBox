@@ -31,6 +31,7 @@
 
 - config.bat：在cmd窗口中使用`call config.bat路径 `可配置环境。
 - install.bat：安装或者更新软件包,可多次调用，为防止异常不要同时执行多个实例。
+- upgrade.bat：更新软件包,可多次调用。
 - uninstall.bat:卸载安装，主要用于删除右键信息
 
 # 安装

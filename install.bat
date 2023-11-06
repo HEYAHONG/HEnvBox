@@ -13,6 +13,7 @@ if exist "%HENVBOX_ROOT_PATH%\tools\%HENVBOX_TYPE%\install.bat" call "%HENVBOX_R
 if x%Failure%==x1 pause
 
 @rem 添加右键菜单
+call ::AddMenuGroup
 call :AddMenu HEnvBox "HEnvBox Cmd" "cmd.exe /k call %HENVBOX_ROOT_PATH%\config.bat"
 if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\msys2.exe call :AddMenu HEnvBoxMSYS2 "HEnvBox MSYS2"  %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\msys2.exe
 if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw32.exe call :AddMenu HEnvBoxMINGW32 "HEnvBox MINGW32"  %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw32.exe
@@ -30,8 +31,23 @@ goto :eof
 set REG_NAME=%1
 set REG_DISPLAY_NAME=%2
 set REG_CMD=%3
-reg add "HKCR\Directory\shell\%REG_NAME%" /t REG_SZ /f  /ve /d %REG_DISPLAY_NAME%
-reg add "HKCR\Directory\shell\%REG_NAME%\command" /t REG_SZ /f  /ve /d %REG_CMD%
-reg add "HKCR\Directory\Background\shell\%REG_NAME%"  /t REG_SZ /f  /ve /d %REG_DISPLAY_NAME%
-reg add "HKCR\Directory\Background\shell\%REG_NAME%\command" /t REG_SZ /f  /ve /d %REG_CMD%
+reg add "HKCR\Directory\shell\HEnvBox\shell\%REG_NAME%" /t REG_SZ /f  /ve /d %REG_DISPLAY_NAME%
+reg add "HKCR\Directory\shell\HEnvBox\shell\%REG_NAME%\command" /t REG_SZ /f  /ve /d %REG_CMD%
+reg add "HKCR\Directory\Background\shell\HEnvBox\shell\%REG_NAME%"  /t REG_SZ /f  /ve /d %REG_DISPLAY_NAME%
+reg add "HKCR\Directory\Background\shell\HEnvBox\shell\%REG_NAME%\command" /t REG_SZ /f  /ve /d %REG_CMD%
 goto :eof
+
+@rem 添加菜单组
+goto :eof
+:AddMenuGroup
+reg add "HKCR\Directory\shell\HEnvBox" /t REG_SZ /f  /ve /d ""
+reg add "HKCR\Directory\shell\HEnvBox" /t REG_SZ /f  /v MUIVerb /d "&HEnvBox"
+reg add "HKCR\Directory\shell\HEnvBox" /t REG_SZ /f  /v position /d Middle
+reg add "HKCR\Directory\shell\HEnvBox" /t REG_SZ /f  /v SubCommands /d ""
+reg add "HKCR\Directory\shell\HEnvBox\shell" /t REG_SZ /f  /ve /d ""
+reg add "HKCR\Directory\Background\shell\HEnvBox" /t REG_SZ /f  /ve /d ""
+reg add "HKCR\Directory\Background\shell\HEnvBox" /t REG_SZ /f  /v MUIVerb /d "&HEnvBox"
+reg add "HKCR\Directory\Background\shell\HEnvBox" /t REG_SZ /f  /v position /d Middle
+reg add "HKCR\Directory\Background\shell\HEnvBox" /t REG_SZ /f  /v SubCommands /d ""
+reg add "HKCR\Directory\Background\shell\HEnvBox\shell" /t REG_SZ /f  /ve /d ""
+goto :eof 

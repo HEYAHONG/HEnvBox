@@ -1,0 +1,3 @@
+#Kconfig
+kconfiglib
+windows-curses; sys_platform == 'win32'

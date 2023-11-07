@@ -24,10 +24,15 @@ do
 	echo install package list ${list_file}
 	for i in `cat ${list_file}`
 	do
+		echo install package $i
 		PackageName=`cat /tmp/InstalledList.txt |grep -w "^$i$"`
 		if [ -z "${PackageName}" ]
 		then
-			pacman -S --quiet --overwrite='*' --noconfirm $i
+			pacman -Q $i 2> /dev/null > /dev/null
+			if [ $? -ne 0 ]
+			then
+				pacman -S --quiet --overwrite='*' --noconfirm $i
+			fi
 		fi
 	done
 done

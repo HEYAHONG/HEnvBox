@@ -14,26 +14,29 @@ if x%Failure%==x1 pause
 
 @rem 添加右键菜单
 call ::AddMenuGroup
-call :AddMenu HEnvBox "HEnvBox Cmd" "cmd.exe /k call %HENVBOX_ROOT_PATH%\config.bat"
-if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\msys2.exe call :AddMenu HEnvBoxMSYS2 "HEnvBox MSYS2"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\msys2.exe bash"
-if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw32.exe call :AddMenu HEnvBoxMINGW32 "HEnvBox MINGW32"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw32.exe bash"
-if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw64.exe call :AddMenu HEnvBoxMINGW64 "HEnvBox MINGW64"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw64.exe bash"
-if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clang32.exe call :AddMenu HEnvBoxCLANG32 "HEnvBox CLANG32"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clang32.exe bash"
-if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clang64.exe call :AddMenu HEnvBoxCLANG64 "HEnvBox CLANG64"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clang64.exe bash"
-if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clangarm64.exe call :AddMenu HEnvBoxCLANGARM64 "HEnvBox CLANGARM64"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clangarm64.exe bash"
-if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\ucrt64.exe call :AddMenu HEnvBoxUCRT64 "HEnvBox UCRT64"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\ucrt64.exe bash"
+call :AddMenu HEnvBox "HEnvBox Cmd" "cmd.exe /k call %HENVBOX_ROOT_PATH%\config.bat" "%windir%\system32\cmd.exe"
+if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\msys2.exe call :AddMenu HEnvBoxMSYS2 "HEnvBox MSYS2"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\msys2.exe bash" "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\msys2.exe"
+if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw32.exe call :AddMenu HEnvBoxMINGW32 "HEnvBox MINGW32"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw32.exe bash" "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw32.exe"
+if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw64.exe call :AddMenu HEnvBoxMINGW64 "HEnvBox MINGW64"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw64.exe bash" "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw64.exe"
+if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clang32.exe call :AddMenu HEnvBoxCLANG32 "HEnvBox CLANG32"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clang32.exe bash" "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clang32.exe"
+if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clang64.exe call :AddMenu HEnvBoxCLANG64 "HEnvBox CLANG64"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clang64.exe bash" "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clang64.exe"
+if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clangarm64.exe call :AddMenu HEnvBoxCLANGARM64 "HEnvBox CLANGARM64"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clangarm64.exe bash" "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clangarm64.exe"
+if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\ucrt64.exe call :AddMenu HEnvBoxUCRT64 "HEnvBox UCRT64"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\ucrt64.exe bash" "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\ucrt64.exe"
 
 
 @rem 添加右键菜单
-@rem 参数1：在注册表中的名称(不可带引号)，参数2:显示名称，参数3：命令
+@rem 参数1：在注册表中的名称(不可带引号)，参数2:显示名称，参数3：命令，参数4:图标
 goto :eof
 :AddMenu
 set REG_NAME=%1
 set REG_DISPLAY_NAME=%2
 set REG_CMD=%3
+set ICON_PATH=%4
 reg add "HKCR\Directory\shell\HEnvBox\shell\%REG_NAME%" /t REG_SZ /f  /ve /d %REG_DISPLAY_NAME%
+reg add "HKCR\Directory\shell\HEnvBox\shell\%REG_NAME%" /t REG_SZ /f  /v icon /d %ICON_PATH%
 reg add "HKCR\Directory\shell\HEnvBox\shell\%REG_NAME%\command" /t REG_SZ /f  /ve /d %REG_CMD%
 reg add "HKCR\Directory\Background\shell\HEnvBox\shell\%REG_NAME%"  /t REG_SZ /f  /ve /d %REG_DISPLAY_NAME%
+reg add "HKCR\Directory\Background\shell\HEnvBox\shell\%REG_NAME%"  /t REG_SZ /f  /v icon /d %ICON_PATH%
 reg add "HKCR\Directory\Background\shell\HEnvBox\shell\%REG_NAME%\command" /t REG_SZ /f  /ve /d %REG_CMD%
 goto :eof
 

@@ -25,6 +25,9 @@ fi
 #导出根路径
 export SCRIPT_DIR="${script_dir}";
 
+#apt安装过程中不询问
+export DEBIAN_FRONTEND=noninteractive
+
 #更新软件包
 dpkg --configure -a 2> /dev/null > /dev/null
 apt update 2> /dev/null > /dev/null

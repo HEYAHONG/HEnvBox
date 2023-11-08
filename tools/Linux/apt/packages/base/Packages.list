@@ -1,0 +1,7 @@
+build-essential
+autoconf
+automake
+cmake
+make
+ninja-build
+

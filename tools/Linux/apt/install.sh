@@ -26,6 +26,9 @@ fi
 export SCRIPT_DIR="${script_dir}";
 
 #更新软件包
+dpkg --configure -a 2> /dev/null > /dev/null
+apt update 2> /dev/null > /dev/null
+apt install -f
 apt upgrade -yyy
 
 #执行子文件夹的PreInstall.sh

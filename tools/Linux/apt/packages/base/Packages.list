@@ -7,4 +7,9 @@ ninja-build
 bison
 flex
 texinfo
-
+gperf
+clang
+llvm
+dkms
+gcc
+g++

@@ -35,6 +35,8 @@ CheckTool id
 [ $? -eq 0 ] || export HENVBOX_UNSUPPORTED=1
 CheckTool mkdir
 [ $? -eq 0 ] || export HENVBOX_UNSUPPORTED=1
+CheckTool xargs
+[ $? -eq 0 ] || export HENVBOX_UNSUPPORTED=1
 CheckTool sudo
 [ $? -eq 0 ] || [ `id -u` -eq 0 ] ||  export HENVBOX_UNSUPPORTED=1
 

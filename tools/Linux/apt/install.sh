@@ -28,12 +28,29 @@ export SCRIPT_DIR="${script_dir}";
 #更新软件包
 apt upgrade -yyy
 
+#执行子文件夹的PreInstall.sh
+for i in  `find ${SCRIPT_DIR} -name PreInstall.sh`
+do
+	if [ -x $i ]
+	then
+		echo execute $i
+		. $i
+	fi
+done
+
 #安装相应软件包
 for list_file in `find ${SCRIPT_DIR} -name Packages.list`
 do
-	for i in `cat ${list_file}`
-	do
-		apt install -yyy $i
-	done
+	echo install packages list ${list_file}
+	cat ${list_file} | xargs apt install -yyy
 done
 
+#执行子文件夹的PostInstall.sh
+for i in  `find ${SCRIPT_DIR} -name PostInstall.sh`
+do
+        if [ -x $i ]
+        then
+                echo execute $i
+                . $i
+        fi
+done

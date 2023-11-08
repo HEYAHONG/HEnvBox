@@ -72,6 +72,10 @@ then
                 . "${HENVBOX_ROOT_PATH}/config.sh"
         fi
 	
+	if [ ${HENVBOX_UNSUPPORTED} -ne 0 ]
+	then
+		exit 1;
+	fi
 	#导入tools中的安装脚本
         if [ -x "${HENVBOX_ROOT_PATH}/tools/${HENVBOX_TYPE}/install.sh" ]
         then

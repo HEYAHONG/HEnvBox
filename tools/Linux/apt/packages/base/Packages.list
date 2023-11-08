@@ -4,4 +4,7 @@ automake
 cmake
 make
 ninja-build
+bison
+flex
+texinfo
 

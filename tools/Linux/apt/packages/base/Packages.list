@@ -13,3 +13,5 @@ llvm
 dkms
 gcc
 g++
+git
+subversion

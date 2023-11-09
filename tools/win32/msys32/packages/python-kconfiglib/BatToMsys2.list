@@ -1,0 +1,13 @@
+alldefconfig
+allmodconfig
+allnoconfig
+allyesconfig
+defconfig
+genconfig
+guiconfig
+listnewconfig
+menuconfig
+oldconfig
+olddefconfig
+savedefconfig
+setconfig

@@ -37,6 +37,17 @@ do
 	done
 done
 
+#执行子文件夹中的PostInstall.sh
+for i in `find . -name PostInstall.sh`
+do
+        if [ -x  $i ]
+        then
+                echo execute $i
+                . $i
+        fi
+done
+
+
 #创建列表中的重定向入口
 for list_file in `find . -name Win32Redirector.list`
 do
@@ -59,15 +70,21 @@ do
 	cp -rf  "Win32Redirector.exe"  "${HENVBOX_LOCAL_BINDIR_PATH_UNIX}/$i"
 done
 
-#执行子文件夹中的PostInstall.sh
-for i in `find . -name PostInstall.sh`
+#创建bat到msys2的入口
+for list_file in `find . -name BatToMsys2.list`
 do
-        if [ -x  $i ]
-        then
-		echo execute $i
-                . $i
-        fi
+        echo install BatEntry list ${list_file}
+        for i in `cat ${list_file}`
+        do
+		if [ -x /usr/bin/$i ]
+		then
+			echo install BatToMsys2 for $i
+                	echo @"${HENVBOX_LOCAL_ROOT_PATH}\\${HENVBOX_TOOLS_TYPE}\\msys2.exe" $i %* >  "${HENVBOX_LOCAL_BINDIR_PATH_UNIX}/$i.bat"
+		fi
+        done
 done
+
+
 
 
 #提示安装完成

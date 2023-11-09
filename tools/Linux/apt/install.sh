@@ -28,6 +28,11 @@ export SCRIPT_DIR="${script_dir}";
 #apt安装过程中不询问
 export DEBIAN_FRONTEND=noninteractive
 
+if [ -f /etc/lsb-release ]
+then
+	. /etc/lsb-release
+fi
+
 #更新软件包
 dpkg --configure -a 2> /dev/null > /dev/null
 apt update 2> /dev/null > /dev/null
@@ -50,6 +55,16 @@ do
 	echo install packages list ${list_file}
 	cat ${list_file} | xargs apt install -yyy
 done
+
+if [ -n "${DISTRIB_CODENAME}" ]
+then
+	#安装相应发行版软件包
+	for list_file in `find ${SCRIPT_DIR} -name Packages.${DISTRIB_CODENAME}.list`
+	do
+        	echo install packages list ${list_file}
+        	cat ${list_file} | xargs apt install -yyy
+	done
+fi
 
 #执行子文件夹的PostInstall.sh
 for i in  `find ${SCRIPT_DIR} -name PostInstall.sh`

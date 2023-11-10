@@ -85,7 +85,14 @@ do
 done
 
 
-
+#创建console入口
+echo \#!/bin/bash > /console
+for i in `env |grep HENVBOX`
+do
+	echo export ${i//\\/\/} >> /console
+done
+echo exec /bin/bash >> /console 
+chmod +x /console
 
 #提示安装完成
 

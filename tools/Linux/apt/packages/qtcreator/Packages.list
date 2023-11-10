@@ -1,0 +1,5 @@
+qtcreator
+libqt5serialport5-dev
+qtdeclarative5-dev
+qml-module-qtquick-controls
+qml-module-qtquick-dialogs

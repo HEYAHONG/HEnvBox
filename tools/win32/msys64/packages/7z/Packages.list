@@ -1,0 +1,6 @@
+p7zip
+mingw-w64-i686-7zip
+mingw-w64-x86_64-7zip
+mingw-w64-ucrt-x86_64-7zip
+mingw-w64-clang-i686-7zip
+mingw-w64-clang-x86_64-7zip

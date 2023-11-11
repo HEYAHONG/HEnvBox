@@ -1,0 +1,9 @@
+mingw-w64-x86_64-qemu
+mingw-w64-x86_64-qemu-guest-agent
+mingw-w64-x86_64-qemu-image-util
+mingw-w64-ucrt-x86_64-qemu
+mingw-w64-ucrt-x86_64-qemu-guest-agent
+mingw-w64-ucrt-x86_64-qemu-image-util
+mingw-w64-clang-x86_64-qemu
+mingw-w64-clang-x86_64-qemu-guest-agent
+mingw-w64-clang-x86_64-qemu-image-util

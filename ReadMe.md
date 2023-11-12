@@ -5,7 +5,7 @@
 主要支持以下操作系统:
 
 - Windows 10及更新版本,架构为x86_64。
-- Ubuntu 22.04及更新版本，架构为x86_64。
+- Ubuntu 22.04，架构为x86_64。
 
 对于Windows而言，本人常用[MSYS2](https://www.msys2.org/)作为开发环境。
 

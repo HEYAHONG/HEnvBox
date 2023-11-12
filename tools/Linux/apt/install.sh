@@ -49,6 +49,19 @@ do
 	fi
 done
 
+if [ -n "${DISTRIB_CODENAME}" ]
+then
+	#按发行版执行子文件夹的PreInstall.sh
+	for i in  `find ${SCRIPT_DIR} -name PreInstall.${DISTRIB_CODENAME}.sh`
+	do
+        	if [ -x $i ]
+        	then
+                	echo execute $i
+                	. $i
+        	fi
+	done
+fi
+
 #安装相应软件包
 for list_file in `find ${SCRIPT_DIR} -name Packages.list`
 do
@@ -75,3 +88,16 @@ do
                 . $i
         fi
 done
+
+if [ -n "${DISTRIB_CODENAME}" ]
+then
+	#按发行版执行子文件夹的PostInstall.sh
+	for i in  `find ${SCRIPT_DIR} -name PostInstall.${DISTRIB_CODENAME}.sh`
+	do
+        	if [ -x $i ]
+        	then
+                	echo execute $i
+                	. $i
+        	fi
+	done
+fi

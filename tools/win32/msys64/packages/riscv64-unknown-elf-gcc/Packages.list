@@ -1,0 +1,15 @@
+mingw-w64-i686-riscv64-unknown-elf-binutils
+mingw-w64-i686-riscv64-unknown-elf-gcc
+mingw-w64-i686-riscv64-unknown-elf-newlib
+mingw-w64-x86_64-riscv64-unknown-elf-binutils
+mingw-w64-x86_64-riscv64-unknown-elf-gcc
+mingw-w64-x86_64-riscv64-unknown-elf-newlib
+mingw-w64-ucrt-x86_64-riscv64-unknown-elf-binutils
+mingw-w64-ucrt-x86_64-riscv64-unknown-elf-gcc
+mingw-w64-ucrt-x86_64-riscv64-unknown-elf-newlib
+mingw-w64-clang-i686-riscv64-unknown-elf-binutils
+mingw-w64-clang-i686-riscv64-unknown-elf-gcc
+mingw-w64-clang-i686-riscv64-unknown-elf-newlib
+mingw-w64-clang-x86_64-riscv64-unknown-elf-binutils
+mingw-w64-clang-x86_64-riscv64-unknown-elf-gcc
+mingw-w64-clang-x86_64-riscv64-unknown-elf-newlib

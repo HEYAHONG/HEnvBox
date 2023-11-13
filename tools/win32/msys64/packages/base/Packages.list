@@ -90,3 +90,4 @@ texinfo
 make
 git
 gcc
+patch

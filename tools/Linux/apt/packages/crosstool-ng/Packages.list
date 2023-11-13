@@ -1,0 +1,6 @@
+wget
+automake
+autoconf
+make
+build-essential
+libncurses5-dev

@@ -25,6 +25,12 @@ fi
 #导出根路径
 export SCRIPT_DIR="${script_dir}";
 
+#准备工作
+if [ -x ${SCRIPT_DIR}/Prepare.sh ]
+then
+	. ${SCRIPT_DIR}/Prepare.sh
+fi
+
 #apt安装过程中不询问
 export DEBIAN_FRONTEND=noninteractive
 

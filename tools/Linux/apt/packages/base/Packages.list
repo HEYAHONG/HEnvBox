@@ -15,3 +15,5 @@ gcc
 g++
 git
 subversion
+libtool-bin
+patch

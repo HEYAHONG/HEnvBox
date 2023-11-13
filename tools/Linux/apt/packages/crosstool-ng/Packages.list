@@ -4,3 +4,5 @@ autoconf
 make
 build-essential
 libncurses5-dev
+libtool-bin
+patch

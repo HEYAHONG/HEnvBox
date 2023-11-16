@@ -6,3 +6,5 @@ build-essential
 libncurses5-dev
 libtool-bin
 patch
+gawk
+help2man

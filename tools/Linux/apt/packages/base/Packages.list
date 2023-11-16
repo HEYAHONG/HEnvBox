@@ -17,3 +17,5 @@ git
 subversion
 libtool-bin
 patch
+help2man
+gawk

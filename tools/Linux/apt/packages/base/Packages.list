@@ -19,3 +19,5 @@ libtool-bin
 patch
 help2man
 gawk
+bc
+man-db

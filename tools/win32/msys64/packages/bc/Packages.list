@@ -1,0 +1,6 @@
+bc
+mingw-w64-i686-bc
+mingw-w64-x86_64-bc
+mingw-w64-ucrt-x86_64-bc
+mingw-w64-clang-i686-bc
+mingw-w64-clang-x86_64-bc

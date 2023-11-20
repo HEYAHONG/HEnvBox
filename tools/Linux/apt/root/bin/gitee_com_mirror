@@ -326,7 +326,7 @@ fi
 #更新仓库
 for repodir in `find "${ROOT_PATH}" -maxdepth 3 -name .git`
 do
-	REPO=`dirname ${repodir}`
+	REPO=`dirname "${repodir}"`
 	pushd "${REPO}" 2> /dev/null > /dev/null
 	echo -e "即将更新目录${REPO}"
 	git pull

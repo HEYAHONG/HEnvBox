@@ -25,6 +25,10 @@ fi
 #导出根路径
 export SCRIPT_DIR="${script_dir}";
 
+#复制相关文件
+cp -rf ${SCRIPT_DIR}/root/*  "${HENVBOX_LOCAL_ROOT_PATH}/"
+chown -R ${HENVBOX_UID}:${HENVBOX_GID} "${HENVBOX_LOCAL_ROOT_PATH}/"
+
 #准备工作
 if [ -x ${SCRIPT_DIR}/Prepare.sh ]
 then

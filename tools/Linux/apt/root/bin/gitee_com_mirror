@@ -280,7 +280,7 @@ then
                 IS_END=0
                 REPO_PAGE=1
                 REPO_INDEX=1
-                REPO_ORG=${enterprisename}
+                REPO_ENTERPRISE=${enterprisename}
                 while [ "${IS_END}" -eq 0 ]
                 do
 			API_URL="https://gitee.com/api/v5/enterprises/${enterprisename}/repos?type=public&page=${REPO_PAGE}&per_page=100"

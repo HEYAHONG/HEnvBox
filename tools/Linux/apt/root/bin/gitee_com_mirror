@@ -72,18 +72,18 @@ function __backup_user_repository__()
 	pushd "${ROOT_PATH}/${REPO_USER}" > /dev/null 2> /dev/null
 	if [ -z "${REPO_USE_SSH}" ]
 	then
-		if [ -d ${REPO_NAME}/.git ]
+		if [ -d "${REPO_NAME}/.git" ]
 		then
 			echo  -e "${REPO_NAME} 已初始化!"
 		else
-			git clone ${REPO_HTML_URL} ${REPO_NAME}
+			git clone "${REPO_HTML_URL}" "${REPO_NAME}"
 		fi
 	else
-		if [ -d ${REPO_NAME}/.git ]
+		if [ -d "${REPO_NAME}/.git" ]
                 then
                         echo  -e "${REPO_NAME} 已初始化!"
                 else
-                        git clone ${REPO_SSH_URL} ${REPO_NAME}
+                        git clone "${REPO_SSH_URL}" "${REPO_NAME}"
                 fi
 	fi
 	popd > /dev/null 2> /dev/null
@@ -102,18 +102,18 @@ function __backup_org_repository__()
         pushd "${ROOT_PATH}/${REPO_ORG}" > /dev/null 2> /dev/null
         if [ -z "${REPO_USE_SSH}" ]
         then
-                if [ -d ${REPO_NAME}/.git ]
+                if [ -d "${REPO_NAME}/.git" ]
                 then
                         echo  -e "${REPO_NAME} 已初始化!"
                 else
-                        git clone ${REPO_HTML_URL} ${REPO_NAME}
+                        git clone "${REPO_HTML_URL}" "${REPO_NAME}"
                 fi
         else
-                if [ -d ${REPO_NAME}/.git ]
+                if [ -d "${REPO_NAME}/.git" ]
                 then
                         echo  -e "${REPO_NAME} 已初始化!"
                 else
-                        git clone ${REPO_SSH_URL} ${REPO_NAME}
+                        git clone "${REPO_SSH_URL}" "${REPO_NAME}"
                 fi
         fi
         popd > /dev/null 2> /dev/null
@@ -132,18 +132,18 @@ function __backup_enterprise_repository__()
         pushd "${ROOT_PATH}/${REPO_ENTERPRISE}" > /dev/null 2> /dev/null
         if [ -z "${REPO_USE_SSH}" ]
         then
-                if [ -d ${REPO_NAME}/.git ]
+                if [ -d "${REPO_NAME}/.git" ]
                 then
                         echo  -e "${REPO_NAME} 已初始化!"
                 else
-                        git clone ${REPO_HTML_URL} ${REPO_NAME}
+                        git clone "${REPO_HTML_URL}" "${REPO_NAME}"
                 fi
         else
-                if [ -d ${REPO_NAME}/.git ]
+                if [ -d "${REPO_NAME}/.git" ]
                 then
                         echo  -e "${REPO_NAME} 已初始化!"
                 else
-                        git clone ${REPO_SSH_URL} ${REPO_NAME}
+                        git clone "${REPO_SSH_URL}" "${REPO_NAME}"
                 fi
         fi
         popd > /dev/null 2> /dev/null
@@ -324,10 +324,10 @@ fi
 
 
 #更新仓库
-for repodir in `find ${ROOT_PATH} -maxdepth 3 -name .git`
+for repodir in `find "${ROOT_PATH}" -maxdepth 3 -name .git`
 do
 	REPO=`dirname ${repodir}`
-	pushd ${REPO} 2> /dev/null > /dev/null
+	pushd "${REPO}" 2> /dev/null > /dev/null
 	echo -e "即将更新目录${REPO}"
 	git pull
 	popd 2> /dev/null > /dev/null

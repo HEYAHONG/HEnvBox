@@ -70,7 +70,7 @@ function __backup_user_repository__()
 	echo -e "即将备份${REPO_USER}的第${REPO_INDEX}个仓库:NAME=${REPO_NAME},URL=${REPO_HTML_URL},SSH_URL=${REPO_SSH_URL}"
 	__prepare_dir__ "${REPO_USER}"
 	pushd "${ROOT_PATH}/${REPO_USER}" > /dev/null 2> /dev/null
-	if [ -z "REPO_USE_SSH" ]
+	if [ -z "${REPO_USE_SSH}" ]
 	then
 		if [ -d ${REPO_NAME}/.git ]
 		then

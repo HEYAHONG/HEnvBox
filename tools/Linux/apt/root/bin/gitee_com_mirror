@@ -23,6 +23,8 @@ CheckTool readlink
 [ $? -eq 0 ] || exit
 CheckTool ln
 [ $? -eq 0 ] || exit
+CheckTool wc
+[ $? -eq 0 ] || exit
 CheckTool sed
 [ $? -eq 0 ] || exit
 CheckTool grep
@@ -327,8 +329,23 @@ fi
 for repodir in `find "${ROOT_PATH}" -maxdepth 3 -name .git`
 do
 	REPO=`dirname "${repodir}"`
-	pushd "${REPO}" 2> /dev/null > /dev/null
-	echo -e "即将更新目录${REPO}"
-	git pull
-	popd 2> /dev/null > /dev/null
+	if [ -d "${REPO}" ]
+        then
+                pushd "${REPO}" 2> /dev/null > /dev/null
+                echo -e "即将更新目录${REPO}"
+                OBJECT_COUNT=`find .git/objects 2> /dev/null | wc -l`
+                if [ ${OBJECT_COUNT} -gt 3 ]
+                then
+                        git pull
+                else
+                        echo 目录 ${REPO} 可能为空
+                fi
+                OBJECT_COUNT=`find .git/objects 2> /dev/null |grep -v info |grep -v pack | wc -l`
+                if [ ${OBJECT_COUNT} -gt 1 ]
+                then
+                        git prune
+                        git gc
+                fi
+                popd 2> /dev/null > /dev/null
+        fi
 done

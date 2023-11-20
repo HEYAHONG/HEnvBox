@@ -91,3 +91,5 @@ make
 git
 gcc
 patch
+wget
+curl

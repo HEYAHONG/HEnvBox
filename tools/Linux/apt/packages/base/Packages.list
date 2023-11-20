@@ -21,3 +21,5 @@ help2man
 gawk
 bc
 man-db
+wget
+curl

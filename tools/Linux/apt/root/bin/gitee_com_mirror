@@ -61,6 +61,31 @@ function __prepare_dir__()
 	fi
 }
 
+#更新仓库脚本，参数1为仓库目录(绝对)
+function __update_repository__()
+{
+	REPO_FULLPATH="$1"
+	echo -e "即将更新目录${REPO_FULLPATH}"
+	if [ -d "${REPO_FULLPATH}/.git" ]
+	then
+		pushd "${REPO_FULLPATH}" 2> /dev/null > /dev/null
+                OBJECT_COUNT=`find .git/objects 2> /dev/null | wc -l`
+                if [ ${OBJECT_COUNT} -gt 3 ]
+                then
+                        git pull
+                else
+                        echo 目录 ${REPO_FULLPATH} 可能为空
+                fi
+                OBJECT_COUNT=`find .git/objects 2> /dev/null |grep -v info |grep -v pack | wc -l`
+                if [ ${OBJECT_COUNT} -gt 1 ]
+                then
+                        git prune
+                        git gc
+                fi
+		popd 2> /dev/null > /dev/null
+	fi
+}
+
 #备份脚本，通过变量传递参数REPO_USER REPO_INDEX REPO_NAME REPO_HTML_URL REPO_SSH_URL
 function __backup_user_repository__()
 {
@@ -77,6 +102,7 @@ function __backup_user_repository__()
 		if [ -d "${REPO_NAME}/.git" ]
 		then
 			echo  -e "${REPO_NAME} 已初始化!"
+			__update_repository__ "${ROOT_PATH}/${REPO_USER}/${REPO_NAME}"
 		else
 			git clone "${REPO_HTML_URL}" "${REPO_NAME}"
 		fi
@@ -84,6 +110,7 @@ function __backup_user_repository__()
 		if [ -d "${REPO_NAME}/.git" ]
                 then
                         echo  -e "${REPO_NAME} 已初始化!"
+			__update_repository__ "${ROOT_PATH}/${REPO_USER}/${REPO_NAME}"
                 else
                         git clone "${REPO_SSH_URL}" "${REPO_NAME}"
                 fi
@@ -107,6 +134,7 @@ function __backup_org_repository__()
                 if [ -d "${REPO_NAME}/.git" ]
                 then
                         echo  -e "${REPO_NAME} 已初始化!"
+			__update_repository__ "${ROOT_PATH}/${REPO_ORG}/${REPO_NAME}"
                 else
                         git clone "${REPO_HTML_URL}" "${REPO_NAME}"
                 fi
@@ -114,6 +142,7 @@ function __backup_org_repository__()
                 if [ -d "${REPO_NAME}/.git" ]
                 then
                         echo  -e "${REPO_NAME} 已初始化!"
+			__update_repository__ "${ROOT_PATH}/${REPO_ORG}/${REPO_NAME}"
                 else
                         git clone "${REPO_SSH_URL}" "${REPO_NAME}"
                 fi
@@ -137,6 +166,7 @@ function __backup_enterprise_repository__()
                 if [ -d "${REPO_NAME}/.git" ]
                 then
                         echo  -e "${REPO_NAME} 已初始化!"
+			__update_repository__ "${ROOT_PATH}/${REPO_ENTERPRISE}/${REPO_NAME}"
                 else
                         git clone "${REPO_HTML_URL}" "${REPO_NAME}"
                 fi
@@ -144,6 +174,7 @@ function __backup_enterprise_repository__()
                 if [ -d "${REPO_NAME}/.git" ]
                 then
                         echo  -e "${REPO_NAME} 已初始化!"
+			__update_repository__ "${ROOT_PATH}/${REPO_ENTERPRISE}/${REPO_NAME}"
                 else
                         git clone "${REPO_SSH_URL}" "${REPO_NAME}"
                 fi

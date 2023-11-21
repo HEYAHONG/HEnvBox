@@ -37,7 +37,7 @@ Windows推荐200G以上空间（本工程目录），Linux推荐100G以上空间
 
 - Bash (Linux)
 - MSYS2 UCRT64 (64位Windows)
-- MSYS2 MING32 （32位Windows）
+- MSYS2 MINGW32 （32位Windows）
 
 ### 配置
 

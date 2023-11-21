@@ -360,7 +360,7 @@ fi
 for repodir in `find "${ROOT_PATH}" -maxdepth 3 -name .git`
 do
 	REPO=`dirname "${repodir}"`
-	if [ -d "${REPO}" ]
+	if [ -d "${REPO}/.git" ]
         then
                 pushd "${REPO}" 2> /dev/null > /dev/null
                 echo -e "即将更新目录${REPO}"

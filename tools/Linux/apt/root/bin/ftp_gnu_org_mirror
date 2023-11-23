@@ -74,6 +74,7 @@ if [ -f "${ROOT_PATH}/dir.list" ]
 then
 	for dir in `cat "${ROOT_PATH}/dir.list"`
 	do
+		echo -e "即将下载目录 ${dir}"
 		__prepare_dir__  "${dir}"
 		rsync -rlhP --delete "${RSYNC_URL}/${dir}/" "${ROOT_PATH}/${dir}/"
 	done
@@ -84,6 +85,7 @@ if [ -f "${ROOT_PATH}/file.list" ]
 then
         for file in `cat "${ROOT_PATH}/file.list"`
         do
+		echo -e "即将下载文件 ${file}"
 		filedir=`dirname ${file}`
                 __prepare_dir__  "${filedir}"
                 rsync -rlhP --delete "${RSYNC_URL}/${file}" "${ROOT_PATH}/${file}"

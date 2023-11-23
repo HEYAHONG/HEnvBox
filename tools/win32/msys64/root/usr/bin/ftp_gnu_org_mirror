@@ -35,7 +35,8 @@ CheckTool rsync
 [ $? -eq 0 ] || exit
 CheckTool cat
 [ $? -eq 0 ] || exit
-
+CheckTool tr
+[ $? -eq 0 ] || exit
 
 if [ -z "${HENVBOX_LOCAL_ROOT_PATH_UNIX}" ]
 then
@@ -45,6 +46,8 @@ fi
 
 #定义全局变量
 ROOT_PATH="${HENVBOX_LOCAL_ROOT_PATH_UNIX}/ftp.gnu.org"
+ROOT_PATH=`echo /${ROOT_PATH} | tr -d :`
+
 
 #准备目录,参数1为相对与ROOT_PATH的目录
 function __prepare_dir__()
@@ -74,6 +77,7 @@ if [ -f "${ROOT_PATH}/dir.list" ]
 then
 	for dir in `cat "${ROOT_PATH}/dir.list"`
 	do
+		echo -e "即将下载目录 ${dir}"
 		__prepare_dir__  "${dir}"
 		rsync -rlhP --delete "${RSYNC_URL}/${dir}/" "${ROOT_PATH}/${dir}/"
 	done
@@ -84,6 +88,7 @@ if [ -f "${ROOT_PATH}/file.list" ]
 then
         for file in `cat "${ROOT_PATH}/file.list"`
         do
+		echo -e "即将下载文件 ${file}"
 		filedir=`dirname ${file}`
                 __prepare_dir__  "${filedir}"
                 rsync -rlhP --delete "${RSYNC_URL}/${file}" "${ROOT_PATH}/${file}"

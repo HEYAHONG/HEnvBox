@@ -129,7 +129,7 @@ Windows推荐200G以上空间（本工程目录），Linux推荐100G以上空间
 
 本配置文件为bash脚本文件，可用于配置一些变量:
 
-- RSYNC_URL:同步目录。
+- RSYNC_URL:rsync网络镜像URL。
 
 RSYNC_URL一般可选择以下选项:
 
@@ -167,7 +167,7 @@ RSYNC_URL一般可选择以下选项:
 
 本配置文件为bash脚本文件，可用于配置一些变量:
 
-- RSYNC_URL:同步目录。
+- RSYNC_URL:rsync网络镜像URL。
 
 RSYNC_URL一般可选择以下选项:
 

@@ -93,3 +93,4 @@ gcc
 patch
 wget
 curl
+rsync

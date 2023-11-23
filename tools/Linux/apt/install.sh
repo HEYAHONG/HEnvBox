@@ -27,7 +27,43 @@ export SCRIPT_DIR="${script_dir}";
 
 #复制相关文件
 cp -rf ${SCRIPT_DIR}/root/*  "${HENVBOX_LOCAL_ROOT_PATH}/"
-chown -R ${HENVBOX_UID}:${HENVBOX_GID} "${HENVBOX_LOCAL_ROOT_PATH}/"
+for i in `find "${HENVBOX_LOCAL_ROOT_PATH}/bin" 2> /dev/null`
+do
+	if [ -e "${i}" ]
+	then
+		chown  ${HENVBOX_UID}:${HENVBOX_GID} "$i"
+	fi
+done
+for i in `find "${HENVBOX_LOCAL_ROOT_PATH}/sbin" 2> /dev/null`
+do
+        if [ -e "${i}" ]
+        then
+                chown  ${HENVBOX_UID}:${HENVBOX_GID} "$i"
+        fi
+done
+for i in `find "${HENVBOX_LOCAL_ROOT_PATH}/lib" 2> /dev/null`
+do
+        if [ -e "${i}" ]
+        then
+                chown  ${HENVBOX_UID}:${HENVBOX_GID} "$i"
+        fi
+done
+for i in `find "${HENVBOX_LOCAL_ROOT_PATH}/etc" 2> /dev/null`
+do
+        if [ -e "${i}" ]
+        then
+                chown  ${HENVBOX_UID}:${HENVBOX_GID} "$i"
+        fi
+done
+for i in `find "${HENVBOX_LOCAL_ROOT_PATH}/share" 2> /dev/null`
+do
+        if [ -e "${i}" ]
+        then
+                chown  ${HENVBOX_UID}:${HENVBOX_GID} "$i"
+        fi
+done
+
+
 
 #准备工作
 if [ -x ${SCRIPT_DIR}/Prepare.sh ]

@@ -103,6 +103,44 @@ Windows推荐200G以上空间（本工程目录），Linux推荐100G以上空间
 
 注意:由于国内github.com连接不稳定，建议配置好git的代理上网与系统代理上网再使用此工具同步。
 
+## ftp_gnu_org_mirror
+
+下载(镜像)ftp.gnu.org的软件。将其下载到本地目录。
+
+### 运行环境
+
+本工具需要在已安装好HEnvBox的环境下运行。具体运行环境要求如下:
+
+- Bash (Linux)
+- MSYS2 UCRT64 (64位Windows)
+- MSYS2 MINGW32 （32位Windows）
+
+### 配置
+
+本工具通过文件进行配置，工具根目录为 `本地程序根路经/ftp.gnu.org`，所有配置文件均需放置此目录。
+
+具体配置文件如下:
+
+- config.sh:配置文件，一般用于声明变量。
+- dir.list:需要镜像的目录,每行表示一个,如下载nettle目录则为nettle。
+- file.list:需要镜像的文件,每行表示一个,如下载gcc-13.2.0.tar.gz则为gcc/gcc-13.2.0/gcc-13.2.0.tar.gz。
+
+##### config.sh
+
+本配置文件为bash脚本文件，可用于配置一些变量:
+
+- RSYNC_URL:同步目录。
+
+RSYNC_URL一般可选择以下选项:
+
+- rsync://ftp.gnu.org/gnu/
+- rsync://rsync.mirrors.ustc.edu.cn/gnu/
+- rsync://mirrors.tuna.tsinghua.edu.cn/gnu/
+
+### 使用
+
+本工具可手动调用`ftp_gnu_org_mirror`启动，如需自动运行,请确保先导入了HEnvBox的配置文件。
+
 # 环境变量
 
 本工程主要使用环境变量进行脚本操作:

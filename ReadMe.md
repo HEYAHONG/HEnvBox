@@ -141,6 +141,43 @@ RSYNC_URL一般可选择以下选项:
 
 本工具可手动调用`ftp_gnu_org_mirror`启动，如需自动运行,请确保先导入了HEnvBox的配置文件。
 
+## kernel_org_mirror
+
+下载(镜像)kernel.org的软件。将其下载到本地目录。
+
+### 运行环境
+
+本工具需要在已安装好HEnvBox的环境下运行。具体运行环境要求如下:
+
+- Bash (Linux)
+- MSYS2 UCRT64 (64位Windows)
+- MSYS2 MINGW32 （32位Windows）
+
+### 配置
+
+本工具通过文件进行配置，工具根目录为 `本地程序根路径/kernel.org`，所有文件均需放置此目录。
+
+具体配置文件如下:
+
+- config.sh:配置文件，一般用于声明变量。
+- dir.list:需要镜像的目录,每行表示一个,如下载software目录则为software。
+- file.list:需要镜像的文件,每行表示一个,如下载linux-6.5.tar.xz则为linux/kernel/v6.x/linux-6.5.tar.xz。
+
+##### config.sh
+
+本配置文件为bash脚本文件，可用于配置一些变量:
+
+- RSYNC_URL:同步目录。
+
+RSYNC_URL一般可选择以下选项:
+
+- rsync://rsync.kernel.org/pub/
+- rsync://rsync.mirrors.ustc.edu.cn/kernel.org/
+
+### 使用
+
+本工具可手动调用`kernel_org_mirror`启动，如需自动运行,请确保先导入了HEnvBox的配置文件。
+
 # 环境变量
 
 本工程主要使用环境变量进行脚本操作:

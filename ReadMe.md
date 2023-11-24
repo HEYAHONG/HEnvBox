@@ -124,7 +124,7 @@ Windows推荐200G以上空间（本工程目录），Linux推荐100G以上空间
 具体配置文件如下:
 
 - config.sh:配置文件，一般用于声明变量。
-- site.list:站点列表，每行一个站点，每个站点的站点目录为站点URL去掉/并使用_替换:后的字符串，如http://gitea.hyhsystem.cn:3000/的站点目录为http_gitea.hyhsystem.cn_3000。
+- site.list:站点列表，每行一个站点，每个站点的站点目录为站点URL去掉/并使用_替换:后的字符串，如[http://gitea.hyhsystem.cn:3000/](http://gitea.hyhsystem.cn:3000/)的站点目录为http_gitea.hyhsystem.cn_3000。
 - [站点目录]/user.list:用户列表,每行表示一个用户。
 - [站点目录]/org.list:组织列表,每行表示一个组织
 

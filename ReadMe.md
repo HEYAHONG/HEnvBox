@@ -250,7 +250,9 @@ crosstool-ng是一款交叉编译工具链创建工具
 | HENVBOX_TOOLS_PATH             | tools路径                                | 此路径的格式由操作系统决定                                   |
 | HENVBOX_TOOLS_TYPE             | tools类型                                | 对于windows而言，其值可选msys32或msys64。对于其它系统而言，其值为软件包管理工具名称或者默认值common。 |
 
-注:本地程序表示需要从网络上下载到本地安装的程序，tools目录为自带工具或者工具安装资源。
+注1:本地程序表示需要从网络上下载到本地安装的程序，tools目录为自带工具或者工具安装资源。
+
+注2:所有环境变量在cmd中可使用`set`查看，在Linux或者MSYS2中可使用`env`查看。
 
 # 脚本说明
 

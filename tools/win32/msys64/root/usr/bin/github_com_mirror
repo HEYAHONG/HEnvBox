@@ -231,7 +231,7 @@ then
                 REPO_ORG=${orgname}
                 while [ "${IS_END}" -eq 0 ]
                 do
-			API_URL="https://github.com/orgs/${orgname}/repos?type=public&page=${REPO_PAGE}&per_page=100"
+			API_URL="https://api.github.com/orgs/${orgname}/repos?type=public&page=${REPO_PAGE}&per_page=100"
 			echo -e "API请求的URL为${API_URL}"
                         API_CODE=`curl -s -w '%{http_code}'  -o /dev/null -X GET --header "Content-Type: application/json;charset=UTF-8" "${API_URL}" 2>/dev/null `
                         echo -e "API请求HTTP_CODE为${API_CODE}"

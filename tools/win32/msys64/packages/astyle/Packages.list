@@ -1,1 +1,5 @@
 mingw-w64-i686-astyle
+mingw-w64-x86_64-astyle
+mingw-w64-ucrt-x86_64-astyle 
+mingw-w64-clang-i686-astyle 
+mingw-w64-clang-x86_64-astyle

@@ -38,7 +38,7 @@ CheckTool cat
 
 if [ -z "${HENVBOX_LOCAL_ROOT_PATH_UNIX}" ]
 then
-	echo -e "不在HEnvBox环境中，无法备份!"
+	echo -e "不在HEnvBox环境中，无法设定!"
 	exit
 fi
 

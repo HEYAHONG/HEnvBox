@@ -48,7 +48,7 @@ then
 fi
 
 #定义全局变量
-ROOT_PATH="${HENVBOX_LOCAL_ROOT_PATH_UNIX}/openwrt"
+ROOT_PATH="${HENVBOX_LOCAL_ROOT_PATH_UNIX}/buildroot"
 
 #准备目录,参数1为相对与ROOT_PATH的目录
 function __prepare_dir__()
@@ -62,29 +62,29 @@ function __prepare_dir__()
 
 __prepare_dir__
 
-SOURCE_DL_PATH="sources.openwrt.org"
+SOURCE_DL_PATH="sources.buildroot.net"
 
 __prepare_dir__ "${SOURCE_DL_PATH}"
 
-OPENWRT_DL_PATH=`realpath "${ROOT_PATH}/${SOURCE_DL_PATH}"`
+BUILDROOT_DL_PATH=`realpath "${ROOT_PATH}/${SOURCE_DL_PATH}"`
 
-[ -d "${OPENWRT_DL_PATH}" ] || exit
+[ -d "${BUILDROOT_DL_PATH}" ] || exit
 
-for RULES_MK_PATH in  `find .  -maxdepth 4 -name rules.mk`
+for MAKEFILE_LEGACY_PATH in  `find .  -maxdepth 4 -name Makefile.legacy`
 do
-	OPENWRT_DIR=`realpath "${RULES_MK_PATH}" | xargs dirname`
-	if [ -f "${OPENWRT_DIR}/Makefile" ]
+	BUILDROOT_DIR=`realpath "${MAKEFILE_LEGACY_PATH}" | xargs dirname`
+	if [ -f "${BUILDROOT_DIR}/Makefile" ]
 	then
-		if [ -n "`cat "${OPENWRT_DIR}/Makefile" | grep -i openwrt`" ]
+		if [ -n "`cat "${BUILDROOT_DIR}/Makefile" | grep -i buildroot`" ]
 		then
-			echo -e "找到openwrt目录：${OPENWRT_DIR}"
-			if [ -d "${OPENWRT_DIR}/dl" ]
+			echo -e "找到buildroot目录：${BUILDROOT_DIR}"
+			if [ -d "${BUILDROOT_DIR}/dl" ]
 			then
 				echo -e "dl目录已存在，将不会创建dl目录软链接"
 			else
 				echo -e "即将创建dl目录软链接"
-				rm "${OPENWRT_DIR}/dl" 2> /dev/null > /dev/null
-				ln -sf "${OPENWRT_DL_PATH}" "${OPENWRT_DIR}/dl"
+				rm "${BUILDROOT_DIR}/dl" 2> /dev/null > /dev/null
+				ln -sf "${BUILDROOT_DL_PATH}" "${BUILDROOT_DIR}/dl"
 			fi
 		fi
 	fi

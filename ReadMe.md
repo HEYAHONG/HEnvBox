@@ -235,6 +235,30 @@ crosstool-ng是一款交叉编译工具链创建工具
 - 使用`ct_ng_path_patch`修改相关路径,这步的主要目的为将相关目录修改至HEnvBox目录，并非必须。
 - 使用`ct-ng build`编译，期间可能遇到很多问题，如果是下载问题可尝试多次编译或者配置代理上网。
 
+## openwrt_path_patch
+
+修改[openwrt](https://openwrt.org/)或者基于[openwrt](https://openwrt.org/)的工程的目录，有如下功能:
+
+- 将所有工程的dl目录指向同一个目录,共用下载目录，减少下载量。
+
+### 运行环境
+
+本工具需要在已安装好HEnvBox的环境下运行。具体运行环境要求如下:
+
+- Bash (Linux)
+
+## buildroot_path_patch
+
+修改[buildroot](https://buildroot.org/)或者基于[buildroot](https://buildroot.org/)的工程的目录，有如下功能:
+
+- 将所有工程的dl目录指向同一个目录,共用下载目录，减少下载量。
+
+### 运行环境
+
+本工具需要在已安装好HEnvBox的环境下运行。具体运行环境要求如下:
+
+- Bash (Linux)
+
 # 环境变量
 
 本工程主要使用环境变量进行脚本操作:

@@ -1,0 +1,86 @@
+#/bin/bash
+
+#错误字符串及错误代码
+ErrStr=""
+ErrNo=0
+
+function Exit()
+{
+	if [ -n "${ErrStr}" ]
+	then
+		echo -e "${ErrStr}"
+	fi
+	exit ${ErrNo}
+}
+
+#检查目录
+[ -n "${HENVBOX_LOCAL_BINDIR_PATH_UNIX}" ] || Exit
+[ -d "${HENVBOX_LOCAL_BINDIR_PATH_UNIX}" ] || Exit
+[ -n "${HENVBOX_LOCAL_ROOT_PATH_UNIX}" ] || Exit
+[ -d "${HENVBOX_LOCAL_ROOT_PATH_UNIX}" ] || Exit
+
+
+#临时文件
+TMPDIR="${HENVBOX_LOCAL_ROOT_PATH_UNIX}/tmp/cutecom-ng"
+[ -d "${TMPDIR}" ] || mkdir -p "${TMPDIR}"
+[ -d "${TMPDIR}" ] || Exit
+
+GITDIR=""
+function CheckGithubComMirror()
+{
+	if [ -d "${HENVBOX_LOCAL_ROOT_PATH_UNIX}/github.com/HEYAHONG/cutecom-ng/.git" ]
+	then
+		GITDIR="${HENVBOX_LOCAL_ROOT_PATH_UNIX}/github.com/HEYAHONG/cutecom-ng"
+		pushd "${GITDIR}" 
+		git pull
+		popd
+	fi	
+}
+
+[ -n "${GITDIR}" ] || CheckGithubComMirror
+
+function CheckGiteeComMirror()
+{ 
+        if [ -d "${HENVBOX_LOCAL_ROOT_PATH_UNIX}/gitee.com/HEYAHONG/cutecom-ng/.git" ]
+        then    
+                GITDIR="${HENVBOX_LOCAL_ROOT_PATH_UNIX}/gitee.com/HEYAHONG/cutecom-ng"
+                pushd "${GITDIR}"
+                git pull
+                popd
+        fi
+}
+
+[ -n "${GITDIR}" ] || CheckGiteeComMirror
+
+function DownloadGiteeComMirror()
+{
+        mkdir -p "${HENVBOX_LOCAL_ROOT_PATH_UNIX}/gitee.com/HEYAHONG/"
+	pushd "${HENVBOX_LOCAL_ROOT_PATH_UNIX}/gitee.com/HEYAHONG/"
+	git clone https://gitee.com/HEYAHONG/cutecom-ng.git cutecom-ng
+	popd
+}
+
+[ -n "${GITDIR}" ] || DownloadGiteeComMirror
+[ -n "${GITDIR}" ] || CheckGiteeComMirror
+
+
+
+ErrStr="未找到cutecom-ng镜像"
+[ -n "${GITDIR}" ] || Exit
+echo -e "cutecom源代码：${GITDIR}"
+
+#进入临时目录编译
+pushd "${TMPDIR}"
+cmake -DCMAKE_INSTALL_PREFIX="${HENVBOX_LOCAL_ROOT_PATH_UNIX}" "${GITDIR}"
+cmake --build .
+cmake --install .
+ErrNo=$?
+popd
+#清理
+[ -d "${TMPDIR}" ] && rm -rf "${TMPDIR}"
+
+ErrStr="编译安装失败！"
+[ ${ErrNo} -eq 0 ] || Exit 
+
+#报告安装完成
+echo -e "安装已完成!"

@@ -259,6 +259,23 @@ crosstool-ng是一款交叉编译工具链创建工具
 
 - Bash (Linux)
 
+## cutecom-ng_install
+
+cutecom-ng安装脚本。本安装脚本主要安装个人魔改版cutecom-ng。
+
+源代码链接:
+
+- [https://gitee.com/HEYAHONG/HEnvBox.git](https://gitee.com/HEYAHONG/HEnvBox.git)
+- [https://github.com/HEYAHONG/HEnvBox.git](https://github.com/HEYAHONG/HEnvBox.git)
+
+### 运行环境
+
+本工具需要在已安装好HEnvBox的环境下运行。具体运行环境要求如下:
+
+- Bash (Linux)
+- MSYS2 UCRT64 (64位Windows)
+- MSYS2 MINGW32 （32位Windows）
+
 # 环境变量
 
 本工程主要使用环境变量进行脚本操作:

@@ -265,8 +265,8 @@ cutecom-ng安装脚本。本安装脚本主要安装个人魔改版cutecom-ng。
 
 源代码链接:
 
-- [https://gitee.com/HEYAHONG/HEnvBox.git](https://gitee.com/HEYAHONG/HEnvBox.git)
-- [https://github.com/HEYAHONG/HEnvBox.git](https://github.com/HEYAHONG/HEnvBox.git)
+- [https://gitee.com/HEYAHONG/cutecom-ng.git](https://gitee.com/HEYAHONG/cutecom-ng.git)
+- [https://github.com/HEYAHONG/cutecom-ng.git](https://github.com/HEYAHONG/cutecom-ng.git)
 
 ### 运行环境
 

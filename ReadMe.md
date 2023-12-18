@@ -333,3 +333,11 @@ cutecom-ng安装脚本。本安装脚本主要安装个人魔改版cutecom-ng。
 - 如需保持工具的更新，请定期执行更新脚本，若太长时间（如几个月）不更新，可能因为GPG签名过期而无法更新。
 - 若出现Msys2相关子菜单无法打开，有可能是未安装完成，再次执行安装脚本即可。
 - 对于Windows11而言，右键菜单与之前版本不一致，需要按住Shift键再使用右键打开菜单。
+
+# 推荐资源
+
+## 软件
+
+- [Msys2](https://www.msys2.org/)
+- [Cygwin](https://cygwin.com/)
+- [0install](https://0install.net/):去中心化的软件安装系统

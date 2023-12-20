@@ -119,7 +119,6 @@ mingw-w64-clang-i686-qt5-charts
 mingw-w64-clang-i686-qt5-connectivity
 mingw-w64-clang-i686-qt5-datavis3d
 mingw-w64-clang-i686-qt5-declarative
-mingw-w64-clang-i686-qt5-doc
 mingw-w64-clang-i686-qt5-gamepad
 mingw-w64-clang-i686-qt5-graphicaleffects
 mingw-w64-clang-i686-qt5-imageformats
@@ -139,7 +138,6 @@ mingw-w64-clang-i686-qt5-sensors
 mingw-w64-clang-i686-qt5-serialbus
 mingw-w64-clang-i686-qt5-serialport
 mingw-w64-clang-i686-qt5-speech
-mingw-w64-clang-i686-qt5-static
 mingw-w64-clang-i686-qt5-svg
 mingw-w64-clang-i686-qt5-tools
 mingw-w64-clang-i686-qt5-translations

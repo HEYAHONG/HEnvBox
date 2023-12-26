@@ -5,7 +5,7 @@
 cp -rf root/* /
 
 #更新软件包
-pacman -Syu --quiet --noconfirm
+pacman -Syu --quiet --noconfirm  --overwrite='*'
 
 #执行子文件夹中的PreInstall.sh
 for i in `find . -name PreInstall.sh`

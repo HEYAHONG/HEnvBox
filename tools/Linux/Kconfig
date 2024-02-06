@@ -1,4 +1,4 @@
-mainmenu "Linux(apt) Tool Config"
+mainmenu "Linux Tool Config"
 
 config HENVBOX_USE_KCONFIG
     bool "enable kconfig"

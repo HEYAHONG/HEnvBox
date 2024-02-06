@@ -1,0 +1,5 @@
+mainmenu "Linux(apt) Tool Config"
+
+config HENVBOX_USE_KCONFIG
+    bool "enable kconfig"
+    default y

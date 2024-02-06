@@ -1,4 +1,5 @@
 #!/bin/bash
+
 function CheckTool
 {
         [  -n "$1"  ] ||
@@ -63,27 +64,34 @@ then
         fi
 
         #导出根路径
-        export HENVBOX_TOOLS_PATH="${script_dir}";
+        export HENVBOX_ROOT_PATH="${script_dir}";
 
-        #导出类型
-        export HENVBOX_TOOLS_TYPE="common"
-
-	CheckTool apt
-	if [ $? -eq 0 ]
-	then
-		export HENVBOX_TOOLS_TYPE="apt"
-	fi
-
-	if [ -f  "${HENVBOX_TOOLS_PATH}/.config" ]
-	then
-		. "${HENVBOX_TOOLS_PATH}/.config"
-	fi
-
-        #导入其它配置脚本
-        if [ -x "${HENVBOX_TOOLS_PATH}/${HENVBOX_TOOLS_TYPE}/config.sh" ]
+        #导入配置脚本
+        if [ -x "${HENVBOX_ROOT_PATH}/config.sh" ]
         then
-                . "${HENVBOX_TOOLS_PATH}/${HENVBOX_TOOLS_TYPE}/config.sh"
+                . "${HENVBOX_ROOT_PATH}/config.sh"
+        fi
+	
+	if [ ${HENVBOX_UNSUPPORTED} -ne 0 ]
+	then
+		exit 1;
+	fi
+
+        if [ -f "${HENVBOX_ROOT_PATH}/tools/${HENVBOX_TYPE}/Kconfig" ]
+        then
+		KCONFIG_MCONF=`which kconfig-mconf`
+		if [ -x "${KCONFIG_MCONF}" ]
+		then
+			pushd "${HENVBOX_ROOT_PATH}/tools/${HENVBOX_TYPE}" 2>/dev/null >/dev/null
+				${KCONFIG_MCONF}  Kconfig
+			popd 2>/dev/null >/dev/null
+		else
+			echo 请先执行安装脚本.
+		fi
+        else
+		echo 当前类型不支持Kconfig.
         fi
 else
         echo 无法完成HEnvBox配置!
 fi
+

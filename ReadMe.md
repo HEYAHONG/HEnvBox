@@ -307,6 +307,7 @@ cutecom-ng安装脚本。本安装脚本主要安装个人魔改版cutecom-ng。
 - install.bat：安装或者更新软件包,可多次调用，为防止异常不要同时执行多个实例。
 - upgrade.bat：更新软件包,可多次调用。
 - uninstall.bat:卸载安装，主要用于删除右键信息
+- Kconfiglib.bat:配置Kconfig，在首次正确安装后可使用,用于配置可选项,采用python-kconfiglib配置。
 
 ## Ubuntu
 
@@ -314,6 +315,7 @@ cutecom-ng安装脚本。本安装脚本主要安装个人魔改版cutecom-ng。
 - install.sh：安装或者更新软件包,可多次调用，为防止异常不要同时执行多个实例。
 - upgrade.sh：更新软件包,可多次调用。
 - uninstall.sh:卸载安装，主要用于删除.bashrc信息。注意:为保证系统稳定性，不会删除已安装的软件包。
+- menuconfig.sh:配置Kconfig，在首次正确安装后可使用,用于配置可选项,采用kconfig-frontends配置。
 
 # 安装
 
@@ -321,7 +323,7 @@ cutecom-ng安装脚本。本安装脚本主要安装个人魔改版cutecom-ng。
 
 保证目录可写（可参考MSYS2对目录的要求），确保安装路径中没有空格与中文。
 
-以管理员权限执行install.bat,等待安装完成。
+以管理员权限执行install.bat,等待安装完成(注意:由于第一次更新pacman可能主动关闭窗口,若第一次安装时间小于10分钟且右键菜单打不开,需要重新运行安装脚本)。
 
 完成后可在目录的右键菜单中找到HEnvBox选项。在需要使用各种MSYS2中的工具时可使用右键菜单打开HEnvBox。
 

@@ -1,5 +1,11 @@
 #!/bin/bash
 
+#由安装脚本加载Kconfig配置
+if [ -f "${HENVBOX_TOOLS_PATH}/.config" ]
+then
+	echo loading Kconfig.
+	. "${HENVBOX_TOOLS_PATH}/.config"
+fi
 
 #复制相关文件
 cp -rf root/* /

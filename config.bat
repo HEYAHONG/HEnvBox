@@ -49,6 +49,8 @@ set /a DIR_DEPTH=%DIR_DEPTH%+1
 if "X%DIR_DEPTH%"=="X%DIR_MAX_DEPTH%" goto :setCaseSensitiveInfoImpExit
 
 fsutil file setCaseSensitiveInfo . %2  2> nul  > nul
+@rem Windows11似乎不允许对非空目录设置文件夹大小写敏感,若遇到错误直接退出(大小写敏感由初始化时设置，如需修改需要删除文件夹重新创建)。
+if NOT ERRORLEVEL 0 goto :setCaseSensitiveInfoImpExit
 
 for /f %%I in ('dir /a:d /b') do (
 call :setCaseSensitiveInfoImp %%I %2

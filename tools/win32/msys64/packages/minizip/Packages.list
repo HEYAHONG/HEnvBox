@@ -1,10 +1,8 @@
 mingw-w64-i686-minizip
-mingw-w64-i686-minizip-ng
 mingw-w64-x86_64-minizip
 mingw-w64-x86_64-minizip-ng
 mingw-w64-ucrt-x86_64-minizip
 mingw-w64-ucrt-x86_64-minizip-ng
 mingw-w64-clang-i686-minizip
-mingw-w64-clang-i686-minizip-ng
 mingw-w64-clang-x86_64-minizip
 mingw-w64-clang-x86_64-minizip-ng

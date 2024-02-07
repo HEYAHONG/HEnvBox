@@ -1,5 +1,3 @@
-mingw-w64-i686-mbedtls
 mingw-w64-x86_64-mbedtls
 mingw-w64-ucrt-x86_64-mbedtls
-mingw-w64-clang-i686-mbedtls
 mingw-w64-clang-x86_64-mbedtls 

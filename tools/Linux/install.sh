@@ -72,6 +72,12 @@ then
                 . "${HENVBOX_TOOLS_PATH}/config.sh"
         fi
 
+	#Kconfig配置
+	if [ "${CONFIG_HENVBOX_USE_KCONFIG}" = "y" ]
+	then
+		echo Kconfig配置已启用!
+	fi
+
 	#导入安装脚本
         if [ -x "${HENVBOX_TOOLS_PATH}/${HENVBOX_TOOLS_TYPE}/install.sh" ]
         then

@@ -79,6 +79,18 @@ then
 	. /etc/lsb-release
 fi
 
+if [ -f /etc/os-release ]
+then
+        . /etc/os-release
+fi
+
+if [ -z "${DISTRIB_CODENAME}" ]
+then
+	#使用VERSION_CODENAME作为DISTRIB_CODENAME
+	DISTRIB_CODENAME=${VERSION_CODENAME}
+fi
+
+
 #更新软件包
 dpkg --configure -a 2> /dev/null > /dev/null
 apt update 2> /dev/null > /dev/null

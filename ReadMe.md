@@ -6,6 +6,7 @@
 
 - Windows 10及更新版本,架构为x86_64。
 - Ubuntu 22.04，架构为x86_64。
+- Debian 12,架构为x86_64。
 
 对于Windows而言，本人常用[MSYS2](https://www.msys2.org/)作为开发环境。
 
@@ -309,7 +310,7 @@ cutecom-ng安装脚本。本安装脚本主要安装个人魔改版cutecom-ng。
 - uninstall.bat:卸载安装，主要用于删除右键信息
 - Kconfiglib.bat:配置Kconfig，在首次正确安装后可使用,用于配置可选项,采用python-kconfiglib配置。
 
-## Ubuntu
+## Linux
 
 - config.sh：在bash中使用`. config.bat路径 `可配置环境。
 - install.sh：安装或者更新软件包,可多次调用，为防止异常不要同时执行多个实例。
@@ -327,7 +328,7 @@ cutecom-ng安装脚本。本安装脚本主要安装个人魔改版cutecom-ng。
 
 完成后可在目录的右键菜单中找到HEnvBox选项。在需要使用各种MSYS2中的工具时可使用右键菜单打开HEnvBox。
 
-## Ubuntu
+## Linux
 
 使用具有管理员权限的账户(可使用sudo提权)执行install.sh,等待安装完成,期间可能要求输入用户密码。
 

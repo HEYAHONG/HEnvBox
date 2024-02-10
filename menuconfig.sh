@@ -82,6 +82,12 @@ then
 		KCONFIG_MCONF=`which kconfig-mconf`
 		if [ -x "${KCONFIG_MCONF}" ]
 		then
+			echo kconfig-frontends is not found!
+		else
+			KCONFIG_MCONF=`which menuconfig`
+		fi
+		if [ -x "${KCONFIG_MCONF}" ]
+		then
 			pushd "${HENVBOX_ROOT_PATH}/tools/${HENVBOX_TYPE}" 2>/dev/null >/dev/null
 				${KCONFIG_MCONF}  Kconfig
 			popd 2>/dev/null >/dev/null

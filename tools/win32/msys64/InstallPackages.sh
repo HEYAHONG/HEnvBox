@@ -3,8 +3,13 @@
 #由安装脚本加载Kconfig配置
 if [ -f "${HENVBOX_TOOLS_PATH}/.config" ]
 then
-        echo loading Kconfig.
         . "${HENVBOX_TOOLS_PATH}/.config"
+fi
+
+#加载安装sh脚本
+if [ -f "${HENVBOX_TOOLS_PATH}/install.sh" ]
+then
+        . "${HENVBOX_TOOLS_PATH}/install.sh"
 fi
 
 

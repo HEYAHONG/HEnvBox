@@ -4,11 +4,14 @@
 
 主要支持以下操作系统:
 
-- Windows 10及更新版本,架构为x86_64。
-- Ubuntu 22.04，架构为x86_64。
-- Debian 12,架构为x86_64。
+- [Windows](https://www.microsoft.com) 10及更新版本,架构为x86_64。
+- [Ubuntu](https://ubuntu.com/) 22.04，架构为x86_64。
+- [Debian](https://www.debian.org/) 12,架构为x86_64。
+- [Deepin](https://www.deepin.org) V23,架构为x86_64。
 
 对于Windows而言，本人常用[MSYS2](https://www.msys2.org/)作为开发环境。
+
+对于Linux而言,本人常使用ubuntu,其余基于Linux内核的操作系统可能只有编译环境，而不包含其它工具(如[KiCad](https://www.kicad.org)、[GIMP](https://www.gimp.org)、[Dia](http://dia-installer.de/)等)。
 
 ## 下载说明
 

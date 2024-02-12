@@ -82,8 +82,9 @@ then
 		KCONFIG_MCONF=`which kconfig-mconf`
 		if [ -x "${KCONFIG_MCONF}" ]
 		then
-			echo kconfig-frontends is not found!
+			echo kconfig-frontends is  found!
 		else
+			echo kconfig-frontends is not found!
 			KCONFIG_MCONF=`which menuconfig`
 		fi
 		if [ -x "${KCONFIG_MCONF}" ]

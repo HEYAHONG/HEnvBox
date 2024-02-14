@@ -62,7 +62,7 @@ then
         script_dir="$(dirname "${script_name}")"
         fi
 
-        #导出根路径
+        #导出工具路径
         export HENVBOX_TOOLS_PATH="${script_dir}";
 
 

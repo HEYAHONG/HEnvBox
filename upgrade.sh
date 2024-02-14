@@ -35,6 +35,8 @@ CheckTool id
 [ $? -eq 0 ] || export HENVBOX_UNSUPPORTED=1
 CheckTool mkdir
 [ $? -eq 0 ] || export HENVBOX_UNSUPPORTED=1
+CheckTool git
+[ $? -eq 0 ] || export HENVBOX_UNSUPPORTED=1
 CheckTool sudo
 [ $? -eq 0 ] || [ `id -u` -eq 0 ] ||  export HENVBOX_UNSUPPORTED=1
 
@@ -65,6 +67,13 @@ then
 
         #导出根路径
         export HENVBOX_ROOT_PATH="${script_dir}";
+
+	#更新代码（若采用git管理源代码）
+	export HENVBOX_UPGRADE=1
+	if [ -d "${HENVBOX_ROOT_PATH}/.git" ]
+	then
+		git pull
+	fi
 
         #使用安装脚本
         if [ -x "${HENVBOX_ROOT_PATH}/install.sh" ]

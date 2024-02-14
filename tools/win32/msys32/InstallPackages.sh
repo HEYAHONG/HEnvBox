@@ -11,10 +11,10 @@ else
         exit
 fi
 
-#由安装脚本加载Kconfig配置
-if [ -f "${HENVBOX_TOOLS_PATH}/.config" ]
+#加载config.sh
+if [ -f "${HENVBOX_TOOLS_PATH}/config.sh" ]
 then
-	. "${HENVBOX_TOOLS_PATH}/.config"
+	. "${HENVBOX_TOOLS_PATH}/config.sh"
 fi
 
 #加载安装sh脚本
@@ -109,11 +109,20 @@ done
 
 #创建console入口
 echo \#!/bin/bash > /console
-for i in `env |grep HENVBOX`
+for i in `env |grep '^HENVBOX'`
 do
+	#导出环境变量(HEnvBox)
 	echo export ${i//\\/\/} >> /console
 done
-echo exec /bin/bash >> /console 
+cat >> /console <<-EOF
+#导入config.sh
+if [ -f "\${HENVBOX_TOOLS_PATH}/config.sh" ]
+then
+	.   "\${HENVBOX_TOOLS_PATH}/config.sh"
+fi
+#执行新的bash
+exec /bin/bash
+EOF
 chmod +x /console
 
 #提示安装完成

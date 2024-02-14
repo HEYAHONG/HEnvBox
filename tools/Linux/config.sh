@@ -76,7 +76,7 @@ then
 
 	if [ -f  "${HENVBOX_TOOLS_PATH}/.config" ]
 	then
-		for i in `cat "${HENVBOX_TOOLS_PATH}/.config" | grep -v \#`
+		for i in `cat "${HENVBOX_TOOLS_PATH}/.config" | grep -v '^#'`
 		do
 			#导出环境变量
 			export ${i}

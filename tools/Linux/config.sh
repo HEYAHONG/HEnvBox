@@ -76,7 +76,11 @@ then
 
 	if [ -f  "${HENVBOX_TOOLS_PATH}/.config" ]
 	then
-		. "${HENVBOX_TOOLS_PATH}/.config"
+		for i in `cat "${HENVBOX_TOOLS_PATH}/.config" | grep -v \#`
+		do
+			#导出环境变量
+			export ${i}
+		done
 	fi
 
         #导入其它配置脚本

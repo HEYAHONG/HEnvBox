@@ -72,7 +72,9 @@ then
 	export HENVBOX_UPGRADE=1
 	if [ -d "${HENVBOX_ROOT_PATH}/.git" ]
 	then
+		pushd "${HENVBOX_ROOT_PATH}"
 		git pull
+		popd
 	fi
 
         #使用安装脚本

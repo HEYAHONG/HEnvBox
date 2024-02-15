@@ -3,3 +3,10 @@ mainmenu "Win32 Tool Config"
 config HENVBOX_USE_KCONFIG
     bool "enable kconfig"
     default y
+
+if HENVBOX_USE_KCONFIG
+
+#导入EnvCheck的Kconfig配置
+source "../EnvCheck/Kconfig"
+
+endif

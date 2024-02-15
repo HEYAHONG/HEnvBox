@@ -284,6 +284,10 @@ cutecom-ng安装脚本。本安装脚本主要安装个人魔改版cutecom-ng。
 - MSYS2 UCRT64 (64位Windows)
 - MSYS2 MINGW32 （32位Windows）
 
+## EnvCheck
+
+环境检查相关脚本，具体见[tools/EnvCheck](tools/EnvCheck).
+
 # 环境变量
 
 本工程主要使用环境变量进行脚本操作:

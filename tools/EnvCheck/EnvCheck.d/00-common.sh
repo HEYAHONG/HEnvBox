@@ -11,6 +11,7 @@ function EnvCheckLog
 	then
 		return 1
 	fi
+	local MSG
 	printf -v MSG "$@" 2> /dev/null
 	printf -v MSG '[EnvCheck] %s' "${MSG}" 2> /dev/null
 	echo  ${MSG}

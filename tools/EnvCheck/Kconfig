@@ -1,3 +1,7 @@
 menu "EnvCheck Kconfig"
 
+config DISABLE_ENVCHECK_LOG
+    bool "disable EnvCheck log"
+    default y
+
 endmenu

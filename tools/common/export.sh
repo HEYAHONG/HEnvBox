@@ -26,6 +26,13 @@ fi
 #导出HENVBOX_COMMON根路径
 export HENVBOX_COMMON_ROOT_PATH="${script_dir}";
 
+#若含有:号，去除:号
+if [ -n `echo ${HENVBOX_COMMON_ROOT_PATH} | grep ':'` ]
+then
+	export HENVBOX_COMMON_ROOT_PATH=/${HENVBOX_COMMON_ROOT_PATH//\:/\/}
+	export HENVBOX_COMMON_ROOT_PATH=`realpath ${HENVBOX_COMMON_ROOT_PATH} 2>/dev/null`
+fi
+
 #设置PATH
 if [ -d "${HENVBOX_COMMON_ROOT_PATH}/bin" ]
 then

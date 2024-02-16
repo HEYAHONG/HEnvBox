@@ -10,4 +10,8 @@ then
 	done
 fi
 
-
+#导入common脚本
+if [ -f "${HENVBOX_TOOLS_PATH}/../common/export.sh" ]
+then
+	. "${HENVBOX_TOOLS_PATH}/../common/export.sh"
+fi

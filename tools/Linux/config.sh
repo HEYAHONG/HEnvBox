@@ -74,6 +74,7 @@ then
 		export HENVBOX_TOOLS_TYPE="apt"
 	fi
 
+	#加载.config
 	if [ -f  "${HENVBOX_TOOLS_PATH}/.config" ]
 	then
 		for i in `cat "${HENVBOX_TOOLS_PATH}/.config" | grep -v '^#'`
@@ -81,6 +82,12 @@ then
 			#导出环境变量
 			export ${i}
 		done
+	fi
+
+	#导入common脚本
+	if [ -f "${HENVBOX_TOOLS_PATH}/../common/export.sh" ]
+	then
+		. "${HENVBOX_TOOLS_PATH}/../common/export.sh"
 	fi
 
         #导入其它配置脚本

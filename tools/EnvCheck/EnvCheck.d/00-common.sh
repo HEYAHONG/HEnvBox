@@ -18,6 +18,8 @@ function EnvCheckLog
 	return 0
 }
 
+export -f EnvCheckLog
+
 #测试程序(通过which测试)，参数1为程序名
 function EnvCheckTestProgram
 {
@@ -33,6 +35,7 @@ function EnvCheckTestProgram
         return 0;
 }
 
+export -f EnvCheckTestProgram
 
 
 

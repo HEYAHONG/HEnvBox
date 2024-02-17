@@ -61,8 +61,9 @@ function EnvCheckTestProgram
 	PROGRAM_VERSION=`${PROGRAM_VERSION_CMD} | grep -Eo '[0-9]{1,9}(\.[0-9]{1,9}){1,9}' | awk 'NR==1{print}' 2>/dev/null`
 	if [ -n "${PROGRAM_VERSION}" ]
 	then
-		#环境变量不支持-
+		#环境变量不支持-+
 		PROGRAM_NAME=`echo ${PROGRAM_NAME} | tr - _`
+		PROGRAM_NAME=`echo ${PROGRAM_NAME} | tr + p`
 		EnvCheckLog "\t${PROGRAM_NAME}_version=${PROGRAM_VERSION}"
 		export ${PROGRAM_NAME}_version=${PROGRAM_VERSION}
 		local PROGRAM_MAJOR_VERSION 

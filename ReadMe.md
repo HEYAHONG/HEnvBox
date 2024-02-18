@@ -13,6 +13,22 @@
 
 对于Linux而言,本人常使用ubuntu,其余基于Linux内核的操作系统可能只有编译环境，而不包含其它工具(如[KiCad](https://www.kicad.org)、[GIMP](https://www.gimp.org)、[Dia](http://dia-installer.de/)等)。
 
+## 目标环境功能
+
+注意:下述功能仅为目标，并非在所有支持的操作系统有效。
+
+- 支持基于[wxWidgets](https://www.wxwidgets.org/)的GUI程序编译。
+- 支持基于[Qt](https://www.qt.io/)的GUI程序编译。
+- 支持基于[opencv](https://opencv.org/)的程序编译。
+- 支持基于[boost](https://www.boost.org/)的程序编译。
+- 支持常用的构建系统/构建工具，如[make](https://www.gnu.org/software/make/)、autotools([automake](https://www.gnu.org/software/automake/)、[autoconf](https://www.gnu.org/software/autoconf/))、[ninja](https://ninja-build.org/)、[cmake](https://cmake.org/)、[scons](https://scons.org/)、[xmake](https://xmake.io/#/)等
+- 支持常用的Kconfig配置工具,如kconfig-frontends、python-kconfiglib。
+- 支持[Qemu](https://www.qemu.org/)测试。
+- 支持arm裸机程序开发(采用arm-none-eabi-gcc工具链)。
+- 支持riscv裸机程序开发(采用riscv64-unknown-elf-gcc工具链)。
+- 支持使用[crosstool-ng](http://crosstool-ng.org)创建自定义工具链。
+- 支持基于[openwrt](https://openwrt.org/)/[buildroot](https://buildroot.org/)的固件程序编译。
+
 ## 下载说明
 
 本工程可通过git工具下载,但需要注意的是，下载前请确认未启用git的autocrlf选项，否则可能导致安装异常。

@@ -28,6 +28,7 @@
 - 支持riscv裸机程序开发(采用riscv64-unknown-elf-gcc工具链)。
 - 支持使用[crosstool-ng](http://crosstool-ng.org)创建自定义工具链。
 - 支持基于[openwrt](https://openwrt.org/)/[buildroot](https://buildroot.org/)的固件程序编译。
+- 无论是Windows还是Linux,均采用[bash](https://www.gnu.org/software/bash/)作为默认脚本解释器。
 
 ## 下载说明
 

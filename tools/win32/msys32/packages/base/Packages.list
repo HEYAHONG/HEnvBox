@@ -94,3 +94,4 @@ patch
 wget
 curl
 rsync
+unzip

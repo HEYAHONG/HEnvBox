@@ -18,14 +18,16 @@ ifneq (${download_step},)
 
 download:${download_step}
 
-$(foreach step,${download_step},$(BottomMKSetTargetDepend ${step},prepare))
+
+$(foreach step,${download_step},$(eval $(call BottomMKSetTargetDepend,${step},prepare)))
 
 endif
 ifneq (${configure_step},)
 
 configure:${configure_step}
 
-$(foreach step,${configure_step},$(BottomMKSetTargetDepend ${step},download))
+
+$(foreach step,${configure_step},$(eval $(call BottomMKSetTargetDepend,${step},download)))
 
 endif
 
@@ -33,14 +35,16 @@ ifneq (${build_step},)
 
 build:${build_step}
 
-$(foreach step,${build_step},$(BottomMKSetTargetDepend ${step},configure))
+
+$(foreach step,${build_step},$(eval $(call BottomMKSetTargetDepend,${step},configure)))
 
 endif
 ifneq (${install_step},)
 
 install:${install_step}
 
-$(foreach step,${install_step},$(BottomMKSetTargetDepend ${step},build))
+
+$(foreach step,${install_step},$(eval $(call BottomMKSetTargetDepend,${step},build)))
 
 endif
 ifneq (${clean_step},)

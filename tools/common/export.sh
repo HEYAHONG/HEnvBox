@@ -38,3 +38,6 @@ if [ -d "${HENVBOX_COMMON_ROOT_PATH}/bin" ]
 then
 	export PATH="${HENVBOX_COMMON_ROOT_PATH}/bin":${PATH}
 fi
+
+#设置Makefile的包含目录
+export MAKEFILE_INCLUDE_DIR="`realpath "${HENVBOX_COMMON_ROOT_PATH}/include/Makefile/"`"

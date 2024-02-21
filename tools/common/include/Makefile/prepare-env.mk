@@ -18,6 +18,7 @@ ifeq (${CROSS_COMPILE},)
 AS              ?= as
 CC              ?= cc
 CPP             ?= c++
+CXX             ?= $(CPP)
 LD              ?= $(CPP)
 AR              ?= ar
 NM              ?= nm
@@ -38,6 +39,7 @@ else
 AS		= $(CROSS_COMPILE)as
 CC		= $(CROSS_COMPILE)gcc
 CPP		= $(CROSS_COMPILE)g++
+CXX		= $(CPP)
 LD		= $(CPP)
 AR		= $(CROSS_COMPILE)ar
 NM		= $(CROSS_COMPILE)nm
@@ -54,7 +56,7 @@ LDLIBS          := $(LDLIBS)
 
 endif
 
-export AS CC CPP LD AR NM STRIP OBJCOPY OBJDUMP PKG_CONFIG
+export AS CC CPP CXX LD AR NM STRIP OBJCOPY OBJDUMP PKG_CONFIG
 export CFLAGS CPPFLAGS AFLAGS LDFLAGS LDLIBS
 
 

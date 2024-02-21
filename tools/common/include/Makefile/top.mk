@@ -13,7 +13,7 @@
 # 当需要对某个目标添加指令，只需要创建一个临时目标并将临时目标添加至相应的目标的依赖,并在临时目标的依赖中添加上一个编译安装目标（如有，如目标为build的临时目标应当将configure作为依赖）。
 
 #伪目标
-.PHONY:all prepare configure build install clean
+.PHONY:all prepare download configure build install clean
 
 #默认采用build
 all:build

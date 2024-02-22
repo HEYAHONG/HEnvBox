@@ -1,9 +1,9 @@
 include ${MAKEFILE_INCLUDE_DIR}/top.mk
 
-#包含subdir中的subdir.mk(默认文件名)文件
+#包含include中的subdir.mk(默认文件名)文件
 $(eval $(call IncludeSubdirMakefile,include))
 
-#包含subdir中的subdir1.mk文件
+#包含include中的subdir1.mk文件
 $(eval $(call IncludeSubdirMakefile,include,subdir1.mk))
 
 prepare_step_1:

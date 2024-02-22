@@ -36,7 +36,7 @@ install:build
 clean:
 	@echo clean done!
 
-dist-clean:
+dist-clean:clean
 	@echo dist-clean done!
 
 include ${MAKEFILE_INCLUDE_DIR}/prepare-env.mk

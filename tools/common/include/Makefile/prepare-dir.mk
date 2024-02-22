@@ -32,7 +32,7 @@ endif
 
 ifneq (${STAMPDIR},)
 
-${STAMPDIR}:
+${STAMPDIR}:${LOCALDIR}
 	@mkdir -p ${STAMPDIR}
 
 prepare-dir_step += ${STAMPDIR}
@@ -41,7 +41,7 @@ endif
 
 ifneq (${TEMPDIR},)
 
-${TEMPDIR}:
+${TEMPDIR}:${LOCALDIR}
 	@mkdir -p ${TEMPDIR}
 
 prepare-dir_step += ${TEMPDIR}
@@ -50,7 +50,7 @@ endif
 
 ifneq (${SRCDIR},)
 
-${SRCDIR}:
+${SRCDIR}:${LOCALDIR}
 	@mkdir -p ${SRCDIR}
 
 prepare-dir_step += ${SRCDIR}

@@ -3,7 +3,7 @@
 
 prepare-dir_step :=
 
-ifneq (${HENVBOX_LOCAL_BINDIR_PATH_UNIX},)
+ifneq (${HENVBOX_LOCAL_ROOT_PATH_UNIX},)
 #处于HEnvBox中
 
 ifneq (${LOCALDIR},)
@@ -21,7 +21,7 @@ else
 ifneq (${LOCALDIR},)
 
 ${LOCALDIR}:
-        @mkdir -p ${LOCALDIR}/
+	@mkdir -p ${LOCALDIR}/
 
 prepare-dir_step += ${LOCALDIR}
 

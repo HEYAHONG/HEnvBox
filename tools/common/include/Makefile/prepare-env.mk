@@ -7,19 +7,20 @@ HOSTCXX         ?= c++
 
 HOSTCFLAGS      := $(HOSTCFLAGS)
 HOSTCXXFLAGS    := $(HOSTCXXFLAGS)
-HOSTAFLAGS      := $(HOSTAFLAGS)
+HOSTASFLAGS     := $(HOSTASFLAGS)
 HOSTLDFLAGS     := $(HOSTLDFLAGS)
 
-export HOSTCC HOSTCXX HOSTCFLAGS HOSTCXXFLAGS HOSTAFLAGS HOSTLDFLAGS
+export
 
 #定义工具链
+#注意:C++编译的前缀是CXX，预处理器的前缀是CPP
 ifeq (${CROSS_COMPILE},)
 
 AS              ?= as
 CC              ?= cc
-CPP             ?= c++
-CXX             ?= $(CPP)
-LD              ?= $(CPP)
+CPP             ?= $(CC) -E
+CXX             ?= c++
+LD              ?= $(CXX)
 AR              ?= ar
 NM              ?= nm
 STRIP           ?= strip
@@ -29,7 +30,8 @@ PKG_CONFIG      ?= pkg-config
 
 CFLAGS          := $(CFLAGS)
 CPPFLAGS        := $(CPPFLAGS)
-AFLAGS          := $(AFLAGS)
+CXXFLAGS        := $(CXXFLAGS)
+ASFLAGS         := $(ASFLAGS)
 LDFLAGS         := $(LDFLAGS)
 LDLIBS          := $(LDLIBS)
 
@@ -38,9 +40,9 @@ else
 
 AS              = $(CROSS_COMPILE)as
 CC              = $(CROSS_COMPILE)gcc
-CPP             = $(CROSS_COMPILE)g++
-CXX             = $(CPP)
-LD              = $(CPP)
+CPP             = $(CC) -E
+CXX             = $(CROSS_COMPILE)g++
+LD              = $(CXX)
 AR              = $(CROSS_COMPILE)ar
 NM              = $(CROSS_COMPILE)nm
 STRIP           = $(CROSS_COMPILE)strip
@@ -50,14 +52,14 @@ PKG_CONFIG      ?= $(CROSS_COMPILE)pkg-config
 
 CFLAGS          := $(CFLAGS)
 CPPFLAGS        := $(CPPFLAGS)
-AFLAGS          := $(AFLAGS)
+CXXFLAGS        := $(CXXFLAGS)
+ASFLAGS         := $(ASFLAGS)
 LDFLAGS         := $(LDFLAGS)
 LDLIBS          := $(LDLIBS)
 
 endif
 
-export AS CC CPP CXX LD AR NM STRIP OBJCOPY OBJDUMP PKG_CONFIG
-export CFLAGS CPPFLAGS AFLAGS LDFLAGS LDLIBS
+export
 
 
 #定义各个目标的步骤,默认为空，但用户需要将实际步骤通过+=添加至相应步骤

@@ -79,6 +79,7 @@ dist-clean:clean-dir
 
 
 #定义包含子目录,$(eval $(call IncludeSubdirMakefileEx,目录,文件名))调用,最大深度为3。
+#注意:在被包含的文件中不可使用当前目录作为文件所在目录，可使用file变量访问自身路径。
 define IncludeSubdirMakefileEx
 
 ifneq (${2},)
@@ -90,6 +91,7 @@ endif
 endef
 
 #定义包含子目录,$(eval $(call IncludeSubdirMakefile,目录))调用。搜索子目录下的subdir.mk,最大深度为3。
+#注意:在被包含的文件中不可使用当前目录作为文件所在目录，可使用file变量访问自身路径。
 define IncludeSubdirMakefile
 
 ifneq (${1},)

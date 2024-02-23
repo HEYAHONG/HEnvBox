@@ -95,7 +95,7 @@ include ${MAKEFILE_INCLUDE_DIR}/top.mk
 $(eval $(call IncludeSubdirMakefile,include))
 
 #包含include中的subdir1.mk文件
-$(eval $(call IncludeSubdirMakefile,include,subdir1.mk))
+$(eval $(call IncludeSubdirMakefileEx,include,subdir1.mk))
 
 prepare_step_1:
 	@echo prepare_step_1
@@ -139,13 +139,15 @@ dist-clean_step_1:
 dist-clean_step+=dist-clean_step_1
 
 include ${MAKEFILE_INCLUDE_DIR}/bottom.mk
-
 ```
 
 **include/subdir.mk**:
 
 ```makefile
-
+#显示当前文件
+$(info current file is $(realpath ${file}))
+#显示当前目录
+$(info current dir is $(realpath $(dir ${file})))
 
 prepare_subdir_mk_step_1:
 	@echo prepare_subdir_mk_step_1
@@ -187,12 +189,16 @@ dist-clean_subdir_mk_step_1:
 	@echo dist-clean_subdir_mk_step_1
 
 dist-clean_step+=dist-clean_subdir_mk_step_1
+
 ```
 
 **include/subdir1.mk**:
 
 ```makefile
-
+#显示当前文件
+$(info current file is $(realpath ${file}))
+#显示当前目录
+$(info current dir is $(realpath $(dir ${file})))
 
 prepare_subdir1_mk_step_1:
 	@echo prepare_subdir1_mk_step_1

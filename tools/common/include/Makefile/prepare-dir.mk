@@ -78,7 +78,7 @@ dist-clean:clean-dir
 
 
 
-#定义包含子目录,$(eval $(call IncludeSubdirMakefile,目录,文件名))调用,最大深度为3。
+#定义包含子目录,$(eval $(call IncludeSubdirMakefileEx,目录,文件名))调用,最大深度为3。
 define IncludeSubdirMakefileEx
 
 ifneq (${2},)

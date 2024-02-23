@@ -34,6 +34,7 @@ ifneq (${STAMPDIR},)
 
 ${STAMPDIR}:${LOCALDIR}
 	@mkdir -p ${STAMPDIR}
+	@touch ${STAMPDIR}
 
 prepare-dir_step += ${STAMPDIR}
 
@@ -43,6 +44,7 @@ ifneq (${TEMPDIR},)
 
 ${TEMPDIR}:${LOCALDIR}
 	@mkdir -p ${TEMPDIR}
+	@touch ${TEMPDIR}
 
 prepare-dir_step += ${TEMPDIR}
 
@@ -52,6 +54,7 @@ ifneq (${SRCDIR},)
 
 ${SRCDIR}:${LOCALDIR}
 	@mkdir -p ${SRCDIR}
+	@touch ${SRCDIR}
 
 prepare-dir_step += ${SRCDIR}
 
@@ -73,44 +76,27 @@ clean-dir:
 dist-clean:clean-dir
 
 
-#定义Include，使用$(eval $(call Include,需要包含的文件路径))调用
-#通过__Inclide_Included_Files__确保不重复包含
-__Inclide_Included_Files__ :=
-define Include
 
-ifneq (${1},)
 
-Include_File := $(shell realpath ${1})
-
-ifneq ($(findstring ${Include_File},${__Inclide_Included_Files__}),${Include_File})
-
-include ${Include_File}
-
-__Inclide_Included_Files__ += ${Include_File}
-
-endif
-
-endif
-
-endef
-
-#定义包含子目录,$(eval $(call IncludeSubdirMakefile,目录,可选文件名))调用，当文件名不指定时，默认为subdir.mk
-define IncludeSubdirMakefile
+#定义包含子目录,$(eval $(call IncludeSubdirMakefile,目录,文件名))调用,最大深度为3。
+define IncludeSubdirMakefileEx
 
 ifneq (${2},)
 
-$(foreach file,$(shell find ${1} -type f -name ${2} 2> /dev/null),$(eval $(call Include,$(file))))
-
-else
-
-ifneq (${1},)
-
-$(foreach file,$(shell find ${1} -type f -name subdir.mk 2> /dev/null),$(eval $(call Include,$(file))))
-
-endif
+$(foreach file,$(shell find ${1} -type f -maxdepth 3 -name ${2} 2> /dev/null),$(eval include ${file}))
 
 endif
 
 endef
 
+#定义包含子目录,$(eval $(call IncludeSubdirMakefile,目录))调用。搜索子目录下的subdir.mk,最大深度为3。
+define IncludeSubdirMakefile
+
+ifneq (${1},)
+
+$(foreach file,$(shell find ${1} -type f -maxdepth 3 -name subdir.mk 2> /dev/null),$(eval include ${file}))
+
+endif
+
+endef
 

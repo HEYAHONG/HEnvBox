@@ -4,7 +4,7 @@ include ${MAKEFILE_INCLUDE_DIR}/top.mk
 $(eval $(call IncludeSubdirMakefile,include))
 
 #包含include中的subdir1.mk文件
-$(eval $(call IncludeSubdirMakefile,include,subdir1.mk))
+$(eval $(call IncludeSubdirMakefileEx,include,subdir1.mk))
 
 prepare_step_1:
 	@echo prepare_step_1

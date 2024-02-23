@@ -1,4 +1,8 @@
 
+#显示当前文件
+$(info current file is $(realpath ${file}))
+#显示当前目录
+$(info current dir is $(realpath $(dir ${file})))
 
 prepare_subdir1_mk_step_1:
 	@echo prepare_subdir1_mk_step_1

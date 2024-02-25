@@ -1,0 +1,167 @@
+#!/bin/bash
+function CheckTool
+{
+	[  -n "$1"  ] ||
+	{
+		echo -e  "CheckTool 参数错误!!";
+		return 255;
+	};
+	ToolPath=`which $1`;
+	[ -e "$ToolPath" ] ||
+	{
+		 echo -e "$1 不存在，请先安装此工具!!!";
+		 return 255;
+	};
+	return 0;
+}
+
+export -f CheckTool
+
+CheckTool find
+[ $? -eq 0 ] || exit
+CheckTool dirname
+[ $? -eq 0 ] || exit
+CheckTool readlink
+[ $? -eq 0 ] || exit
+CheckTool ln
+[ $? -eq 0 ] || exit
+CheckTool wc
+[ $? -eq 0 ] || exit
+CheckTool sed
+[ $? -eq 0 ] || exit
+CheckTool grep
+[ $? -eq 0 ] || exit
+CheckTool mkdir
+[ $? -eq 0 ] || exit
+CheckTool tr
+[ $? -eq 0 ] || exit
+CheckTool cat
+[ $? -eq 0 ] || exit
+CheckTool realpath
+[ $? -eq 0 ] || exit
+CheckTool xargs
+[ $? -eq 0 ] || exit
+
+
+#导入EnvCheck
+if [ -f "${HENVBOX_COMMON_ROOT_PATH}/../EnvCheck/EnvCheck.sh" ]
+then
+	. "${HENVBOX_COMMON_ROOT_PATH}/../EnvCheck/EnvCheck.sh"
+	if [ -n "${ENVCHECK_REPEAT_LOAD}" ]
+	then
+		echo "openwrt工具已加载!如需再次加载请先退出当前shell(使用exit命令)!"
+		exit 1
+	fi
+	#检查基本工具
+	EnvCheckCheckBasetool
+fi
+
+if [ -z `which openwrt_path_patch` ]
+then
+	echo "注意:当前环境(如处于Windows但不处于WSL中)可能不支持openwrt编译!"
+fi
+
+#帮助信息
+function Help
+{
+cat <<EOF
+帮助：
+    本环境支持以下命令：
+        Help:显示帮助
+	List:列出当前目录下的openwrt或基于openwrt的目录,注意：只支持较新版本
+EOF
+}
+
+export -f Help
+
+function List
+{
+	local count=1
+	for RULES_MK_PATH in  `find .  -maxdepth 4 -name rules.mk 2>/dev/null`
+	do
+		OPENWRT_DIR=`realpath "${RULES_MK_PATH}" | xargs dirname`
+		if [ -f "${OPENWRT_DIR}/Makefile" ]
+		then
+			if [ -n "`cat "${OPENWRT_DIR}/Makefile" | grep -i openwrt`" ]
+			then
+				#注意:不支持不由git管理的项目
+				if [ -d "${OPENWRT_DIR}/.git" ]
+				then
+					#由git管理的openwrt
+					export openwrt_${count}_path=`realpath ${OPENWRT_DIR}`
+					local openwrt_project_path
+					openwrt_project_path=`realpath ${OPENWRT_DIR}`
+					echo "openwrt ${count} project path:${openwrt_project_path}"
+					echo -e "\topenwrt：${OPENWRT_DIR}"
+				fi
+				if [ -d "${OPENWRT_DIR}/../.git" ]
+				then
+					#由git管理的子项目openwrt
+					export openwrt_${count}_path=`realpath ${OPENWRT_DIR}/../`
+					local openwrt_project_path
+					openwrt_project_path=`realpath ${OPENWRT_DIR}/../`
+					echo "openwrt ${count} project path:${openwrt_project_path}"
+					echo -e "\topenwrt：${OPENWRT_DIR}"
+				fi
+				if [ -d "${OPENWRT_DIR}/../../.git" ]
+				then
+					#由git管理的子项目openwrt
+					export openwrt_${count}_path=`realpth ${OPENWRT_DIR}../../`
+					local openwrt_project_path
+					openwrt_project_path=`realpath ${OPENWRT_DIR}/../../`
+					echo "openwrt ${count} project path:${openwrt_project_path}"
+					echo -e "\topenwrt：${OPENWRT_DIR}"
+				fi
+				count=$((${count}+1))
+			fi
+		fi
+	done
+	if [ ${count} -eq "1" ]
+	then
+		return 1
+	fi
+	echo "选择需要进入的项目（输入空或者错误数字将不进行操作）："
+	local openwrt_index
+	read -e -i "1" -t 10 openwrt_index || openwrt_index=1
+	openwrt_project_path=`set | grep "openwrt_${openwrt_index}_path"= | awk -F "=" '{print $2}'`
+	if [ -d "${openwrt_project_path}" ]
+	then
+		echo "选中的工程目录为${openwrt_project_path}"
+		cd "${openwrt_project_path}"
+	fi
+	return 0
+}
+
+export -f List
+
+#显示banner
+function ShowBanner
+{
+cat <<EOF
+                                     _
+  ___  _ __   ___ _ ____      ___ __| |_    ___ _ ____   __
+ / _ \| '_ \ / _ \ '_ \ \ /\ / / '__| __|  / _ \ '_ \ \ / /
+| (_) | |_) |  __/ | | \ V  V /| |  | |_  |  __/ | | \ V /
+ \___/| .__/ \___|_| |_|\_/\_/ |_|   \__|  \___|_| |_|\_/
+      |_|
+openwrt (辅助)环境
+若要查看帮助，请输入Help命令!
+EOF
+}
+
+export -f ShowBanner
+
+ShowBanner
+
+#删除PATH中的空格（常见于Windows的WSL子系统，将影响openwrt编译）
+export PATH=`echo "${PATH}" | tr -d " "`
+
+#执行SHELL
+export PS1='openwrt:\[\033[01;34m\]\w\[\033[00m\]\>'
+if [ -x "${SHELL}" ]
+then
+	exec "${SHELL}" --norc
+else
+	exec /bin/bash --norc
+fi
+

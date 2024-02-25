@@ -22,6 +22,14 @@ else
 	script_name="$(readlink -f "${self_path}")"
 	script_dir="$(dirname "${script_name}")"
 fi
+
+#导出是否重复加载
+if [ -d "${ENVCHECK_ROOT_PATH}" ]
+then
+	#指示是否重复加载
+	export  ENVCHECK_REPEAT_LOAD=1
+fi
+
 #导出EnvCheck根路径
 export ENVCHECK_ROOT_PATH="${script_dir}";
 

@@ -4,7 +4,10 @@
 if [ -f "${HENVBOX_COMMON_ROOT_PATH}/../EnvCheck/EnvCheck.sh" ]
 then
 	. "${HENVBOX_COMMON_ROOT_PATH}/../EnvCheck/EnvCheck.sh"
+	#检查基本工具
+	EnvCheckCheckBasetool
 fi
+
 
 #执行SHELL
 export PS1='EnvCheck:\[\033[01;34m\]\w\[\033[00m\]\$'

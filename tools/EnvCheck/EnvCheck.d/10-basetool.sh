@@ -25,6 +25,7 @@ function EnvCheckCheckBasetool
 	EnvCheckTestProgram curl
 
 	#压缩/解压工具
+	EnvCheckTestProgram tar
 	EnvCheckTestProgram gzip
 	EnvCheckTestProgram xz
 	EnvCheckTestProgram lzma

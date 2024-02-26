@@ -162,7 +162,7 @@ function Bootstrap
 	[ "$?" -eq 0 ] || return 1
 
 	local Branch
-	[ -n "${1}"] && Branch="${1}"
+	[ -n "${1}" ] && Branch="${1}"
 	[ -n "${Branch}" ] || Branch="master"
 
 	git checkout "origin/${Branch}"

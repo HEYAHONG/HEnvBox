@@ -68,7 +68,8 @@ cat <<EOF
 帮助：
     本环境支持以下命令：
         Help:显示帮助
-	List:列出当前目录下的openwrt或基于openwrt的目录,注意：只支持较新版本
+	List:列出当前目录下的openwrt或基于openwrt的工程的目录,注意：只支持较新版本
+	Bootstrap:在空目录中创建一个openwrt示例，参数1为分支名
 EOF
 }
 
@@ -133,6 +134,60 @@ function List
 }
 
 export -f List
+
+function Bootstrap
+{
+	if [ "`ls -A | wc -l 2>/dev/null`" -gt 0 ]
+	then
+		echo -e  "必须在空目录中进行Bootstrap，非空目录不予操作！"
+		return 1
+	fi
+
+	#测试是否属于大小写敏感
+	touch A
+	if [ -f a ]
+	then
+		echo -e "目录必须支持大小写敏感！"
+		return 1
+	fi
+	rm A
+
+	git init
+	[ "$?" -eq 0 ] || return 1
+
+	git remote add origin https://git.openwrt.org/openwrt/openwrt.git
+	[ "$?" -eq 0 ] || return 1
+
+	git fetch
+	[ "$?" -eq 0 ] || return 1
+
+	local Branch
+	[ -n "${1}"] && Branch="${1}"
+	[ -n "${Branch}" ] || Branch="master"
+
+	git checkout "origin/${Branch}"
+	[ "$?" -eq 0 ] || return 1
+
+	git switch -c "${Branch}"
+	[ "$?" -eq 0 ] || return 1
+
+	#修正openwrt的path
+	openwrt_path_patch  2>/dev/null
+
+	if [ -x scripts/feeds ]
+	then
+		scripts/feeds update -a
+		[ "$?" -eq 0 ] || return 1
+		scripts/feeds install -a -f
+		[ "$?" -eq 0 ] || return 1
+	fi
+
+	echo -e "Bootstrap成功"
+
+	return 0
+}
+
+export -f Bootstrap
 
 #显示banner
 function ShowBanner

@@ -72,6 +72,6 @@ fi
 __prepare_dir__ "src"
 
 sed -i "s/CT_LOCAL_TARBALLS_DIR=.*/CT_LOCAL_TARBALLS_DIR=\"${ROOT_PATH//\//\\\/}\/src\"/g" .config 2> /dev/null > /dev/null
-sed -i "s/CT_PREFIX_DIR=.*/CT_PREFIX_DIR=\"${MSYSTEM_PREFIX//\//\\\/}\"/g" .config 2> /dev/null > /dev/null
+sed -i "s/CT_PREFIX_DIR=.*/CT_PREFIX_DIR=\"${MSYSTEM_PREFIX//\//\\\/}\/\$\{CT_TARGET\}\"/g" .config 2> /dev/null > /dev/null
 
 echo -e "路径设定完成!"

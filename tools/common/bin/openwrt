@@ -148,6 +148,7 @@ function Bootstrap
 	if [ -f a ]
 	then
 		echo -e "目录必须支持大小写敏感！"
+		rm A
 		return 1
 	fi
 	rm A

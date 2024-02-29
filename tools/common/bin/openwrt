@@ -70,6 +70,7 @@ cat <<EOF
         Help:显示帮助
 	List:列出当前目录下的openwrt或基于openwrt的工程的目录,注意：只支持较新版本
 	Bootstrap:在空目录中创建一个openwrt示例，参数1为分支名
+	Update:使用git更新openwrt.
 EOF
 }
 
@@ -172,6 +173,9 @@ function Bootstrap
 	git switch -c "${Branch}"
 	[ "$?" -eq 0 ] || return 1
 
+	git branch --set-upstream-to="origin/${Branch}" "${Branch}"
+	[ "$?" -eq 0 ] || return 1
+
 	#修正openwrt的path
 	openwrt_path_patch  2>/dev/null
 
@@ -189,6 +193,34 @@ function Bootstrap
 }
 
 export -f Bootstrap
+
+function Update
+{
+    for RULES_MK_PATH in  `find .  -maxdepth 4 -name rules.mk 2>/dev/null`
+	do
+		OPENWRT_DIR=`realpath "${RULES_MK_PATH}" | xargs dirname`
+		if [ -f "${OPENWRT_DIR}/Makefile" ]
+		then
+			if [ -n "`cat "${OPENWRT_DIR}/Makefile" | grep -i openwrt`" ]
+			then
+                pushd "${OPENWRT_DIR}"
+                #git更新
+                git pull
+                #更新feeds
+                if [ -x scripts/feeds ]
+                then
+                    scripts/feeds update -a
+                    [ "$?" -eq 0 ] || return 1
+                    scripts/feeds install -a -f
+                    [ "$?" -eq 0 ] || return 1
+                fi
+                popd
+			fi
+		fi
+	done
+}
+
+export -f Update
 
 #显示banner
 function ShowBanner

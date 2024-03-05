@@ -41,3 +41,6 @@ fi
 
 #设置Makefile的包含目录
 export MAKEFILE_INCLUDE_DIR="`realpath "${HENVBOX_COMMON_ROOT_PATH}/include/Makefile/"`"
+
+#设置中国境内的repo url
+export REPO_URL='https://gerrit-googlesource.proxy.ustclug.org/git-repo'

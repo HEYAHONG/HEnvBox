@@ -60,6 +60,16 @@ prepare-dir_step += ${SRCDIR}
 
 endif
 
+ifneq (${DLDIR},)
+
+${DLDIR}:${LOCALDIR}
+	@mkdir -p ${DLDIR}
+	@touch ${DLDIR}
+
+prepare-dir_step += ${DLDIR}
+
+endif
+
 .PHONY:prepare-dir
 prepare-dir:${prepare-dir_step}
 	@echo prepare-dir done!

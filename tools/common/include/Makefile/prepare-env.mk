@@ -83,3 +83,5 @@ STAMPDIR        ?= $(LOCALDIR)/stamp
 TEMPDIR         ?= $(LOCALDIR)/tmp
 ##源代码目录(注意:通常需要在其下创建子目录保存源代码并编译源代码)
 SRCDIR          ?= $(LOCALDIR)/src
+##dl目录(保存下载tar文件,zip文件)
+DLDIR           ?= $(LOCALDIR)/dl

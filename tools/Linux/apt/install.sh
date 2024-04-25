@@ -135,6 +135,26 @@ then
         	echo install packages list ${list_file}
         	cat ${list_file} | xargs apt install -yyy
 	done
+
+	#安装snap软件
+	SNAP_BIN=`which snap`
+	if [ -x ${SNAP_BIN} ]
+	then
+		for list_file in `find ${SCRIPT_DIR} -name "Snap.${DISTRIB_CODENAME}.list"`
+		do
+			echo install snap list ${list_file}
+			for SNAP in `cat ${list_file}`
+			do
+				${SNAP_BIN} list ${SNAP} 2>/dev/null 1>/dev/null
+				if [ "$?" -eq "0" ]
+				then
+					echo ${SNAP} is installed!
+				else
+					${SNAP_BIN} install ${SNAP}
+				fi
+			done
+		done
+	fi
 fi
 
 #执行子文件夹的PostInstall.sh

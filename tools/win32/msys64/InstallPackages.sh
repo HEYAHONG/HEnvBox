@@ -135,3 +135,6 @@ chmod +x /console
 
 echo  安装完成!
 read -t 5
+
+#正常退出
+exit 0

@@ -3,7 +3,7 @@
 rem set MSYS2_SFX_URL=https://repo.msys2.org/distrib/msys2-i686-latest.sfx.exe
 set MSYS2_SFX_URL=http://mirrors.ustc.edu.cn/msys2/distrib/msys2-i686-latest.sfx.exe
 
-if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\msys2_shell.cmd goto :InstallPackages
+if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\msys2_shell.cmd goto :Install
 
 :Download
 del /s /q  %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%.sfx.exe > nul 2> nul 
@@ -19,13 +19,13 @@ popd
 del /s /q %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%.sfx.exe > nul 2> nul 
 if x%Failure%==x1 goto :Failure
 
-:InstallPackages
-@rem 执行安装软件包脚本
-set InstallPackagesScript=%HENVBOX_TOOLS_PATH%\%HENVBOX_TOOLS_TYPE%\InstallPackages.sh
-set InstallPackagesScript=%InstallPackagesScript:\=/%
-set InstallPackagesScript=%InstallPackagesScript://=/%
+:Install
+@rem 执行安装脚本
+set InstallScript=%HENVBOX_TOOLS_PATH%\%HENVBOX_TOOLS_TYPE%\Install.sh
+set InstallScript=%InstallScript:\=/%
+set InstallScript=%InstallScript://=/%
 pushd %HENVBOX_TOOLS_PATH%\%HENVBOX_TOOLS_TYPE%\
-%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\msys2.exe %InstallPackagesScript%
+%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\msys2.exe %InstallScript%
 if not x%ERRORLEVEL%==x0 set Failure=1
 popd 
 if x%Failure%==x1 goto :Failure

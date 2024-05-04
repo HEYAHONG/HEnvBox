@@ -27,8 +27,10 @@ fi
 #复制相关文件
 cp -rf root/* /
 
+set -e
 #更新软件包
 pacman -Syu --quiet --noconfirm  --overwrite='*'
+set +e
 
 #执行子文件夹中的PreInstall.sh
 for i in `find . -name PreInstall.sh`
@@ -54,7 +56,9 @@ do
 			pacman -Q $i 2> /dev/null > /dev/null
 			if [ $? -ne 0 ]
 			then
+				set -e
 				pacman -S --quiet --overwrite='*' --noconfirm $i
+				set +e
 			fi
 		fi
 	done

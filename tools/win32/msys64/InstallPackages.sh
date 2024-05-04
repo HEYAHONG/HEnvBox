@@ -8,7 +8,7 @@ else
 	#当非特权程序启动此脚本（要求特权）时，不会传递环境变量，不可继续安装脚本.
 	echo HEnvBox未找到，请使用管理员权限运行.
 	read -t 5
-	exit
+	exit 0
 fi
 
 #加载config.sh

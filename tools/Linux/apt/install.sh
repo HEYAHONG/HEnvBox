@@ -22,6 +22,7 @@ else
         script_dir="$(dirname "${script_name}")"
 fi
 
+
 #导出根路径
 export SCRIPT_DIR="${script_dir}";
 
@@ -90,12 +91,13 @@ then
 	DISTRIB_CODENAME=${VERSION_CODENAME}
 fi
 
-
+set -e
 #更新软件包
 dpkg --configure -a 2> /dev/null > /dev/null
 apt update 2> /dev/null > /dev/null
 apt install -f
 apt upgrade -yyy
+set +e
 
 #执行子文件夹的PreInstall.sh
 for i in  `find ${SCRIPT_DIR} -name PreInstall.sh`
@@ -124,7 +126,9 @@ fi
 for list_file in `find ${SCRIPT_DIR} -name Packages.list`
 do
 	echo install packages list ${list_file}
+	set -e
 	cat ${list_file} | xargs apt install -yyy
+	set +e
 done
 
 if [ -n "${DISTRIB_CODENAME}" ]
@@ -133,7 +137,9 @@ then
 	for list_file in `find ${SCRIPT_DIR} -name Packages.${DISTRIB_CODENAME}.list`
 	do
         	echo install packages list ${list_file}
+		set -e
         	cat ${list_file} | xargs apt install -yyy
+		set +e
 	done
 
 	#安装snap软件
@@ -150,12 +156,15 @@ then
 				then
 					echo ${SNAP} is installed!
 				else
+					set -e
 					${SNAP_BIN} install ${SNAP}
+					set +e
 				fi
 			done
 		done
 	fi
 fi
+
 
 #执行子文件夹的PostInstall.sh
 for i in  `find ${SCRIPT_DIR} -name PostInstall.sh`
@@ -179,3 +188,4 @@ then
         	fi
 	done
 fi
+

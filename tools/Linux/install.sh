@@ -87,6 +87,12 @@ then
 		else
                 	sudo --preserve-env  "${HENVBOX_TOOLS_PATH}/${HENVBOX_TOOLS_TYPE}/install.sh"
 		fi
+                if [ "$?" -ne "0" ]
+                then
+                        #添加失败重试
+                        exec "$0" "$@"
+                fi
+
         fi
 else
         echo 无法完成HEnvBox配置!

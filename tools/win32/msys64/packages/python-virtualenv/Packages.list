@@ -1,0 +1,5 @@
+mingw-w64-i686-python-virtualenv
+mingw-w64-x86_64-python-virtualenv
+mingw-w64-ucrt-x86_64-python-virtualenv
+mingw-w64-clang-i686-python-virtualenv
+mingw-w64-clang-x86_64-python-virtualenv

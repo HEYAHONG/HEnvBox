@@ -207,7 +207,7 @@ then
 		REPO_USER=${username}
 		while [ "${IS_END}" -eq 0 ]
 		do
-			API_URL="https://gitee.com/api/v5/users/${username}/repos?page=${REPO_PAGE}&per_page=100"
+			API_URL="https://gitee.com/api/v5/users/${username}/repos?page=${REPO_PAGE}&per_page=20"
 			if [ -n "${GITEE_COM_ACCESS_TOKEN}" ]
 			then
 				API_URL="${API_URL}&access_token=${GITEE_COM_ACCESS_TOKEN}"

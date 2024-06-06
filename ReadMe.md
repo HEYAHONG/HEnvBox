@@ -21,14 +21,14 @@
 - 支持基于[Qt](https://www.qt.io/)的GUI程序编译。
 - 支持基于[opencv](https://opencv.org/)的程序编译。
 - 支持基于[boost](https://www.boost.org/)的程序编译。
-- 支持常用的构建系统/构建工具，如[make](https://www.gnu.org/software/make/)、autotools([automake](https://www.gnu.org/software/automake/)、[autoconf](https://www.gnu.org/software/autoconf/))、[ninja](https://ninja-build.org/)、[cmake](https://cmake.org/)、[scons](https://scons.org/)、[xmake](https://xmake.io/#/)等
+- 支持常用的构建系统/构建工具，如[make](https://www.gnu.org/software/make/)、autotools([automake](https://www.gnu.org/software/automake/)、[autoconf](https://www.gnu.org/software/autoconf/))、[ninja](https://ninja-build.org/)、[cmake](https://cmake.org/)、[scons](https://scons.org/)、[xmake](https://xmake.io/#/)、[meson](http://mesonbuild.com/)等
 - 支持常用的Kconfig配置工具,如kconfig-frontends、python-kconfiglib。
 - 支持[Qemu](https://www.qemu.org/)测试。
 - 支持arm裸机程序开发(采用arm-none-eabi-gcc工具链)。
 - 支持riscv裸机程序开发(采用riscv64-unknown-elf-gcc工具链)。
 - 支持使用[crosstool-ng](http://crosstool-ng.org)创建自定义工具链。
 - 支持基于[openwrt](https://openwrt.org/)/[buildroot](https://buildroot.org/)的固件程序编译。
-- 无论是Windows还是Linux,均采用[bash](https://www.gnu.org/software/bash/)作为默认脚本解释器。
+- 无论是Windows还是Linux,均采用[bash](https://www.gnu.org/software/bash/)作为默认脚本解释器,并且支持一些小工具，如neofetch。
 - 支持使用常用的编程语言编译程序,如C、C++、Go、Lua等。
 
 ## 下载说明

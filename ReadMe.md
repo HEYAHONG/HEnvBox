@@ -377,3 +377,5 @@ cutecom-ng安装脚本。本安装脚本主要安装个人魔改版cutecom-ng。
 - [Msys2](https://www.msys2.org/)
 - [Cygwin](https://cygwin.com/)
 - [0install](https://0install.net/):去中心化的软件安装系统
+- [sysinternals](https://learn.microsoft.com/zh-cn/sysinternals/downloads/sysinternals-suite):Windows下实用工具。
+

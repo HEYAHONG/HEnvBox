@@ -4,7 +4,5 @@ mingw-w64-x86_64-wxwidgets3.2-msw
 mingw-w64-x86_64-wxwidgets3.2-msw-cb_headers
 mingw-w64-ucrt-x86_64-wxwidgets3.2-msw
 mingw-w64-ucrt-x86_64-wxwidgets3.2-msw-cb_headers
-mingw-w64-clang-i686-wxwidgets3.2-msw
-mingw-w64-clang-i686-wxwidgets3.2-msw-cb_headers
 mingw-w64-clang-x86_64-wxwidgets3.2-msw
 mingw-w64-clang-x86_64-wxwidgets3.2-msw-cb_headers

@@ -1,6 +1,4 @@
 dtc
-mingw-w64-i686-dtc
 mingw-w64-x86_64-dtc
 mingw-w64-ucrt-x86_64-dtc
-mingw-w64-clang-i686-dtc
 mingw-w64-clang-x86_64-dtc

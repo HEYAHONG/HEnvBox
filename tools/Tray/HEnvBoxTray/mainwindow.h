@@ -8,6 +8,7 @@
 #include <QIcon>
 #include <QFile>
 #include <QMenu>
+#include <QDebug>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

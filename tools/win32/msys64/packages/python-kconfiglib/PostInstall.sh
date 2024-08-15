@@ -31,6 +31,7 @@ export SCRIPT_DIR="${script_dir}";
 export PIP_PATH=`which pip 2> /dev/null`
 if [ -n "${PIP_PATH}" ]
 then
-	${PIP_PATH} install -U pip
-	${PIP_PATH} install -r ${SCRIPT_DIR}/requirement.txt
+	${PIP_PATH} config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+	${PIP_PATH} install  --break-system-packages -U pip
+	${PIP_PATH} install  --break-system-packages -r ${SCRIPT_DIR}/requirement.txt
 fi

@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="HEnvBox-32x32.ico">../../images/HEnvBox-32x32.ico</file>
+        <file alias="HEnvBox-64x64.ico">../../images/HEnvBox-64x64.ico</file>
+        <file alias="HEnvBox-128x128.ico">../../images/HEnvBox-128x128.ico</file>
+        <file alias="HEnvBox-256x256.ico">../../images/HEnvBox-256x256.ico</file>
+        <file alias="HEnvBox.ico">../../images/HEnvBox.ico</file>
+        <file alias="HEnvBox.jpg">../../images/HEnvBox.jpg</file>
+        <file alias="HEnvBox.png">../../images/HEnvBox.png</file>
+    </qresource>
+</RCC>

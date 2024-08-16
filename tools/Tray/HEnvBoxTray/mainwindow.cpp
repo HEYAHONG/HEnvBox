@@ -62,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
                                     QStringList args;
                                     QString term="x-terminal-emulator";
                                     args << "-version";
-                                    if(QProcess::start(term,args))
+                                    if(QProcess::execute(term,args)==0)
                                     {
                                         args.clear();
                                         args << "-e";

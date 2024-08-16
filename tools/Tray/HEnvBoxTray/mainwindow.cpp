@@ -31,6 +31,16 @@ MainWindow::MainWindow(QWidget *parent)
                 });
                 menu->addSeparator();
             }
+            {
+                //添加退出操作
+                QAction * act=menu->addAction("Exit");
+                connect(act,&QAction::triggered,[=](bool check)
+                {
+                    //退出托盘程序
+                    QCoreApplication::exit();
+                });
+                menu->addSeparator();
+            }
         }
     }
     connect(&m_trayicon,&QSystemTrayIcon::activated,this,&MainWindow::Trayiconactivated);

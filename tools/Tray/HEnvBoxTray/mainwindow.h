@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QDir>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

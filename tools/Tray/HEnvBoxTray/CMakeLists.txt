@@ -23,6 +23,12 @@ set(PROJECT_SOURCES
         ${TS_FILES}
 )
 
+if(WIN32)
+    list(APPEND PROJECT_SOURCES
+         win32/window_resources.rc
+    )
+endif()
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(HEnvBoxTray
         MANUAL_FINALIZATION

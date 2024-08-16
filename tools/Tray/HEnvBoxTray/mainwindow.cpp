@@ -32,6 +32,52 @@ MainWindow::MainWindow(QWidget *parent)
                 menu->addSeparator();
             }
             {
+                //添加脚本的快捷启动方式
+                QDir root(HENVBOX_ROOT_PATH);
+                if(root.isReadable())
+                {
+                    QStringList filters;
+#ifdef  WIN32
+                    filters << "*.bat";
+#else
+                    filters << "*.sh";
+#endif
+                    foreach (const QString &scriptname, root.entryList(filters))
+                    {
+                        if(scriptname=="config.bat" || scriptname == "config.sh")
+                        {
+                            //跳过config.bat或config.sh
+                            continue;
+                        }
+                        qDebug() << "Found script:" << scriptname;
+                        {
+                            QString scriptpath=QString(HENVBOX_ROOT_PATH)+"/"+scriptname;
+                            QAction * act=menu->addAction(QIcon(QString::fromUtf8(":/HEnvBox-256x256.ico")),scriptname);
+                            connect(act,&QAction::triggered,[=](bool check)
+                            {
+#ifdef WIN32
+                                QProcess::startDetached(scriptpath);
+#else
+                                {
+                                    QStringList args;
+                                    QString term="x-terminal-emulator";
+                                    args << "-version";
+                                    if(QProcess::start(term,args))
+                                    {
+                                        args.clear();
+                                        args << "-e";
+                                        args << scriptpath;
+                                        QProcess::startDetached(term,args);
+                                    }
+                                }
+#endif
+                            });
+                        }
+                    }
+                    menu->addSeparator();
+                }
+            }
+            {
                 //添加退出操作
                 QAction * act=menu->addAction("Exit");
                 connect(act,&QAction::triggered,[=](bool check)

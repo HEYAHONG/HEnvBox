@@ -57,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
                             {
 #ifdef WIN32
                                 QProcess::startDetached(scriptpath);
+                                return;
 #else
                                 {
                                     QStringList args;
@@ -68,6 +69,20 @@ MainWindow::MainWindow(QWidget *parent)
                                         args << "-e";
                                         args << scriptpath;
                                         QProcess::startDetached(term,args);
+                                        return;
+                                    }
+                                }
+                                {
+                                    QStringList args;
+                                    QString term="x-terminal-emulator";
+                                    args << "--version";
+                                    if(QProcess::execute(term,args)==0)
+                                    {
+                                        args.clear();
+                                        args << "-e";
+                                        args << scriptpath;
+                                        QProcess::startDetached(term,args);
+                                        return;
                                     }
                                 }
 #endif

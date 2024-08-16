@@ -8,4 +8,7 @@
         <file alias="HEnvBox.jpg">../../images/HEnvBox.jpg</file>
         <file alias="HEnvBox.png">../../images/HEnvBox.png</file>
     </qresource>
+    <qresource prefix="/i18n">
+        <file alias="HEnvBoxTray_zh_CN">HEnvBoxTray_zh_CN.qm</file>
+    </qresource>
 </RCC>

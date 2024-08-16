@@ -94,7 +94,7 @@ MainWindow::MainWindow(QWidget *parent)
             }
             {
                 //添加退出操作
-                QAction * act=menu->addAction("Exit");
+                QAction * act=menu->addAction(tr("Exit"));
                 connect(act,&QAction::triggered,[=](bool check)
                 {
                     //退出托盘程序

@@ -14,6 +14,25 @@ MainWindow::MainWindow(QWidget *parent)
     m_trayicon.setIcon(QIcon(QString::fromUtf8(":/HEnvBox-256x256.ico")));
     m_trayicon.show();
     m_trayicon.setContextMenu(new QMenu(this));
+    {
+        //创建菜单
+        QMenu *menu=m_trayicon.contextMenu();
+        if(menu!=NULL)
+        {
+            {
+                //添加路径显示(通过菜单打开相应目录)
+                QAction * act=menu->addAction(QIcon(QString::fromUtf8(":/HEnvBox-256x256.ico")),HENVBOX_ROOT_PATH);
+                connect(act,&QAction::triggered,[=](bool check)
+                {
+                    if(QFile::exists(HENVBOX_ROOT_PATH))
+                    {
+                        QDesktopServices::openUrl(QUrl::fromLocalFile(HENVBOX_ROOT_PATH));
+                    }
+                });
+                menu->addSeparator();
+            }
+        }
+    }
     connect(&m_trayicon,&QSystemTrayIcon::activated,this,&MainWindow::Trayiconactivated);
 
 }

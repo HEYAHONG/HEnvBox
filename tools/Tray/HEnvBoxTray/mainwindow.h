@@ -9,6 +9,8 @@
 #include <QFile>
 #include <QMenu>
 #include <QDebug>
+#include <QDesktopServices>
+#include <QUrl>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

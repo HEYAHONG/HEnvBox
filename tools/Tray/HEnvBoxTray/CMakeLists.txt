@@ -77,3 +77,6 @@ install(TARGETS HEnvBoxTray
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(HEnvBoxTray)
 endif()
+
+file(REAL_PATH ../../../ HENVBOX_ROOT_PATH)
+target_compile_definitions(HEnvBoxTray PUBLIC HENVBOX_ROOT_PATH="${HENVBOX_ROOT_PATH}" )

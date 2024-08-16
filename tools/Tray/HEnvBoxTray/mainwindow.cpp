@@ -4,7 +4,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    ,app_instance_pid("app_instance_pid_henvboxtray",nullptr),
+    ,app_instance_pid(HENVBOX_ROOT_PATH "app_instance_pid_henvboxtray",nullptr),
       m_trayicon(this)
 {
     ui->setupUi(this);
@@ -56,7 +56,7 @@ void MainWindow::app_instance_pid_check()
 {
     int pid=QCoreApplication::applicationPid();
     qDebug() << "current process pid is "<<pid<<"!";
-    app_instance_pid.setNativeKey("app_instance_pid_henvboxtray");
+    app_instance_pid.setNativeKey(HENVBOX_ROOT_PATH "app_instance_pid_henvboxtray");
     if(app_instance_pid.attach())
     {
         int pid_old=*(const int *)app_instance_pid.constData();

@@ -32,7 +32,11 @@ cmake --build .
 
 ## Linux桌面环境
 
-注意：桌面环境需要支持自动启动/etc/xdg/autostart目录下的文件。自动启动不支持卸载，如需卸载则需要手动清理/etc/xdg/autostart目录。
+注意：
+
+- 桌面环境需要支持自动启动/etc/xdg/autostart目录下的文件,具体见[autostart-spec](https://specifications.freedesktop.org/autostart-spec/0.5/)。
+
+- 自动启动不支持卸载，如需卸载则需要手动清理/etc/xdg/autostart目录。
 
 ```bash
 #安装

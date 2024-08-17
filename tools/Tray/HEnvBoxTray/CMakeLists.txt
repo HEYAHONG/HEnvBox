@@ -28,6 +28,13 @@ if(WIN32)
     list(APPEND PROJECT_SOURCES
          win32/window_resources.rc
     )
+    execute_process(COMMAND cmd /c echo %PATH% OUTPUT_VARIABLE WIN32PATH)
+    message(STATUS "WIN32PATH:${WIN32PATH}")
+    execute_process(COMMAND cmd /c echo %USERPROFILE% OUTPUT_VARIABLE USERPROFILE)
+    string(REPLACE "\n" "" USERPROFILE ${USERPROFILE})
+    string(REPLACE "\r" "" USERPROFILE ${USERPROFILE})
+    set(WIN32STARTUP ${USERPROFILE}//AppData/Roaming/Microsoft/Windows/Start\ Menu/Programs/Startup)
+    message(STATUS "WIN32STARTUP:${WIN32STARTUP}")
 endif()
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -81,17 +88,32 @@ set_target_properties(HEnvBoxTray PROPERTIES
 
 file(REAL_PATH ../../../ HENVBOX_ROOT_PATH)
 include(GNUInstallDirs)
+if(DEFINED ENV{MINGW_PREFIX})
+install(TARGETS HEnvBoxTray
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION $ENV{MINGW_PREFIX}/lib/
+    RUNTIME DESTINATION $ENV{MINGW_PREFIX}/bin/
+)
+else()
 install(TARGETS HEnvBoxTray
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${HENVBOX_ROOT_PATH}/local/HEnvBoxTray/lib/
     RUNTIME DESTINATION ${HENVBOX_ROOT_PATH}/local/HEnvBoxTray/bin/
 )
+endif()
 
 set(HENVBOXTRAY_BIN_PATH ${HENVBOX_ROOT_PATH}/local/HEnvBoxTray/bin/HEnvBoxTray${CMAKE_EXECUTABLE_SUFFIX})
 #支持自动启动
 if(EXISTS /etc/xdg/autostart)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/xdg/HEnvBoxTray.desktop.in ${CMAKE_BINARY_DIR}/HEnvBoxTray.desktop @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/HEnvBoxTray.desktop DESTINATION /etc/xdg/autostart)
+endif()
+if(WIN32)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/win32/HEnvBoxTray.bat.in ${CMAKE_BINARY_DIR}/HEnvBoxTray.bat @ONLY)
+install(FILES ${CMAKE_BINARY_DIR}/HEnvBoxTray.bat DESTINATION  ${HENVBOX_ROOT_PATH}/local/HEnvBoxTray/bin/)
+install(FILES ${CMAKE_BINARY_DIR}/HEnvBoxTray.bat 
+	DESTINATION  ${WIN32STARTUP}
+	)
 endif()
 
 if(QT_VERSION_MAJOR EQUAL 6)

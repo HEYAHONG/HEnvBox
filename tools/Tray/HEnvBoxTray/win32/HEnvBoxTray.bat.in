@@ -1,0 +1,4 @@
+@echo off
+@REM 由于Windows下需要较多的DLL,因此安装一个启动bat文件 
+set PATH=@WIN32PATH@
+start HEnvBoxTray.exe

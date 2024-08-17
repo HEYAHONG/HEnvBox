@@ -26,6 +26,21 @@ cmake ../HEnvBoxTray
 cmake --build .
 ```
 
+# 自动启动
+
+注意：自动启动的步骤是紧接着编译的步骤的，设置自动启动时需要先编译成功。
+
+## Linux桌面环境
+
+注意：桌面环境需要支持自动启动/etc/xdg/autostart目录下的文件。自动启动不支持卸载，如需卸载则需要手动清理/etc/xdg/autostart目录。
+
+```bash
+#安装
+sudo cmake --build . -t install
+```
+
+
+
 # 截图
 
 ## windows

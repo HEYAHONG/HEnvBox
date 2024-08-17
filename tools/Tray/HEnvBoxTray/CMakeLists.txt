@@ -79,16 +79,23 @@ set_target_properties(HEnvBoxTray PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
+file(REAL_PATH ../../../ HENVBOX_ROOT_PATH)
 include(GNUInstallDirs)
 install(TARGETS HEnvBoxTray
     BUNDLE DESTINATION .
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${HENVBOX_ROOT_PATH}/local/HEnvBoxTray/lib/
+    RUNTIME DESTINATION ${HENVBOX_ROOT_PATH}/local/HEnvBoxTray/bin/
 )
+
+set(HENVBOXTRAY_BIN_PATH ${HENVBOX_ROOT_PATH}/local/HEnvBoxTray/bin/HEnvBoxTray${CMAKE_EXECUTABLE_SUFFIX})
+#支持自动启动
+if(EXISTS /etc/xdg/autostart)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/xdg/HEnvBoxTray.desktop.in ${CMAKE_BINARY_DIR}/HEnvBoxTray.desktop @ONLY)
+install(FILES ${CMAKE_BINARY_DIR}/HEnvBoxTray.desktop DESTINATION /etc/xdg/autostart)
+endif()
 
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(HEnvBoxTray)
 endif()
 
-file(REAL_PATH ../../../ HENVBOX_ROOT_PATH)
 target_compile_definitions(HEnvBoxTray PUBLIC HENVBOX_ROOT_PATH="${HENVBOX_ROOT_PATH}" )

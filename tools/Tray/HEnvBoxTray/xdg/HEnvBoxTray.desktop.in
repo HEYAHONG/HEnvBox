@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=HEnvBoxTray
+Comment=HEnvBoxTray
+Exec=@HENVBOXTRAY_BIN_PATH@
+Terminal=false
+Type=Application
+

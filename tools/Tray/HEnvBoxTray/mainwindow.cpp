@@ -117,7 +117,6 @@ void MainWindow::app_instance_pid_check()
 {
     int pid=QCoreApplication::applicationPid();
     qDebug() << "current process pid is "<<pid<<"!";
-    app_instance_pid.setNativeKey("/tmp/" HENVBOX_ROOT_PATH "app_instance_pid_henvboxtray");
     if(app_instance_pid.attach())
     {
         int pid_old=*(const int *)app_instance_pid.constData();

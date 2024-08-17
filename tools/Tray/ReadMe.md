@@ -47,7 +47,7 @@ sudo cmake --build . -t install
 
 注意：
 
-- 自动启动采用开始菜单的启动文件夹,默认文件夹为%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup,可通过修改，修改后无法安装自动启动。
+- 自动启动采用开始菜单的启动文件夹,默认文件夹为%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup,可通过注册表修改，修改后无法安装自动启动。
 - 自动启动不支持卸载，如需卸载则需要手动清理开始菜单的启动文件夹。
 - 若安装有杀毒软件,可能会被拦截，如确实需要自动启动，请允许写入启动文件夹。
 

@@ -45,262 +45,29 @@ Windows推荐200G以上空间（本工程目录），Linux推荐100G以上空间
 
 # 工具
 
-## gitee_com_mirror
+## 镜像工具
 
-备份gitee.com的用户、组织或企业的公开仓库的工具。
+镜像工具一般用于备份各种源代码（包括但不限于github.com、gitee.com）以供不时之需，如备份源代码仓库。
 
-可用于在线软件的实现，即在gitee.com上创建一个组织放在线软件包,再使用此工具同步。
+具体说明见[ReadMe.Tools.Mirror.md](ReadMe.Tools.Mirror.md ) 
 
-### 运行环境
+## 路径工具
 
-本工具需要在已安装好HEnvBox的环境下运行。具体运行环境要求如下:
+路径工具一般用于创建某些目录/软连接，现主要用于将openwrt/buildroot的下载目录指向同一个目录。
 
-- Bash (Linux)
-- MSYS2 UCRT64 (64位Windows)
-- MSYS2 MINGW32 （32位Windows）
-
-### 配置
-
-本工具通过文件进行配置，工具根目录为 `本地程序根路径/gitee.com`，所有文件均需放置此目录。
-
-具体配置文件如下:
-
-- config.sh:配置文件，一般用于声明变量。
-- user.list:用户列表,每行表示一个用户。
-- org.list:组织列表,每行表示一个组织
-- enterprise.list:企业列表，每行表示一个企业。
-
-##### config.sh
-
-本配置文件为bash脚本文件，可用于配置一些变量:
-
-- REPO_USE_SSH:当此变量非空时表示使用ssh备份,需要先手动配置ssh,即确保可使用`git clone`通过ssh备份。
-- GITEE_COM_ACCESS_TOKEN：gitee.com私人令牌，配置好私人令牌可避免一些速率限制(尤其是多人共享一个公网IP上网时)。
-
-### 使用
-
-本工具可手动调用`gitee_com_mirror`启动，如需自动运行,请确保先导入了HEnvBox的配置文件。
-
-除了通过配置用户、组织或企业的列表备份相应文件，也支持用户直接将仓库(非bare仓库,仓库目录不能含有空格)放在工具根目录下,启动工具后会自动更新仓库。
-
-## github_com_mirror
-
-备份github.com的用户或组织的公开仓库的工具。
-
-可用于在线软件的实现，即在github.com上创建一个组织放在线软件包,再使用此工具同步。
-
-### 运行环境
-
-本工具需要在已安装好HEnvBox的环境下运行。具体运行环境要求如下:
-
-- Bash (Linux)
-- MSYS2 UCRT64 (64位Windows)
-- MSYS2 MINGW32 （32位Windows）
-
-### 配置
-
-本工具通过文件进行配置，工具根目录为 `本地程序根路径/github.com`，所有文件均需放置此目录。
-
-具体配置文件如下:
-
-- config.sh:配置文件，一般用于声明变量。
-- user.list:用户列表,每行表示一个用户。
-- org.list:组织列表,每行表示一个组织
-
-##### config.sh
-
-本配置文件为bash脚本文件，可用于配置一些变量:
-
-- REPO_USE_SSH:当此变量非空时表示使用ssh备份,需要先手动配置ssh,即确保可使用`git clone`通过ssh备份。
-
-### 使用
-
-本工具可手动调用`github_com_mirror`启动，如需自动运行,请确保先导入了HEnvBox的配置文件。
-
-除了通过配置用户、组织的列表备份相应文件，也支持用户直接将仓库(非bare仓库,仓库目录不能含有空格)放在工具根目录下,启动工具后会自动更新仓库。
-
-注意:由于国内github.com连接不稳定，建议配置好git的代理上网与系统代理上网再使用此工具同步。
-
-## gitea_mirror
-
-备份使用[gitea](https://www.gitea.com)自建站的用户或组织的公开仓库的工具。
-
-可用于在线软件的实现，即在使用[gitea](https://www.gitea.com)自建的站点上创建一个组织放在线软件包,再使用此工具同步。
-
-### 运行环境
-
-本工具需要在已安装好HEnvBox的环境下运行。具体运行环境要求如下:
-
-- Bash (Linux)
-- MSYS2 UCRT64 (64位Windows)
-- MSYS2 MINGW32 （32位Windows）
-
-### 配置
-
-本工具通过文件进行配置，工具根目录为 `本地程序根路径/gitea`，所有文件均需放置此目录。
-
-具体配置文件如下:
-
-- config.sh:配置文件，一般用于声明变量。
-- site.list:站点列表，每行一个站点，每个站点的站点目录为站点URL去掉/并使用_替换:后的字符串，如[http://gitea.hyhsystem.cn:3000/](http://gitea.hyhsystem.cn:3000/)的站点目录为http_gitea.hyhsystem.cn_3000。
-- [站点目录]/user.list:用户列表,每行表示一个用户。
-- [站点目录]/org.list:组织列表,每行表示一个组织
-
-##### config.sh
-
-本配置文件为bash脚本文件，可用于配置一些变量:
-
-- REPO_USE_SSH:当此变量非空时表示使用ssh备份,需要先手动配置ssh,即确保可使用`git clone`通过ssh备份。
-
-### 使用
-
-本工具可手动调用`gitea_mirror`启动，如需自动运行,请确保先导入了HEnvBox的配置文件。
-
-除了通过配置用户、组织或企业的列表备份相应文件，也支持用户直接将仓库(非bare仓库,仓库目录不能含有空格)放在工具根目录下,启动工具后会自动更新仓库。
-
-## ftp_gnu_org_mirror
-
-下载(镜像)ftp.gnu.org的软件。将其下载到本地目录。
-
-### 运行环境
-
-本工具需要在已安装好HEnvBox的环境下运行。具体运行环境要求如下:
-
-- Bash (Linux)
-- MSYS2 UCRT64 (64位Windows)
-- MSYS2 MINGW32 （32位Windows）
-
-### 配置
-
-本工具通过文件进行配置，工具根目录为 `本地程序根路径/ftp.gnu.org`，所有文件均需放置此目录。
-
-具体配置文件如下:
-
-- config.sh:配置文件，一般用于声明变量。
-- dir.list:需要镜像的目录,每行表示一个,如下载nettle目录则为nettle。
-- file.list:需要镜像的文件,每行表示一个,如下载gcc-13.2.0.tar.gz则为gcc/gcc-13.2.0/gcc-13.2.0.tar.gz。
-
-##### config.sh
-
-本配置文件为bash脚本文件，可用于配置一些变量:
-
-- RSYNC_URL:rsync网络镜像URL。
-
-RSYNC_URL一般可选择以下选项:
-
-- rsync://ftp.gnu.org/gnu/
-- rsync://rsync.mirrors.ustc.edu.cn/gnu/
-- rsync://mirrors.tuna.tsinghua.edu.cn/gnu/
-
-### 使用
-
-本工具可手动调用`ftp_gnu_org_mirror`启动，如需自动运行,请确保先导入了HEnvBox的配置文件。
-
-## kernel_org_mirror
-
-下载(镜像)kernel.org的软件。将其下载到本地目录。
-
-### 运行环境
-
-本工具需要在已安装好HEnvBox的环境下运行。具体运行环境要求如下:
-
-- Bash (Linux)
-- MSYS2 UCRT64 (64位Windows)
-- MSYS2 MINGW32 （32位Windows）
-
-### 配置
-
-本工具通过文件进行配置，工具根目录为 `本地程序根路径/kernel.org`，所有文件均需放置此目录。
-
-具体配置文件如下:
-
-- config.sh:配置文件，一般用于声明变量。
-- dir.list:需要镜像的目录,每行表示一个,如下载software目录则为software。
-- file.list:需要镜像的文件,每行表示一个,如下载linux-6.5.tar.xz则为linux/kernel/v6.x/linux-6.5.tar.xz。
-
-##### config.sh
-
-本配置文件为bash脚本文件，可用于配置一些变量:
-
-- RSYNC_URL:rsync网络镜像URL。
-
-RSYNC_URL一般可选择以下选项:
-
-- rsync://rsync.kernel.org/pub/
-- rsync://rsync.mirrors.ustc.edu.cn/kernel.org/
-
-### 使用
-
-本工具可手动调用`kernel_org_mirror`启动，如需自动运行,请确保先导入了HEnvBox的配置文件。
+具体说明见[ReadMe.Tools.Path_Patch.md](ReadMe.Tools.Path_Patch.md)
 
 ## crosstool-ng
 
-crosstool-ng是一款交叉编译工具链创建工具
+crosstool-ng是一款交叉编译工具链创建工具.
 
-对于比较流行的编译目标(如arm-none-eabi)的交叉编译工具链,各个系统厂商或者MSYS2官方可能会收录相关软件包。
+具体说明见[ReadMe.Tools.crosstool-ng.md](ReadMe.Tools.crosstool-ng.md)
 
-若官方未收录或者期待使用较新的交叉编译工具链，可采用[crosstool-ng](http://crosstool-ng.org)编译。
+## cutecom-ng
 
-### 运行环境
+cutecom-ng是一个基于Qt的串口工具,可用于串口调试。
 
-本工具需要在已安装好HEnvBox的环境下运行。具体运行环境要求如下:
-
-- Bash (Linux)
-- MSYS2 MSYS2 (Windows)
-
-### 准备工作
-
-- 必须有较为良好的网络链接，如有条件可配置代理上网。
-- 对于Windows(Windows 10及更新版本)用户而言,MSYS2的crosstool-ng需要目录支持大小写，可在创建目录后使用`fsutil file setCaseSensitiveInfo 新创建的目录`创建一个支持大小写的NTFS目录后使用该目录编译。
-
-### 交叉编译工具链(受crosstool-ng支持的)编译流程
-
-- 准备一个文件夹，文件夹要支持大小写。文件夹所在磁盘剩余空间根据需要编译的目标而确定，推荐Windows上200G,Linux上100G。
-- 使用`ct-ng list-samples`列出支持的范例，选择合适的范例，如过没有完全匹配的就选择相近的范例。
-- 使用`ct-ng menuconfig`进行Kconfig配置，此配置可修改生成的编译工具链的元组，如果上一步未选择到合适的范例可在此步选择。此步配置一些路径信息。
-- 使用`ct_ng_path_patch`修改相关路径,这步的主要目的为将相关目录修改至HEnvBox目录，并非必须。
-- 使用`ct-ng build`编译，期间可能遇到很多问题，如果是下载问题可尝试多次编译或者配置代理上网。
-
-## openwrt_path_patch
-
-修改[openwrt](https://openwrt.org/)或者基于[openwrt](https://openwrt.org/)的工程的目录，有如下功能:
-
-- 将所有工程的dl目录指向同一个目录,共用下载目录，减少下载量。
-
-### 运行环境
-
-本工具需要在已安装好HEnvBox的环境下运行。具体运行环境要求如下:
-
-- Bash (Linux)
-
-## buildroot_path_patch
-
-修改[buildroot](https://buildroot.org/)或者基于[buildroot](https://buildroot.org/)的工程的目录，有如下功能:
-
-- 将所有工程的dl目录指向同一个目录,共用下载目录，减少下载量。
-
-### 运行环境
-
-本工具需要在已安装好HEnvBox的环境下运行。具体运行环境要求如下:
-
-- Bash (Linux)
-
-## cutecom-ng_install
-
-cutecom-ng安装脚本。本安装脚本主要安装个人魔改版cutecom-ng。
-
-源代码链接:
-
-- [https://gitee.com/HEYAHONG/cutecom-ng.git](https://gitee.com/HEYAHONG/cutecom-ng.git)
-- [https://github.com/HEYAHONG/cutecom-ng.git](https://github.com/HEYAHONG/cutecom-ng.git)
-
-### 运行环境
-
-本工具需要在已安装好HEnvBox的环境下运行。具体运行环境要求如下:
-
-- Bash (Linux)
-- MSYS2 UCRT64 (64位Windows)
-- MSYS2 MINGW32 （32位Windows）
+具体说明见[ReadMe.Tools.cutecom-ng.md](ReadMe.Tools.cutecom-ng.md)
 
 ## EnvCheck
 

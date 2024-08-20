@@ -2,6 +2,22 @@
 
 本程序为采用Qt库编写的托盘程序，方便快速调用环境的某些功能。
 
+# 终端说明
+
+## Windows
+
+在Windows中，默认情况下bat脚本运行在cmd.exe中，sh脚本运行在MSYS2的终端中。
+
+## Linux
+
+HEnvBox主要支持debian系Linux,若无特别说明，本章节中也指debian系Linux。
+
+在Linux桌面环境中，若要使用窗口运行脚本程序，通常需要打开一个终端模拟器。
+
+在托盘程序中，使用`x-terminal-emulator`作为运行脚本程序的终端。
+
+x-terminal-emulator由update-alternatives管理，通常指向真正的终端模拟器程序，有时默认的终端程序可能不能满足托盘程序的需求（不能正常工作），此时需要使用`sudo update-alternatives --config x-terminal-emulator`切换终端程序。
+
 # 源代码
 
 源代码目录:[HEnvBoxTray](HEnvBoxTray)

@@ -240,7 +240,7 @@ EOF
 export -f ShowBanner
 
 #显示系统信息
-neofetch
+neofetch 2>/dev/null
 
 ShowBanner
 

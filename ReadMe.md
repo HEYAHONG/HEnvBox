@@ -73,6 +73,18 @@ cutecom-ng是一个基于Qt的串口工具,可用于串口调试。
 
 环境检查相关脚本，具体见[tools/EnvCheck](tools/EnvCheck).
 
+# 开发环境
+
+对于一般开发而言，安装好HEnvBox即可正常使用开发环境。
+
+但对某些软件而言，可能需要特殊的设置。
+
+## openwrt
+
+辅助开发openwrt的工具。
+
+具体说明见[ReadMe.DevEnv.openwrt.md](ReadMe.DevEnv.openwrt.md) 
+
 # 环境变量
 
 本工程主要使用环境变量进行脚本操作:

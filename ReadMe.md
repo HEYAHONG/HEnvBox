@@ -163,4 +163,4 @@ cutecom-ng是一个基于Qt的串口工具,可用于串口调试。
 - [Cygwin](https://cygwin.com/)
 - [0install](https://0install.net/):去中心化的软件安装系统
 - [sysinternals](https://learn.microsoft.com/zh-cn/sysinternals/downloads/sysinternals-suite):Windows下实用工具。
-
+- [ConEmu](https://conemu.github.io/)

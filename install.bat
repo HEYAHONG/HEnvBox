@@ -14,7 +14,7 @@ if x%Failure%==x1 pause
 
 @rem 添加右键菜单
 call :AddMenuGroup
-call :AddMenu HEnvBox "HEnvBox Cmd" "cmd.exe /k call %HENVBOX_ROOT_PATH%\config.bat" "%HENVBOX_ROOT_PATH%\tools\images\HEnvBox-64x64.ico"
+call :AddMenu HEnvBox "HEnvBox Cmd" "%HENVBOX_ROOT_PATH%\tools\win32\ConEmu\ConEmu.exe -Here -run cmd.exe /k call %HENVBOX_ROOT_PATH%\config.bat" "%HENVBOX_ROOT_PATH%\tools\win32\ConEmu\ConEmu.exe"
 if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\msys2.exe call :AddMenu HEnvBoxMSYS2 "HEnvBox MSYS2"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\msys2.exe /console" "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\msys2.exe"
 if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw32.exe call :AddMenu HEnvBoxMINGW32 "HEnvBox MINGW32"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw32.exe /console" "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw32.exe"
 if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw64.exe call :AddMenu HEnvBoxMINGW64 "HEnvBox MINGW64"  "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw64.exe /console" "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\mingw64.exe"

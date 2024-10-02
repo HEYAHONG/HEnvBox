@@ -66,17 +66,19 @@ function __update_repository__()
 {
 	REPO_FULLPATH="$1"
 	echo -e "即将更新目录${REPO_FULLPATH}"
-	if [ -d "${REPO_FULLPATH}/.git" ]
+	REPO_GIT_DIR=".git"
+	[ -f "${REPO_FULLPATH}/config" ] && REPO_GIT_DIR="."
+	if [ -d "${REPO_FULLPATH}/${REPO_GIT_DIR}" ]
 	then
 		pushd "${REPO_FULLPATH}" 2> /dev/null > /dev/null
-                OBJECT_COUNT=`find .git/objects 2> /dev/null | wc -l`
+                OBJECT_COUNT=`find ${REPO_GIT_DIR}/objects 2> /dev/null | wc -l`
                 if [ ${OBJECT_COUNT} -gt 3 ]
                 then
-                        git pull
+                        git fetch
                 else
                         echo 目录 ${REPO_FULLPATH} 可能为空
                 fi
-                OBJECT_COUNT=`find .git/objects 2> /dev/null |grep -v info |grep -v pack | wc -l`
+                OBJECT_COUNT=`find ${REPO_GIT_DIR}/objects 2> /dev/null |grep -v info |grep -v pack | wc -l`
                 if [ ${OBJECT_COUNT} -gt 1 ]
                 then
                         git prune
@@ -99,20 +101,20 @@ function __backup_user_repository__()
 	pushd "${ROOT_PATH}/${REPO_USER}" > /dev/null 2> /dev/null
 	if [ -z "${REPO_USE_SSH}" ]
 	then
-		if [ -d "${REPO_NAME}/.git" ]
+		if [ -d "${REPO_NAME}/.git" ] || [ -f "${REPO_NAME}/config" ]
 		then
 			echo  -e "${REPO_NAME} 已初始化!"
 			__update_repository__ "${ROOT_PATH}/${REPO_USER}/${REPO_NAME}"
 		else
-			git clone "${REPO_HTML_URL}" "${REPO_NAME}"
+			git clone --mirror "${REPO_HTML_URL}" "${REPO_NAME}"
 		fi
 	else
-		if [ -d "${REPO_NAME}/.git" ]
+		if [ -d "${REPO_NAME}/.git" ] || [ -f "${REPO_NAME}/config" ]
                 then
                         echo  -e "${REPO_NAME} 已初始化!"
 			__update_repository__ "${ROOT_PATH}/${REPO_USER}/${REPO_NAME}"
                 else
-                        git clone "${REPO_SSH_URL}" "${REPO_NAME}"
+                        git clone --mirror "${REPO_SSH_URL}" "${REPO_NAME}"
                 fi
 	fi
 	popd > /dev/null 2> /dev/null
@@ -357,21 +359,21 @@ fi
 
 
 #更新仓库
-for repodir in `find "${ROOT_PATH}" -maxdepth 3 -name .git`
+for repodir in `find "${ROOT_PATH}" -maxdepth 3 -name config`
 do
 	REPO=`dirname "${repodir}"`
-	if [ -d "${REPO}/.git" ]
+	if [ -f "${REPO}/config" ]
         then
                 pushd "${REPO}" 2> /dev/null > /dev/null
                 echo -e "即将更新目录${REPO}"
-                OBJECT_COUNT=`find .git/objects 2> /dev/null | wc -l`
+                OBJECT_COUNT=`find objects 2> /dev/null | wc -l`
                 if [ ${OBJECT_COUNT} -gt 3 ]
                 then
-                        git pull
+                        git fetch
                 else
                         echo 目录 ${REPO} 可能为空
                 fi
-                OBJECT_COUNT=`find .git/objects 2> /dev/null |grep -v info |grep -v pack | wc -l`
+                OBJECT_COUNT=`find objects 2> /dev/null |grep -v info |grep -v pack | wc -l`
                 if [ ${OBJECT_COUNT} -gt 1 ]
                 then
                         git prune

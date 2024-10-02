@@ -28,11 +28,11 @@ TMPDIR="${HENVBOX_LOCAL_ROOT_PATH_UNIX}/tmp/cutecom-ng"
 GITDIR=""
 function CheckGithubComMirror()
 {
-	if [ -d "${HENVBOX_LOCAL_ROOT_PATH_UNIX}/github.com/HEYAHONG/cutecom-ng/.git" ]
+	if [ -d "${HENVBOX_LOCAL_ROOT_PATH_UNIX}/github.com/HEYAHONG/cutecom-ng/" ]
 	then
 		GITDIR="${HENVBOX_LOCAL_ROOT_PATH_UNIX}/github.com/HEYAHONG/cutecom-ng"
 		pushd "${GITDIR}" 
-		git pull
+		git fetch
 		popd
 	fi	
 }
@@ -41,11 +41,11 @@ function CheckGithubComMirror()
 
 function CheckGiteeComMirror()
 { 
-        if [ -d "${HENVBOX_LOCAL_ROOT_PATH_UNIX}/gitee.com/HEYAHONG/cutecom-ng/.git" ]
+        if [ -d "${HENVBOX_LOCAL_ROOT_PATH_UNIX}/gitee.com/HEYAHONG/cutecom-ng/" ]
         then    
                 GITDIR="${HENVBOX_LOCAL_ROOT_PATH_UNIX}/gitee.com/HEYAHONG/cutecom-ng"
                 pushd "${GITDIR}"
-                git pull
+                git fetch
                 popd
         fi
 }
@@ -56,7 +56,7 @@ function DownloadGiteeComMirror()
 {
         mkdir -p "${HENVBOX_LOCAL_ROOT_PATH_UNIX}/gitee.com/HEYAHONG/"
 	pushd "${HENVBOX_LOCAL_ROOT_PATH_UNIX}/gitee.com/HEYAHONG/"
-	git clone https://gitee.com/HEYAHONG/cutecom-ng.git cutecom-ng
+	git clone --mirror https://gitee.com/HEYAHONG/cutecom-ng.git cutecom-ng
 	popd
 }
 
@@ -68,10 +68,33 @@ function DownloadGiteeComMirror()
 ErrStr="未找到cutecom-ng镜像"
 [ -n "${GITDIR}" ] || Exit
 echo -e "cutecom源代码：${GITDIR}"
+if [ -d "${GITDIR}/.git" ]
+then
+GITDIR="${GITDIR}/.git"
+fi
+
+#检出代码
+SRCDIR="${TMPDIR}/src"
+mkdir -p "${SRCDIR}"
+pushd "${SRCDIR}"
+BARE=`git --git-dir="${GITDIR}" --work-tree="${SRCDIR}" --get core.bare 2>/dev/null`
+if [ "true" = "${BARE}" ]
+then
+git --git-dir="${GITDIR}" --work-tree="${SRCDIR}"  core.bare false
+fi
+git --git-dir="${GITDIR}" --work-tree="${SRCDIR}" checkout HYH
+git --git-dir="${GITDIR}" --work-tree="${SRCDIR}" reset --hard
+if [ "true" = "${BARE}" ]
+then
+git --git-dir="${GITDIR}" --work-tree="${SRCDIR}"  core.bare true
+fi
+popd
 
 #进入临时目录编译
-pushd "${TMPDIR}"
-cmake -DCMAKE_INSTALL_PREFIX="${HENVBOX_LOCAL_ROOT_PATH_UNIX}" "${GITDIR}"
+BUILDDIR="${TMPDIR}/build"
+mkdir -p "${BUILDDIR}"
+pushd "${BUILDDIR}"
+cmake -DCMAKE_INSTALL_PREFIX="${HENVBOX_LOCAL_ROOT_PATH_UNIX}" "${SRCDIR}"
 cmake --build .
 cmake --install .
 ErrNo=$?

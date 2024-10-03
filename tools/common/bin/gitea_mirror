@@ -136,7 +136,7 @@ function __backup_org_repository__()
         pushd "${ROOT_PATH}/${REPO_SITE}/${REPO_ORG}" > /dev/null 2> /dev/null
         if [ -z "${REPO_USE_SSH}" ]
         then
-                if [ -d "${REPO_NAME}/.git" ]
+                if [ -d "${REPO_NAME}/.git" ] || [ -f "${REPO_NAME}/config" ]
                 then
                         echo  -e "${REPO_NAME} 已初始化!"
 			__update_repository__ "${ROOT_PATH}/${REPO_SITE}/${REPO_ORG}/${REPO_NAME}"
@@ -144,7 +144,7 @@ function __backup_org_repository__()
                         git clone --mirror "${REPO_HTML_URL}" "${REPO_NAME}"
                 fi
         else
-                if [ -d "${REPO_NAME}/.git" ]
+                if [ -d "${REPO_NAME}/.git" ] || [ -f "${REPO_NAME}/config" ]
                 then
                         echo  -e "${REPO_NAME} 已初始化!"
 			__update_repository__ "${ROOT_PATH}/${REPO_SITE}/${REPO_ORG}/${REPO_NAME}"

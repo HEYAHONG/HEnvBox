@@ -82,18 +82,27 @@ then
 	export HENVBOX_LOCAL_BINDIR_PATH_UNIX=${HENVBOX_LOCAL_BINDIR_PATH}
 
 	#设置PATH变量
-	export PATH=${HENVBOX_LOCAL_BINDIR_PATH_UNIX}:$PATH
+	export PATH=${PATH}:${HENVBOX_LOCAL_BINDIR_PATH_UNIX}
 
 	#导入local目录下的其它软件(如ct-ng编译的交叉编译工具链)
 	for bin in `find ${HENVBOX_LOCAL_ROOT_PATH_UNIX} -mindepth 2 -maxdepth 2 -type d -name bin 2> /dev/null`
 	do
-		export PATH=${bin}:$PATH
+		export PATH=${PATH}:${bin}
 	done
 
 	#导入tools中的配置脚本
 	if [ -x "${HENVBOX_ROOT_PATH}/tools/${HENVBOX_TYPE}/config.sh" ]
 	then
 		. "${HENVBOX_ROOT_PATH}/tools/${HENVBOX_TYPE}/config.sh"
+	fi
+
+	if [ "${CONFIG_HENVBOX_TOOLS_PATH_PRIORITY_HIGH}" = "y" ]
+	then
+        	export PATH=${HENVBOX_LOCAL_BINDIR_PATH_UNIX}:${PATH}
+		for bin in `find ${HENVBOX_LOCAL_ROOT_PATH_UNIX} -mindepth 2 -maxdepth 2 -type d -name bin 2> /dev/null`
+        	do
+                	export PATH=${bin}:$PATH
+        	done
 	fi
 else
 	echo 无法完成HEnvBox配置!

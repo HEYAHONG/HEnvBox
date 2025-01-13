@@ -9,4 +9,9 @@ if HENVBOX_USE_KCONFIG
 #导入EnvCheck的Kconfig配置
 source "../EnvCheck/Kconfig"
 
+
+config HENVBOX_TOOLS_PATH_PRIORITY_HIGH
+    bool "high priority of HEnvBox tools"
+    default n
+
 endif

@@ -5,7 +5,6 @@ mingw-w64-x86_64-libusb-win32
 mingw-w64-ucrt-x86_64-libusb
 mingw-w64-ucrt-x86_64-libusb-compat-git
 mingw-w64-ucrt-x86_64-libusb-win32
-mingw-w64-clang-i686-libusb-win32
 mingw-w64-clang-x86_64-libusb
 mingw-w64-clang-x86_64-libusb-compat-git
 mingw-w64-clang-x86_64-libusb-win32

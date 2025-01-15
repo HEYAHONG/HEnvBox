@@ -21,17 +21,6 @@ mingw-w64-x86_64-cmake
 mingw-w64-x86_64-cmake-gui
 mingw-w64-x86_64-ninja
 
-mingw-w64-clang-i686-clang
-mingw-w64-clang-i686-llvm
-mingw-w64-clang-i686-clang-tools-extra
-mingw-w64-clang-i686-clang-analyzer
-mingw-w64-clang-i686-openmp
-mingw-w64-clang-i686-gcc-compat
-mingw-w64-clang-i686-make
-mingw-w64-clang-i686-pkgconf
-mingw-w64-clang-i686-tools-git
-mingw-w64-clang-i686-cmake
-mingw-w64-clang-i686-ninja
 
 mingw-w64-clang-x86_64-clang
 mingw-w64-clang-x86_64-llvm

@@ -1,0 +1,4 @@
+mingw-w64-i686-SDL
+mingw-w64-x86_64-SDL
+mingw-w64-ucrt-x86_64-SDL
+mingw-w64-clang-x86_64-SDL

@@ -1,7 +1,7 @@
 @echo off
 
 rem set MSYS2_SFX_URL=https://repo.msys2.org/distrib/msys2-x86_64-latest.exe
-set MSYS2_SFX_URL=http://mirrors.ustc.edu.cn/msys2/distrib/msys2-x86_64-latest.sfx.exe
+set MSYS2_SFX_URL=http://repo.msys2.org/distrib/msys2-x86_64-latest.sfx.exe
 
 if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\msys2_shell.cmd goto :Install
 

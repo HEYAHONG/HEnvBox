@@ -95,6 +95,15 @@ then
         then
                 . "${HENVBOX_TOOLS_PATH}/${HENVBOX_TOOLS_TYPE}/config.sh"
         fi
+
+	#RT-Thread 相关环境变量
+	which arm-none-eabi-gcc 2> /dev/null >/dev/null
+	[ $? -ne 0 ] || export RTT_CC=gcc
+	if [ -n "${RTT_CC}" ]
+	then
+		export RTT_EXEC_PATH=`which arm-none-eabi-gcc | xargs dirname`
+	fi
+
 else
         echo 无法完成HEnvBox配置!
 fi

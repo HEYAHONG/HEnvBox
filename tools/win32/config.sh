@@ -24,3 +24,12 @@ if [ -f "${HENVBOX_TOOLS_PATH}/../common/export.sh" ]
 then
 	. "${HENVBOX_TOOLS_PATH}/../common/export.sh"
 fi
+
+
+#RT-Thread 相关环境变量
+which arm-none-eabi-gcc 2> /dev/null >/dev/null
+[ $? -ne 0 ] || export RTT_CC=gcc
+if [ -n "${RTT_CC}" ]
+then
+	export RTT_EXEC_PATH=`which arm-none-eabi-gcc | xargs dirname`
+fi

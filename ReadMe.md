@@ -104,6 +104,22 @@ cutecom-ng是一个基于Qt的串口工具,可用于串口调试。
 
 注2:所有环境变量在cmd中可使用`set`查看，在Linux或者MSYS2中可使用`env`查看。
 
+## 第三方环境变量
+
+### RT-Thread
+
+当环境中有arm-none-eabi-gcc时，可设置相关环境变量(由BSP支持)支持scons直接编译。
+
+| 名称          | 说明                      | 备注                     |
+| :------------ | :------------------------ | :----------------------- |
+| RTT_CC        | RT-Thread C编译器工具名称 | 由BSP中rtconfig.py使用。 |
+| RTT_EXEC_PATH | RT-Thread  可执行程序路径 | 由BSP中rtconfig.py使用。 |
+
+以上环境变量通常在以下环境有效:
+
+- Linux
+- MSYS2
+
 # 脚本说明
 
 ## Windows

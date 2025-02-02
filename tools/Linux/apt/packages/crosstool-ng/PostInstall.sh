@@ -31,12 +31,13 @@ pushd ${script_dir}
 
 #进行编译
 make -f crosstool-ng.mk install
+MAKE_ERRNO=$?
 
 #退出目录
 popd
 
 #提示是否成功
-if [ "$?" -eq "0" ]
+if [ "${MAKE_ERRNO}" -eq "0" ]
 then
 	echo 编译成功！
 else

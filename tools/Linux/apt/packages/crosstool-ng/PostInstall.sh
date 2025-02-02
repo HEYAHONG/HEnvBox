@@ -3,7 +3,7 @@
 #检查是否在HEnvBox中
 [ -d "${HENVBOX_ROOT_PATH}" ] || exit 1
 
-shellcheck disable=SC2128  # ignore array expansion warning
+#shellcheck disable=SC2128  # ignore array expansion warning
 if [ -n "${BASH_SOURCE-}" ]
 then
 	self_path="${BASH_SOURCE}"

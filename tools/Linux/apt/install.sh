@@ -151,14 +151,20 @@ then
 			echo install snap list ${list_file}
 			for SNAP in `cat ${list_file}`
 			do
-				${SNAP_BIN} list ${SNAP} 2>/dev/null 1>/dev/null
+				${SNAP_BIN} search "${SNAP}" 2>/dev/null | grep "${SNAP}" > /dev/null
 				if [ "$?" -eq "0" ]
 				then
-					echo ${SNAP} is installed!
+					${SNAP_BIN} list "${SNAP}" 2>/dev/null 1>/dev/null
+					if [ "$?" -eq "0" ]
+					then
+						echo ${SNAP} is installed!
+					else
+						set -e
+						${SNAP_BIN} install "${SNAP}"
+						set +e
+					fi
 				else
-					set -e
-					${SNAP_BIN} install ${SNAP}
-					set +e
+					echo ${SNAP} is not found!
 				fi
 			done
 		done

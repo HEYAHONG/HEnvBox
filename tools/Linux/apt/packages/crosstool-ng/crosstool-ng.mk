@@ -19,7 +19,7 @@ download_git_repository:
 download_step 	+= download_git_repository
 
 configure_ct_ng:
-	if [ ! -e ${CROSSTOOL_NG_LOCAL_SRC_PATH}/configure ]; then cd "${CROSSTOOL_NG_LOCAL_SRC_PATH}" && ${CROSSTOOL_NG_LOCAL_SRC_PATH}/bootstrap; fi;
+	cd "${CROSSTOOL_NG_LOCAL_SRC_PATH}" && ${CROSSTOOL_NG_LOCAL_SRC_PATH}/bootstrap;
 	cd "${CROSSTOOL_NG_LOCAL_SRC_PATH}" && ${CROSSTOOL_NG_LOCAL_SRC_PATH}/configure --prefix="${HENVBOX_LOCAL_ROOT_PATH}"
 
 configure_step+= configure_ct_ng

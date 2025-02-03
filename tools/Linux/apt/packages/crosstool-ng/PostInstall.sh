@@ -26,6 +26,14 @@ else
 	script_dir="$(dirname "${script_name}")"
 fi
 
+#测试镜像,更换国内备用镜像地址
+wget --no-check-certificate --connect-timeout=5 -O /dev/null https://github.com 2>/dev/null >/dev/null
+if [ "$?" -ne 0 ]
+then
+	echo 使用备用镜像，可能不是最新的crosstool-ng
+	export CROSSTOOL_NG_LOCAL_SRC_URL=https://gitee.com/HEYAHONG/crosstool-ng.git
+fi
+
 #进入当前目录
 pushd ${script_dir}
 

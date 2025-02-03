@@ -1,8 +1,8 @@
 include ${MAKEFILE_INCLUDE_DIR}/top.mk
 
-HENVBOX_LOCAL_SRC_PATH 		?= 	${HENVBOX_LOCAL_ROOT_PATH}/src/
-CROSSTOOL_NG_LOCAL_SRC_PATH ?= 	${HENVBOX_LOCAL_SRC_PATH}/crosstool-ng-git
-CROSSTOOL_NG_LOCAL_SRC_URL	?=	https://github.com/crosstool-ng/crosstool-ng.git
+HENVBOX_LOCAL_SRC_PATH      ?=  ${HENVBOX_LOCAL_ROOT_PATH}/src/
+CROSSTOOL_NG_LOCAL_SRC_PATH ?=  ${HENVBOX_LOCAL_SRC_PATH}/crosstool-ng-git
+CROSSTOOL_NG_LOCAL_SRC_URL  ?=  https://github.com/crosstool-ng/crosstool-ng.git
 
 .PHONY: prepare_dir download_git_repository configure_ct_ng build_ct_ng install_ct_ng clean_ct_ng
 
@@ -14,7 +14,7 @@ prepare_step	+= prepare_dir
 
 download_git_repository:
 	if [ ! -e ${CROSSTOOL_NG_LOCAL_SRC_PATH}/.git/config ]; then cd "${CROSSTOOL_NG_LOCAL_SRC_PATH}" && git init && git remote add origin ${CROSSTOOL_NG_LOCAL_SRC_URL}; fi;
-	cd "${CROSSTOOL_NG_LOCAL_SRC_PATH}" && git fetch && git checkout -f master
+	cd "${CROSSTOOL_NG_LOCAL_SRC_PATH}" && git fetch && git checkout -f master && git pull
 
 download_step 	+= download_git_repository
 

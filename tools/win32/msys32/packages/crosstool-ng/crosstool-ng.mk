@@ -1,6 +1,6 @@
 include ${MAKEFILE_INCLUDE_DIR}/top.mk
 
-HENVBOX_LOCAL_SRC_PATH      ?=  ${HENVBOX_LOCAL_ROOT_PATH}/src/
+HENVBOX_LOCAL_SRC_PATH      ?=  ${HENVBOX_LOCAL_ROOT_PATH_UNIX}/src/
 CROSSTOOL_NG_LOCAL_SRC_PATH ?=  ${HENVBOX_LOCAL_SRC_PATH}/crosstool-ng-git
 CROSSTOOL_NG_LOCAL_SRC_URL  ?=  https://github.com/crosstool-ng/crosstool-ng.git
 

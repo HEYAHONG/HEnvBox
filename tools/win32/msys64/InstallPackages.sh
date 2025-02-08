@@ -67,7 +67,7 @@ done
 #执行子文件夹中的PostInstall.sh
 for i in `find . -name PostInstall.sh`
 do
-        if [ -x  $i ]
+        if [ -f  $i ]
         then
                 echo execute $i
                 . $i

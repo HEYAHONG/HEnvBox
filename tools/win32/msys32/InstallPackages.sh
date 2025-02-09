@@ -34,7 +34,7 @@ set +e
 #执行子文件夹中的PreInstall.sh
 for i in `find . -name PreInstall.sh`
 do
-	if [ -x  $i ]
+	if [ -f  $i ]
 	then
 		echo execute $i
 		. $i
@@ -102,7 +102,7 @@ do
         echo install BatEntry list ${list_file}
         for i in `cat ${list_file}`
         do
-		if [ -x /usr/bin/$i ]
+		if [ -f /usr/bin/$i ]
 		then
 			echo install BatToMsys2 for $i
                 	echo @"${HENVBOX_LOCAL_ROOT_PATH}\\${HENVBOX_TOOLS_TYPE}\\msys2.exe" $i %* >  "${HENVBOX_LOCAL_BINDIR_PATH_UNIX}/$i.bat"

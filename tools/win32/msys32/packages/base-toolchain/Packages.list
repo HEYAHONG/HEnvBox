@@ -1,6 +1,5 @@
 mingw-w64-i686-binutils
 mingw-w64-i686-gcc
-mingw-w64-i686-gcc-fortran
 mingw-w64-i686-gdb
 mingw-w64-i686-make
 mingw-w64-i686-pkgconf

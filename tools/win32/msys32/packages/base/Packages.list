@@ -75,7 +75,6 @@ ucl-devel
 zlib-devel
 binutils
 cocom
-gcc-fortran
 gcc-libs
 msys2-runtime-devel
 msys2-w32api-headers

@@ -61,6 +61,19 @@ function __prepare_dir__()
 	fi
 }
 
+#检查url,参数1为URL
+function __check_remote_url_httpcode__()
+{
+    local URL="$1"
+    local RET=200 #默认返回ok
+    if [ -n "${URL}" ] && [ -n "`echo ${URL} | grep "^http"`" ]
+    then
+        RET=`curl --location ${URL} 2>/dev/null -o /dev/null -w "%{http_code}"`
+    fi
+    return ${RET}
+}
+
+
 #更新仓库脚本，参数1为仓库目录(绝对)
 function __update_repository__()
 {
@@ -74,6 +87,9 @@ function __update_repository__()
 	if [ -d "${REPO_FULLPATH}/${REPO_GIT_DIR}" ]
 	then
 		pushd "${REPO_FULLPATH}" 2> /dev/null > /dev/null
+        __check_remote_url_httpcode__ "`git config --get remote.origin.url`"
+        if [ "200" -eq $? ]
+        then
                 OBJECT_COUNT=`find ${REPO_GIT_DIR}/objects 2> /dev/null | wc -l`
                 if [ ${OBJECT_COUNT} -gt 3 ]
                 then
@@ -87,6 +103,9 @@ function __update_repository__()
                         git prune
                         git gc
                 fi
+        else
+                echo 当前仓库可能已失效！
+        fi
 		popd 2> /dev/null > /dev/null
 	fi
 }
@@ -283,18 +302,24 @@ do
         then
                 pushd "${REPO}" 2> /dev/null > /dev/null
                 echo -e "即将更新目录${REPO}"
-                OBJECT_COUNT=`find objects 2> /dev/null | wc -l`
-                if [ ${OBJECT_COUNT} -gt 3 ]
+                __check_remote_url_httpcode__ "`git config --get remote.origin.url`"
+                if [ "200" -eq $? ]
                 then
+                    OBJECT_COUNT=`find objects 2> /dev/null | wc -l`
+                    if [ ${OBJECT_COUNT} -gt 3 ]
+                    then
                         git fetch
-                else
+                    else
                         echo 目录 ${REPO} 可能为空
-                fi
-                OBJECT_COUNT=`find objects 2> /dev/null |grep -v info |grep -v pack | wc -l`
-                if [ ${OBJECT_COUNT} -gt 1 ]
-                then
+                    fi
+                    OBJECT_COUNT=`find objects 2> /dev/null |grep -v info |grep -v pack | wc -l`
+                    if [ ${OBJECT_COUNT} -gt 1 ]
+                    then
                         git prune
                         git gc
+                    fi
+                else
+                    echo 当前仓库可能已失效！
                 fi
                 popd 2> /dev/null > /dev/null
         fi

@@ -124,7 +124,13 @@ function __backup_user_repository__()
 			echo  -e "${REPO_NAME} 已初始化!"
 			__update_repository__ "${ROOT_PATH}/${REPO_USER}/${REPO_NAME}"
 		else
-			git clone --mirror "${REPO_HTML_URL}" "${REPO_NAME}"
+			 __check_remote_url_httpcode__ "${REPO_HTML_URL}"
+                        if [ "200" -eq $? ]
+                        then
+                            git clone --mirror "${REPO_HTML_URL}" "${REPO_NAME}"
+                        else
+                            echo 仓库地址可能有问题!
+                        fi
 		fi
 	else
 		if [ -d "${REPO_NAME}/.git" ] || [ -f "${REPO_NAME}/config" ]
@@ -156,7 +162,13 @@ function __backup_org_repository__()
                         echo  -e "${REPO_NAME} 已初始化!"
 			__update_repository__ "${ROOT_PATH}/${REPO_ORG}/${REPO_NAME}"
                 else
-                        git clone --mirror "${REPO_HTML_URL}" "${REPO_NAME}"
+                         __check_remote_url_httpcode__ "${REPO_HTML_URL}"
+                        if [ "200" -eq $? ]
+                        then
+                            git clone --mirror "${REPO_HTML_URL}" "${REPO_NAME}"
+                        else
+                            echo 仓库地址可能有问题!
+                        fi
                 fi
         else
                 if [ -d "${REPO_NAME}/.git" ] || [ -f "${REPO_NAME}/config" ]
@@ -188,7 +200,13 @@ function __backup_enterprise_repository__()
                         echo  -e "${REPO_NAME} 已初始化!"
 			__update_repository__ "${ROOT_PATH}/${REPO_ENTERPRISE}/${REPO_NAME}"
                 else
-                        git clone --mirror  "${REPO_HTML_URL}" "${REPO_NAME}"
+                         __check_remote_url_httpcode__ "${REPO_HTML_URL}"
+                        if [ "200" -eq $? ]
+                        then
+                            git clone --mirror "${REPO_HTML_URL}" "${REPO_NAME}"
+                        else
+                            echo 仓库地址可能有问题!
+                        fi
                 fi
         else
                 if [ -d "${REPO_NAME}/.git" ] || [ -f "${REPO_NAME}/config" ]

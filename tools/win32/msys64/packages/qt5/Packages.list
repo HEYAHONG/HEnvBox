@@ -1,15 +1,3 @@
-mingw-w64-i686-qt5-base
-mingw-w64-i686-qt5-declarative
-mingw-w64-i686-qt5-imageformats
-mingw-w64-i686-qt5-location
-mingw-w64-i686-qt5-multimedia
-mingw-w64-i686-qt5-sensors
-mingw-w64-i686-qt5-speech
-mingw-w64-i686-qt5-svg
-mingw-w64-i686-qt5-tools
-mingw-w64-i686-qt5-translations
-mingw-w64-i686-qt5-webchannel
-mingw-w64-i686-qt5-winextras
 mingw-w64-x86_64-qt5-3d
 mingw-w64-x86_64-qt5-activeqt
 mingw-w64-x86_64-qt5-base

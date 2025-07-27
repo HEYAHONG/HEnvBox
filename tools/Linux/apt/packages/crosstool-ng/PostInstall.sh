@@ -53,4 +53,4 @@ else
 fi
 
 #正常退出
-exit 0
+#exit 0

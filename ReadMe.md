@@ -30,6 +30,7 @@
 - 支持基于[openwrt](https://openwrt.org/)/[buildroot](https://buildroot.org/)的固件程序编译。
 - 无论是Windows还是Linux,均采用[bash](https://www.gnu.org/software/bash/)作为默认脚本解释器,并且支持一些小工具，如neofetch。
 - 支持使用常用的编程语言编译程序,如C、C++、Go、Lua、Rust等。
+- 支持嵌入式开发工具，如[platformio](https://platformio.org/)等
 
 ## 下载说明
 

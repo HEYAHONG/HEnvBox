@@ -5,8 +5,8 @@
 主要支持以下操作系统:
 
 - [Windows](https://www.microsoft.com) 10及更新版本,架构为x86_64。
-- [Ubuntu](https://ubuntu.com/) 22.04，架构为x86_64。
-- [Debian](https://www.debian.org/) 12,架构为x86_64。
+- [Ubuntu](https://ubuntu.com/) (22.04、24.04)，架构为x86_64。
+- [Debian](https://www.debian.org/) (12、13),架构为x86_64。
 - [Deepin](https://www.deepin.org) V23,架构为x86_64。
 
 对于Windows而言，本人常用[MSYS2](https://www.msys2.org/)作为开发环境。

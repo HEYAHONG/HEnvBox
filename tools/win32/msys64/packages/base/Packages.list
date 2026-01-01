@@ -31,7 +31,6 @@ libgdbm-devel
 libgnutls-devel
 libgpg-error-devel
 libgpgme-devel
-libgpgme-python
 libguile-devel
 libiconv-devel
 libidn-devel

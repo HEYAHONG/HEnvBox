@@ -76,6 +76,8 @@ then
 
         #修改bashrc
         BASHRC_PATH=~/.bashrc
+        #对于某些未默认使用bash的系统需要先创建.bashrc
+        touch ${BASHRC_PATH}
         BASHRC_ENV_BLOCK_BEGIN=`cat ${BASHRC_PATH} | grep -n "^#HEnvBox Block BEGIN$" | awk -F: '{print $1}'`
         BASHRC_ENV_BLOCK_END=`cat ${BASHRC_PATH} | grep -n "^#HEnvBox Block END$"| awk -F: '{print $1}'`
         if [ -n "${BASHRC_ENV_BLOCK_BEGIN}" ]

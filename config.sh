@@ -40,6 +40,43 @@ CheckTool xargs
 CheckTool sudo
 [ $? -eq 0 ] || [ `id -u` -eq 0 ] ||  export HENVBOX_UNSUPPORTED=1
 
+#某些系统中，若存在GNU版本工具则切换至GNU工具
+function CheckTool2
+{
+    [  -n "$1"  ] ||
+    {
+        return 255;
+    };
+    ToolPath=`which $1`;
+    [ -e "$ToolPath" ] ||
+    {
+         return 255;
+    };
+    return 0;
+}
+CheckTool2 guname
+[ $? -eq 0 ] && alias uname=guname
+CheckTool2 gfind
+[ $? -eq 0 ] && alias find=gfind
+CheckTool2 gdirname
+[ $? -eq 0 ] && alias dirname=gdirname
+CheckTool2 greadlink
+[ $? -eq 0 ] && alias readlink=greadlink
+CheckTool2 gln
+[ $? -eq 0 ] && alias ln=gln
+CheckTool2 gsed
+[ $? -eq 0 ] && alias sed=gsed
+CheckTool2 ggrep
+[ $? -eq 0 ] && alias grep=ggrep
+CheckTool2 gid
+[ $? -eq 0 ] && alias id=gid
+CheckTool2 gmkdir
+[ $? -eq 0 ] && alias mkdir=gmkdir
+CheckTool2 gxargs
+[ $? -eq 0 ] && alias xargs=gxargs
+
+
+
 if [ ${HENVBOX_UNSUPPORTED} -ne 1 ]
 then
 	# shellcheck disable=SC2128  # ignore array expansion warning

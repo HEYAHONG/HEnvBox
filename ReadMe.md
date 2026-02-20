@@ -8,6 +8,7 @@
 - [Ubuntu](https://ubuntu.com/) (22.04、24.04)，架构为x86_64。
 - [Debian](https://www.debian.org/) (12、13),架构为x86_64。
 - [Deepin](https://www.deepin.org) V23,架构为x86_64。
+- [FreeBSD](https://www.freebsd.org/):15.0,架构为x86_64。
 
 对于Windows而言，本人常用[MSYS2](https://www.msys2.org/)作为开发环境。
 
@@ -153,6 +154,22 @@ cutecom-ng是一个基于Qt的串口工具,可用于串口调试。
 
 使用具有管理员权限的账户(可使用sudo提权)执行install.sh,等待安装完成,期间可能要求输入用户密码。
 
+## FreeBSD
+
+对于FreeBSD而言，其有自己的工具集，与GNU工具有差异，因此执行脚本可能会有一定问题。
+
+需要使用以下命令进行准备:
+
+```bash
+#以下指令均需要root权限
+
+##安装bash与相应的GNU工具
+pkg update
+pkg install bash coreutils findutils gawk gnugrep gsed
+##将bash的软链接放入/bin中,可直接执行脚本，否则可能因为找不到/bin/bash而无法执行。
+ln -sf `which bash` /bin/bash
+```
+
 # 使用
 
 ## Windows
@@ -165,6 +182,10 @@ cutecom-ng是一个基于Qt的串口工具,可用于串口调试。
 ## Linux
 
 对于Linux而言，当安装完成后,本工程会通过用户`.bashrc`文件自动加载，因此用户直接打开终端即可使用相关工具。
+
+## FreeBSD
+
+对于FreeBSD而言，执行`bash`进入bash时会自动加载`.bashrc`,然后用户可使用相关工具。
 
 # 托盘程序
 

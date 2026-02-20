@@ -170,6 +170,8 @@ pkg install bash coreutils findutils gawk gnugrep gsed
 ln -sf `which bash` /bin/bash
 ```
 
+剩余步骤同Linux相似.
+
 # 使用
 
 ## Windows

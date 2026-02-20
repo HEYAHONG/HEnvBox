@@ -4,7 +4,6 @@
 ./InstallPackages.sh
 
 #错误后重试
-if [ "$?" -ne "0" ]
-then
+if [ "$?" -ne "0" ]; then
 	exec "$0" "$@"
 fi

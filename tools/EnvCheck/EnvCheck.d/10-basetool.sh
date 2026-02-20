@@ -1,8 +1,7 @@
 #!/bin/bash
 
 #检查基本工具
-function EnvCheckCheckBasetool
-{
+function EnvCheckCheckBasetool {
 	#cc c++
 	EnvCheckTestProgram cc
 	EnvCheckTestProgram c++
@@ -39,7 +38,6 @@ function EnvCheckCheckBasetool
 	EnvCheckTestProgram chown
 	EnvCheckTestProgram chmod
 	EnvCheckTestProgram ls
-
 
 	#构建系统/构建工具
 	EnvCheckTestProgram make

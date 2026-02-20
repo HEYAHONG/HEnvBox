@@ -1,13 +1,11 @@
 #!/bin/bash
 
-if [ -z "${HENVBOX_LOCAL_SRC_PATH}" ]
-then
+if [ -z "${HENVBOX_LOCAL_SRC_PATH}" ]; then
 	export HENVBOX_LOCAL_SRC_PATH=${HENVBOX_LOCAL_ROOT_PATH}/src
 	mkdir -p ${HENVBOX_LOCAL_SRC_PATH}
 fi
 
-if [ -z "${HENVBOX_LOCAL_STAMP_PATH}" ]
-then
-        export HENVBOX_LOCAL_STAMP_PATH=${HENVBOX_LOCAL_ROOT_PATH}/stamp
+if [ -z "${HENVBOX_LOCAL_STAMP_PATH}" ]; then
+	export HENVBOX_LOCAL_STAMP_PATH=${HENVBOX_LOCAL_ROOT_PATH}/stamp
 	mkdir -p ${HENVBOX_LOCAL_STAMP_PATH}
 fi

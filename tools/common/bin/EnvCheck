@@ -1,11 +1,9 @@
 #!/bin/bash
 
 #导入EnvCheck
-if [ -f "${HENVBOX_COMMON_ROOT_PATH}/../EnvCheck/EnvCheck.sh" ]
-then
+if [ -f "${HENVBOX_COMMON_ROOT_PATH}/../EnvCheck/EnvCheck.sh" ]; then
 	. "${HENVBOX_COMMON_ROOT_PATH}/../EnvCheck/EnvCheck.sh"
-	if [ -n "${ENVCHECK_REPEAT_LOAD}" ]
-	then
+	if [ -n "${ENVCHECK_REPEAT_LOAD}" ]; then
 		echo "EnvCheck已加载!如需再次加载请先退出当前shell(使用exit命令)!"
 		exit 1
 	fi
@@ -13,13 +11,10 @@ then
 	EnvCheckCheckBasetool
 fi
 
-
 #执行SHELL
 export PS1='EnvCheck:\[\033[01;34m\]\w\[\033[00m\]\$'
-if [ -x "${SHELL}" ]
-then
+if [ -x "${SHELL}" ]; then
 	exec "${SHELL}" --norc
 else
 	exec /bin/bash --norc
 fi
-

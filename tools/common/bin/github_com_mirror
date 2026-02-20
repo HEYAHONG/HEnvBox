@@ -1,18 +1,17 @@
 #!/bin/bash
-function CheckTool
-{
-	[  -n "$1"  ] ||
-	{
-		echo -e  "CheckTool 参数错误!!";
-		return 255;
-	};
-	ToolPath=`which $1`;
+function CheckTool {
+	[ -n "$1" ] ||
+		{
+			echo -e "CheckTool 参数错误!!"
+			return 255
+		}
+	ToolPath=$(which $1)
 	[ -e "$ToolPath" ] ||
-	{
-		 echo -e "$1 不存在，请先安装此工具!!!";
-		 return 255;
-	};
-	return 0;
+		{
+			echo -e "$1 不存在，请先安装此工具!!!"
+			return 255
+		}
+	return 0
 }
 
 CheckTool find
@@ -42,8 +41,7 @@ CheckTool curl
 CheckTool git
 [ $? -eq 0 ] || exit
 
-if [ -z "${HENVBOX_LOCAL_ROOT_PATH_UNIX}" ]
-then
+if [ -z "${HENVBOX_LOCAL_ROOT_PATH_UNIX}" ]; then
 	echo -e "不在HEnvBox环境中，无法备份!"
 	exit
 fi
@@ -52,287 +50,241 @@ fi
 ROOT_PATH="${HENVBOX_LOCAL_ROOT_PATH_UNIX}/github.com"
 
 #准备目录,参数1为相对与ROOT_PATH的目录
-function __prepare_dir__()
-{
+function __prepare_dir__() {
 	mkdir -p ${ROOT_PATH}
-	if [ -n "${ROOT_PATH}/$1" ]
-	then
+	if [ -n "${ROOT_PATH}/$1" ]; then
 		[ -d "${ROOT_PATH}/$1" ] || mkdir "${ROOT_PATH}/$1"
 	fi
 }
 
 #检查url,参数1为URL
-function __check_remote_url_httpcode__()
-{
-    local URL="$1"
-    local RET=200 #默认返回ok
-    if [ -n "${URL}" ] && [ -n "`echo ${URL} | grep "^http"`" ]
-    then
-        RET=`curl --location ${URL} 2>/dev/null -o /dev/null -w "%{http_code}"`
-    fi
-    return ${RET}
+function __check_remote_url_httpcode__() {
+	local URL="$1"
+	local RET=200 #默认返回ok
+	if [ -n "${URL}" ] && [ -n "$(echo ${URL} | grep "^http")" ]; then
+		RET=$(curl --location ${URL} -o /dev/null -w "%{http_code}" 2>/dev/null)
+	fi
+	return ${RET}
 }
 
-
 #更新仓库脚本，参数1为仓库目录(绝对)
-function __update_repository__()
-{
+function __update_repository__() {
 	REPO_FULLPATH="$1"
 	echo -e "即将更新目录${REPO_FULLPATH}"
 	REPO_GIT_DIR=".git"
-	if [ -f "${REPO_FULLPATH}/config" ]
-	then
+	if [ -f "${REPO_FULLPATH}/config" ]; then
 		REPO_GIT_DIR="."
 	fi
-	if [ -d "${REPO_FULLPATH}/${REPO_GIT_DIR}" ]
-	then
-		pushd "${REPO_FULLPATH}" 2> /dev/null > /dev/null
-        __check_remote_url_httpcode__ "`git config --get remote.origin.url`"
-        if [ "200" -eq $? ]
-        then
-                OBJECT_COUNT=`find ${REPO_GIT_DIR}/objects 2> /dev/null | wc -l`
-                if [ ${OBJECT_COUNT} -gt 3 ]
-                then
-                        git fetch
-                else
-                        echo 目录 ${REPO_FULLPATH} 可能为空
-                fi
-                OBJECT_COUNT=`find ${REPO_GIT_DIR}/objects 2> /dev/null |grep -v info |grep -v pack | wc -l`
-                if [ ${OBJECT_COUNT} -gt 1 ]
-                then
-                        git prune
-                        git gc
-                fi
-        else
-                echo 当前仓库可能已失效！
-        fi
-		popd 2> /dev/null > /dev/null
+	if [ -d "${REPO_FULLPATH}/${REPO_GIT_DIR}" ]; then
+		pushd "${REPO_FULLPATH}" 2>/dev/null >/dev/null
+		__check_remote_url_httpcode__ "$(git config --get remote.origin.url)"
+		if [ "200" -eq $? ]; then
+			OBJECT_COUNT=$(find ${REPO_GIT_DIR}/objects 2>/dev/null | wc -l)
+			if [ ${OBJECT_COUNT} -gt 3 ]; then
+				git fetch
+			else
+				echo 目录 ${REPO_FULLPATH} 可能为空
+			fi
+			OBJECT_COUNT=$(find ${REPO_GIT_DIR}/objects 2>/dev/null | grep -v info | grep -v pack | wc -l)
+			if [ ${OBJECT_COUNT} -gt 1 ]; then
+				git prune
+				git gc
+			fi
+		else
+			echo 当前仓库可能已失效！
+		fi
+		popd 2>/dev/null >/dev/null
 	fi
 }
 
 #备份脚本，通过变量传递参数REPO_USER REPO_INDEX REPO_NAME REPO_HTML_URL REPO_SSH_URL
-function __backup_user_repository__()
-{
-	[ -n "${REPO_USER}" ]  ||  return 1
+function __backup_user_repository__() {
+	[ -n "${REPO_USER}" ] || return 1
 	[ -n "${REPO_INDEX}" ] || return 1
-	[ -n "${REPO_NAME}" ]  || return 1
+	[ -n "${REPO_NAME}" ] || return 1
 	[ -n "${REPO_HTML_URL}" ] || return 1
-	[ -n "${REPO_SSH_URL}" ] ||  return 1
+	[ -n "${REPO_SSH_URL}" ] || return 1
 	echo -e "即将备份${REPO_USER}的第${REPO_INDEX}个仓库:NAME=${REPO_NAME},URL=${REPO_HTML_URL},SSH_URL=${REPO_SSH_URL}"
 	__prepare_dir__ "${REPO_USER}"
-	pushd "${ROOT_PATH}/${REPO_USER}" > /dev/null 2> /dev/null
-	if [ -z "${REPO_USE_SSH}" ]
-	then
-		if [ -d "${REPO_NAME}/.git" ] || [ -f "${REPO_NAME}/config" ]
-		then
-			echo  -e "${REPO_NAME} 已初始化!"
+	pushd "${ROOT_PATH}/${REPO_USER}" >/dev/null 2>/dev/null
+	if [ -z "${REPO_USE_SSH}" ]; then
+		if [ -d "${REPO_NAME}/.git" ] || [ -f "${REPO_NAME}/config" ]; then
+			echo -e "${REPO_NAME} 已初始化!"
 			__update_repository__ "${ROOT_PATH}/${REPO_USER}/${REPO_NAME}"
 		else
-                        __check_remote_url_httpcode__ "${REPO_HTML_URL}"
-                        if [ "200" -eq $? ]
-                        then
-			    git clone --mirror "${REPO_HTML_URL}" "${REPO_NAME}"
-                        else
-                            echo 仓库地址可能有问题!
-                        fi
+			__check_remote_url_httpcode__ "${REPO_HTML_URL}"
+			if [ "200" -eq $? ]; then
+				git clone --mirror "${REPO_HTML_URL}" "${REPO_NAME}"
+			else
+				echo 仓库地址可能有问题!
+			fi
 		fi
 	else
-		if [ -d "${REPO_NAME}/.git" ] || [ -f "${REPO_NAME}/config" ]
-                then
-                        echo  -e "${REPO_NAME} 已初始化!"
+		if [ -d "${REPO_NAME}/.git" ] || [ -f "${REPO_NAME}/config" ]; then
+			echo -e "${REPO_NAME} 已初始化!"
 			__update_repository__ "${ROOT_PATH}/${REPO_USER}/${REPO_NAME}"
-                else
-                        git clone --mirror "${REPO_SSH_URL}" "${REPO_NAME}"
-                fi
+		else
+			git clone --mirror "${REPO_SSH_URL}" "${REPO_NAME}"
+		fi
 	fi
-	popd > /dev/null 2> /dev/null
+	popd >/dev/null 2>/dev/null
 }
 
 #备份脚本，通过变量传递参数REPO_ORG REPO_INDEX REPO_NAME REPO_HTML_URL REPO_SSH_URL
-function __backup_org_repository__()
-{
-        [ -n "${REPO_ORG}" ]  ||  return 1
-        [ -n "${REPO_INDEX}" ] || return 1
-        [ -n "${REPO_NAME}" ]  || return 1
-        [ -n "${REPO_HTML_URL}" ] || return 1
-        [ -n "${REPO_SSH_URL}" ] ||  return 1
-        echo -e "即将备份${REPO_ORG}的第${REPO_INDEX}个仓库:NAME=${REPO_NAME},URL=${REPO_HTML_URL},SSH_URL=${REPO_SSH_URL}"
-        __prepare_dir__ "${REPO_ORG}"
-        pushd "${ROOT_PATH}/${REPO_ORG}" > /dev/null 2> /dev/null
-        if [ -z "${REPO_USE_SSH}" ]
-        then
-                if [ -d "${REPO_NAME}/.git" ] || [ -f "${REPO_NAME}/config" ]
-                then
-                        echo  -e "${REPO_NAME} 已初始化!"
+function __backup_org_repository__() {
+	[ -n "${REPO_ORG}" ] || return 1
+	[ -n "${REPO_INDEX}" ] || return 1
+	[ -n "${REPO_NAME}" ] || return 1
+	[ -n "${REPO_HTML_URL}" ] || return 1
+	[ -n "${REPO_SSH_URL}" ] || return 1
+	echo -e "即将备份${REPO_ORG}的第${REPO_INDEX}个仓库:NAME=${REPO_NAME},URL=${REPO_HTML_URL},SSH_URL=${REPO_SSH_URL}"
+	__prepare_dir__ "${REPO_ORG}"
+	pushd "${ROOT_PATH}/${REPO_ORG}" >/dev/null 2>/dev/null
+	if [ -z "${REPO_USE_SSH}" ]; then
+		if [ -d "${REPO_NAME}/.git" ] || [ -f "${REPO_NAME}/config" ]; then
+			echo -e "${REPO_NAME} 已初始化!"
 			__update_repository__ "${ROOT_PATH}/${REPO_ORG}/${REPO_NAME}"
-                else
-                         __check_remote_url_httpcode__ "${REPO_HTML_URL}"
-                        if [ "200" -eq $? ]
-                        then
-                            git clone --mirror "${REPO_HTML_URL}" "${REPO_NAME}"
-                        else
-                            echo 仓库地址可能有问题!
-                        fi
-                fi
-        else
-                if [ -d "${REPO_NAME}/.git" ] || [ -f "${REPO_NAME}/config" ]
-                then
-                        echo  -e "${REPO_NAME} 已初始化!"
+		else
+			__check_remote_url_httpcode__ "${REPO_HTML_URL}"
+			if [ "200" -eq $? ]; then
+				git clone --mirror "${REPO_HTML_URL}" "${REPO_NAME}"
+			else
+				echo 仓库地址可能有问题!
+			fi
+		fi
+	else
+		if [ -d "${REPO_NAME}/.git" ] || [ -f "${REPO_NAME}/config" ]; then
+			echo -e "${REPO_NAME} 已初始化!"
 			__update_repository__ "${ROOT_PATH}/${REPO_ORG}/${REPO_NAME}"
-                else
-                        git clone --mirror "${REPO_SSH_URL}" "${REPO_NAME}"
-                fi
-        fi
-        popd > /dev/null 2> /dev/null
+		else
+			git clone --mirror "${REPO_SSH_URL}" "${REPO_NAME}"
+		fi
+	fi
+	popd >/dev/null 2>/dev/null
 }
-
-
 
 __prepare_dir__
 
 [ -d ${ROOT_PATH} ] || exit
 
-if [ -x "${ROOT_PATH}/config.sh" ]
-then
+if [ -x "${ROOT_PATH}/config.sh" ]; then
 	. "${ROOT_PATH}/config.sh"
 fi
 
 #初始化仓库(用户)
-if [ -f "${ROOT_PATH}/user.list" ]
-then
-	for username in `cat ${ROOT_PATH}/user.list`
-	do
+if [ -f "${ROOT_PATH}/user.list" ]; then
+	for username in $(cat ${ROOT_PATH}/user.list); do
 		echo -e "准备备份用户${username}"
 		#准备目录
-		__prepare_dir__  ${username}
+		__prepare_dir__ ${username}
 		#获取仓库列表
 		IS_END=0
 		REPO_PAGE=1
-                REPO_INDEX=1
+		REPO_INDEX=1
 		REPO_USER=${username}
-		while [ "${IS_END}" -eq 0 ]
-		do
+		while [ "${IS_END}" -eq 0 ]; do
 			API_URL="https://api.github.com/users/${username}/repos?page=${REPO_PAGE}&per_page=100"
 			echo -e "API请求URL为${API_URL}"
-			API_CODE=`curl -s -w '%{http_code}'  -o /dev/null -X GET --header "Content-Type: application/json;charset=UTF-8" "${API_URL}" 2>/dev/null`
+			API_CODE=$(curl -s -w '%{http_code}' -o /dev/null -X GET --header "Content-Type: application/json;charset=UTF-8" "${API_URL}" 2>/dev/null)
 			echo -e "API请求HTTP_CODE为${API_CODE}"
-			if [ "${API_CODE}" != "200" ]
-			then
+			if [ "${API_CODE}" != "200" ]; then
 				unset JSON
 			else
-				JSON=`curl  -X GET --header "Content-Type: application/json;charset=UTF-8" "${API_URL}" 2>/dev/null `
+				JSON=$(curl -X GET --header "Content-Type: application/json;charset=UTF-8" "${API_URL}" 2>/dev/null)
 			fi
-			if [ -z "${JSON}" ]
-			then
+			if [ -z "${JSON}" ]; then
 				IS_END=1
 			else
-				JSON_LENGTH=`echo ${JSON} | jq length`
-				if [ "${JSON_LENGTH}" -gt 0 ]
-				then
-					for((index=0; index<${JSON_LENGTH} ; index++))
-					do
-						REPO_JSON=`echo ${JSON} | jq ".[${index}]"`
-						REPO_NAME=`echo ${REPO_JSON} | jq ".name" | tr -d \"`
-						REPO_HTML_URL=`echo ${REPO_JSON} | jq ".clone_url" | tr -d \" `
-						REPO_SSH_URL=`echo ${REPO_JSON} | jq ".ssh_url" | tr -d \" `
-						REPO_VISIBILITY=`echo ${REPO_JSON} | jq ".visibility" | tr -d \"`
-						if [ "${REPO_VISIBILITY}" == "public" ]
-						then
+				JSON_LENGTH=$(echo ${JSON} | jq length)
+				if [ "${JSON_LENGTH}" -gt 0 ]; then
+					for ((index = 0; index < ${JSON_LENGTH}; index++)); do
+						REPO_JSON=$(echo ${JSON} | jq ".[${index}]")
+						REPO_NAME=$(echo ${REPO_JSON} | jq ".name" | tr -d \")
+						REPO_HTML_URL=$(echo ${REPO_JSON} | jq ".clone_url" | tr -d \")
+						REPO_SSH_URL=$(echo ${REPO_JSON} | jq ".ssh_url" | tr -d \")
+						REPO_VISIBILITY=$(echo ${REPO_JSON} | jq ".visibility" | tr -d \")
+						if [ "${REPO_VISIBILITY}" == "public" ]; then
 							__backup_user_repository__
 						fi
-						REPO_INDEX=$((${REPO_INDEX}+1))
+						REPO_INDEX=$((${REPO_INDEX} + 1))
 					done
 				else
 					IS_END=1
 				fi
 			fi
-			REPO_PAGE=$((${REPO_PAGE}+1))
+			REPO_PAGE=$((${REPO_PAGE} + 1))
 		done
 	done
 fi
 
-
 #初始化仓库(组织)
-if [ -f "${ROOT_PATH}/org.list" ]
-then
-        for orgname in `cat ${ROOT_PATH}/org.list`
-        do
-                echo -e "准备备份组织${orgname}"
-                #准备目录
-                __prepare_dir__  ${orgname}
-                #获取仓库列表
-                IS_END=0
-                REPO_PAGE=1
-                REPO_INDEX=1
-                REPO_ORG=${orgname}
-                while [ "${IS_END}" -eq 0 ]
-                do
+if [ -f "${ROOT_PATH}/org.list" ]; then
+	for orgname in $(cat ${ROOT_PATH}/org.list); do
+		echo -e "准备备份组织${orgname}"
+		#准备目录
+		__prepare_dir__ ${orgname}
+		#获取仓库列表
+		IS_END=0
+		REPO_PAGE=1
+		REPO_INDEX=1
+		REPO_ORG=${orgname}
+		while [ "${IS_END}" -eq 0 ]; do
 			API_URL="https://api.github.com/orgs/${orgname}/repos?type=public&page=${REPO_PAGE}&per_page=100"
 			echo -e "API请求的URL为${API_URL}"
-                        API_CODE=`curl -s -w '%{http_code}'  -o /dev/null -X GET --header "Content-Type: application/json;charset=UTF-8" "${API_URL}" 2>/dev/null `
-                        echo -e "API请求HTTP_CODE为${API_CODE}"
-			if [ "${API_CODE}" != "200" ]
-                        then
-                                unset JSON
-                        else
-                                JSON=`curl  -X GET --header "Content-Type: application/json;charset=UTF-8" "${API_URL}" 2>/dev/null `
-                        fi
-			if [ -z  "${JSON}"  ]
-                        then
-                                IS_END=1
-                        else
-                                JSON_LENGTH=`echo ${JSON} | jq length`
-                                if [ "${JSON_LENGTH}" -gt 0 ]
-                                then
-                                        for((index=0; index<${JSON_LENGTH} ; index++))
-                                        do
-                                                REPO_JSON=`echo ${JSON} | jq ".[${index}]"`
-                                                REPO_NAME=`echo ${REPO_JSON} | jq ".name" | tr -d \"`
-                                                REPO_HTML_URL=`echo ${REPO_JSON} | jq ".clone_url" | tr -d \" `
-                                                REPO_SSH_URL=`echo ${REPO_JSON} | jq ".ssh_url" | tr -d \" `
-                                                REPO_VISIBILITY=`echo ${REPO_JSON} | jq ".visibility" | tr -d \"`
-                                                if [ "${REPO_VISIBILITY}" == "public" ]
-                                                then
-                                                        __backup_org_repository__
-                                                fi
-                                                REPO_INDEX=$((${REPO_INDEX}+1))
-                                        done
-                                else
-                                        IS_END=1
-                                fi
-                        fi
-                        REPO_PAGE=$((${REPO_PAGE}+1))
-                done
-        done
+			API_CODE=$(curl -s -w '%{http_code}' -o /dev/null -X GET --header "Content-Type: application/json;charset=UTF-8" "${API_URL}" 2>/dev/null)
+			echo -e "API请求HTTP_CODE为${API_CODE}"
+			if [ "${API_CODE}" != "200" ]; then
+				unset JSON
+			else
+				JSON=$(curl -X GET --header "Content-Type: application/json;charset=UTF-8" "${API_URL}" 2>/dev/null)
+			fi
+			if [ -z "${JSON}" ]; then
+				IS_END=1
+			else
+				JSON_LENGTH=$(echo ${JSON} | jq length)
+				if [ "${JSON_LENGTH}" -gt 0 ]; then
+					for ((index = 0; index < ${JSON_LENGTH}; index++)); do
+						REPO_JSON=$(echo ${JSON} | jq ".[${index}]")
+						REPO_NAME=$(echo ${REPO_JSON} | jq ".name" | tr -d \")
+						REPO_HTML_URL=$(echo ${REPO_JSON} | jq ".clone_url" | tr -d \")
+						REPO_SSH_URL=$(echo ${REPO_JSON} | jq ".ssh_url" | tr -d \")
+						REPO_VISIBILITY=$(echo ${REPO_JSON} | jq ".visibility" | tr -d \")
+						if [ "${REPO_VISIBILITY}" == "public" ]; then
+							__backup_org_repository__
+						fi
+						REPO_INDEX=$((${REPO_INDEX} + 1))
+					done
+				else
+					IS_END=1
+				fi
+			fi
+			REPO_PAGE=$((${REPO_PAGE} + 1))
+		done
+	done
 fi
 
 #更新仓库
-for repodir in `find "${ROOT_PATH}" -maxdepth 3 -name config`
-do
-	REPO=`dirname "${repodir}"`
-	if [ -d "${REPO}/" ]
-        then
-                pushd "${REPO}" 2> /dev/null > /dev/null
-                echo -e "即将更新目录${REPO}"
-                __check_remote_url_httpcode__ "`git config --get remote.origin.url`"
-                if [ "200" -eq $? ]
-                then
-                    OBJECT_COUNT=`find objects 2> /dev/null | wc -l`
-                    if [ ${OBJECT_COUNT} -gt 3 ]
-                    then
-                        git fetch
-                    else
-                        echo 目录 ${REPO} 可能为空
-                    fi
-                    OBJECT_COUNT=`find objects 2> /dev/null |grep -v info |grep -v pack | wc -l`
-                    if [ ${OBJECT_COUNT} -gt 1 ]
-                    then
-                        git prune
-                        git gc
-                    fi
-                else
-                    echo 当前仓库可能已失效！
-                fi
-                popd 2> /dev/null > /dev/null
-        fi
+for repodir in $(find "${ROOT_PATH}" -maxdepth 3 -name config); do
+	REPO=$(dirname "${repodir}")
+	if [ -d "${REPO}/" ]; then
+		pushd "${REPO}" 2>/dev/null >/dev/null
+		echo -e "即将更新目录${REPO}"
+		__check_remote_url_httpcode__ "$(git config --get remote.origin.url)"
+		if [ "200" -eq $? ]; then
+			OBJECT_COUNT=$(find objects 2>/dev/null | wc -l)
+			if [ ${OBJECT_COUNT} -gt 3 ]; then
+				git fetch
+			else
+				echo 目录 ${REPO} 可能为空
+			fi
+			OBJECT_COUNT=$(find objects 2>/dev/null | grep -v info | grep -v pack | wc -l)
+			if [ ${OBJECT_COUNT} -gt 1 ]; then
+				git prune
+				git gc
+			fi
+		else
+			echo 当前仓库可能已失效！
+		fi
+		popd 2>/dev/null >/dev/null
+	fi
 done

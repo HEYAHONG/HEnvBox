@@ -195,6 +195,12 @@ ln -sf `which bash` /bin/bash
 
 托盘程序可作为一个运行脚本的快捷入口。
 
+# htools
+
+见[tools/htools/master](tools/htools/master)
+
+htools作为本人常用C/C++代码的辅助开发工具。
+
 # 推荐资源
 
 ## 软件

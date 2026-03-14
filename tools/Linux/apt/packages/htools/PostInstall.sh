@@ -29,9 +29,9 @@ fi
 #进入当前目录
 pushd ${script_dir}
 
-if [ -d "${HENVBOX_COMMON_ROOT_PATH}/../htools/master/test" ] ; then
+if [ -d "${HENVBOX_COMMON_ROOT_PATH}/../htools/" ] ; then
 	mkdir -p ${script_dir}/local/build/
-	cmake -DHTOOLS_INSTALL_DIR="${HENVBOX_LOCAL_ROOT_PATH_UNIX}/"  -B "${script_dir}/local/build/" -S "${HENVBOX_COMMON_ROOT_PATH}/../htools/master/test" && cmake --build "${script_dir}/local/build/" -t htools
+	cmake -DHTOOLS_INSTALL_DIR="${HENVBOX_LOCAL_ROOT_PATH_UNIX}/"  -B "${script_dir}/local/build/" -S "${HENVBOX_COMMON_ROOT_PATH}/../htools/" && cmake --build "${script_dir}/local/build/" -t htools
 	rm -rf ${script_dir}/local/build/
 fi
 

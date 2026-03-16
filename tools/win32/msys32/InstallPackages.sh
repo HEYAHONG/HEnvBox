@@ -105,7 +105,7 @@ cat >>/console <<-EOF
 		.   "\${HENVBOX_TOOLS_PATH}/config.sh"
 	fi
 	#执行新的bash
-	exec /bin/bash
+	exec /bin/bash \$@
 EOF
 chmod +x /console
 

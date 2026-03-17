@@ -1,5 +1,4 @@
 #!/bin/bash
-
 function CheckTool {
 	[ -n "$1" ] ||
 		{
@@ -27,8 +26,6 @@ CheckTool readlink
 CheckTool ln
 [ $? -eq 0 ] || export HENVBOX_UNSUPPORTED=1
 CheckTool sed
-[ $? -eq 0 ] || export HENVBOX_UNSUPPORTED=1
-CheckTool awk
 [ $? -eq 0 ] || export HENVBOX_UNSUPPORTED=1
 CheckTool grep
 [ $? -eq 0 ] || export HENVBOX_UNSUPPORTED=1
@@ -64,29 +61,31 @@ if [ ${HENVBOX_UNSUPPORTED} -ne 1 ]; then
 		script_dir="$(dirname "${script_name}")"
 	fi
 
-	#导出根路径
-	export HENVBOX_ROOT_PATH="${script_dir}"
+	#导出工具路径
+	export HENVBOX_TOOLS_PATH="${script_dir}"
 
 	#导入配置脚本
-	if [ -x "${HENVBOX_ROOT_PATH}/config.sh" ]; then
-		. "${HENVBOX_ROOT_PATH}/config.sh"
+	if [ -x "${HENVBOX_TOOLS_PATH}/config.sh" ]; then
+		. "${HENVBOX_TOOLS_PATH}/config.sh"
 	fi
 
-	#导入tools中的卸载脚本
-	if [ -x "${HENVBOX_ROOT_PATH}/tools/${HENVBOX_TYPE}/uninstall.sh" ]; then
-		. "${HENVBOX_ROOT_PATH}/tools/${HENVBOX_TYPE}/uninstall.sh"
+	#Kconfig配置
+	if [ "${CONFIG_HENVBOX_USE_KCONFIG}" = "y" ]; then
+		echo Kconfig配置已启用!
 	fi
 
-	#修改bashrc
-	BASHRC_PATH=~/.bashrc
-	#对于某些未默认使用bash的系统需要先创建.bashrc
-	touch ${BASHRC_PATH}
-	BASHRC_ENV_BLOCK_BEGIN=$(cat ${BASHRC_PATH} | grep -n "^#HEnvBox Block BEGIN$" | awk -F: '{print $1}')
-	BASHRC_ENV_BLOCK_END=$(cat ${BASHRC_PATH} | grep -n "^#HEnvBox Block END$" | awk -F: '{print $1}')
-	if [ -n "${BASHRC_ENV_BLOCK_BEGIN}" ]; then
-		if [ -n "${BASHRC_ENV_BLOCK_BEGIN}" ]; then
-			sed -i "${BASHRC_ENV_BLOCK_BEGIN},${BASHRC_ENV_BLOCK_END}d" ${BASHRC_PATH}
+	#导入卸载脚本
+	if [ -x "${HENVBOX_TOOLS_PATH}/${HENVBOX_TOOLS_TYPE}/uninstall.sh" ]; then
+		if [ ${HENVBOX_UID} -eq 0 ]; then
+			. "${HENVBOX_TOOLS_PATH}/${HENVBOX_TOOLS_TYPE}/uninstall.sh"
+		else
+			sudo --preserve-env "${HENVBOX_TOOLS_PATH}/${HENVBOX_TOOLS_TYPE}/uninstall.sh"
 		fi
+		if [ "$?" -ne "0" ]; then
+			#添加失败重试
+			exec "$0" "$@"
+		fi
+
 	fi
 else
 	echo 无法完成HEnvBox配置!

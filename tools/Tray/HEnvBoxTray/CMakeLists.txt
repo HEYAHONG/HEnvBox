@@ -94,15 +94,17 @@ install(TARGETS HEnvBoxTray
     LIBRARY DESTINATION $ENV{MINGW_PREFIX}/lib/
     RUNTIME DESTINATION $ENV{MINGW_PREFIX}/bin/
 )
+set(HENVBOXTRAY_BIN_PATH $ENV{MINGW_PREFIX}/bin/HEnvBoxTray${CMAKE_EXECUTABLE_SUFFIX})
 else()
 install(TARGETS HEnvBoxTray
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${HENVBOX_ROOT_PATH}/local/HEnvBoxTray/lib/
     RUNTIME DESTINATION ${HENVBOX_ROOT_PATH}/local/HEnvBoxTray/bin/
 )
+set(HENVBOXTRAY_BIN_PATH ${HENVBOX_ROOT_PATH}/local/HEnvBoxTray/bin/HEnvBoxTray${CMAKE_EXECUTABLE_SUFFIX})
 endif()
 
-set(HENVBOXTRAY_BIN_PATH ${HENVBOX_ROOT_PATH}/local/HEnvBoxTray/bin/HEnvBoxTray${CMAKE_EXECUTABLE_SUFFIX})
+if(UNIX)
 #支持自动启动
 if(DEFINED ENV{HOME})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/xdg/HEnvBoxTray.desktop.in ${CMAKE_BINARY_DIR}/HEnvBoxTray.desktop @ONLY)
@@ -113,7 +115,9 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/xdg/HEnvBoxTray.desktop.in ${CMAKE_BI
 install(FILES ${CMAKE_BINARY_DIR}/HEnvBoxTray.desktop DESTINATION /etc/xdg/autostart)
 endif()
 endif()
-if(WIN32)
+endif()
+
+if(WIN32 OR WIN64)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/win32/HEnvBoxTray.bat.in ${CMAKE_BINARY_DIR}/HEnvBoxTray.bat @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/HEnvBoxTray.bat DESTINATION  ${HENVBOX_ROOT_PATH}/local/HEnvBoxTray/bin/)
 install(FILES ${CMAKE_BINARY_DIR}/HEnvBoxTray.bat 

@@ -41,7 +41,8 @@ pushd ${script_dir}
 
 if [ -d "${HENVBOX_COMMON_ROOT_PATH}/../htools/" ] ; then
 	mkdir -p ${script_dir}/local/build/${MSYSTEM_PREFIX}/
-	cmake -DHTOOLS_INSTALL_DIR="${HTOOLS_INSTALL_ROOT}/"  -B "${script_dir}/local/build/${MSYSTEM_PREFIX}/" -S "${HENVBOX_COMMON_ROOT_PATH}/../htools/" && cmake --build "${script_dir}/local/build/${MSYSTEM_PREFIX}/" -t htools
+	touch ${script_dir}/local/build/build.lk
+	cmake -DHTOOLS_INSTALL_DIR="${HTOOLS_INSTALL_ROOT}/"  -B "${script_dir}/local/build/${MSYSTEM_PREFIX}/" -S "${HENVBOX_COMMON_ROOT_PATH}/../htools/" && flock  ${script_dir}/local/build/build.lk cmake --build "${script_dir}/local/build/${MSYSTEM_PREFIX}/" -t htools
 	rm -rf ${script_dir}/local/build/${MSYSTEM_PREFIX}/
 fi
 

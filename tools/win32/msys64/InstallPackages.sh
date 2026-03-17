@@ -62,6 +62,19 @@ for i in $(find . -name PostInstall.sh); do
 	fi
 done
 
+#执行需要在其它环境中执行的PostInstall.sh
+for i in ucrt64 mingw32 mingw64 clang64; do
+	if [ -e "/${i}.exe" ]; then
+		echo process ${i} environment!
+		for j in $(find . -name PostInstall.$i.sh); do
+			if [ -f ${j} ]; then
+				echo execute ${j}
+				/${i}.exe ${j}
+			fi
+		done
+	fi
+done
+
 #创建列表中的重定向入口
 for list_file in $(find . -name Win32Redirector.list); do
 	echo install Win32Redirector list ${list_file}

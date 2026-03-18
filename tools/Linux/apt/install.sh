@@ -26,6 +26,11 @@ fi
 #导出根路径
 export SCRIPT_DIR="${script_dir}"
 
+#恢复HOME变量
+if [ -d "${HENVBOX_USER_HOME}" ]; then
+	export HOME=${HENVBOX_USER_HOME}
+fi
+
 #复制相关文件
 cp -rf ${SCRIPT_DIR}/root/* "${HENVBOX_LOCAL_ROOT_PATH}/"
 for i in $(find "${HENVBOX_LOCAL_ROOT_PATH}/bin" 2>/dev/null); do

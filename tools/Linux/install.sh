@@ -74,6 +74,9 @@ if [ ${HENVBOX_UNSUPPORTED} -ne 1 ]; then
 		echo Kconfig配置已启用!
 	fi
 
+	#导出HENVBOX_USER_HOME变量
+	export HENVBOX_USER_HOME=${HOME}
+
 	#导入安装脚本
 	if [ -x "${HENVBOX_TOOLS_PATH}/${HENVBOX_TOOLS_TYPE}/install.sh" ]; then
 		if [ ${HENVBOX_UID} -eq 0 ]; then

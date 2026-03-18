@@ -66,6 +66,21 @@ MainWindow::MainWindow(QWidget *parent)
                     menu->addSeparator();
                 }
             }
+#if !defined(WIN32)
+            {
+                //添加bash
+                QAction * act=menu->addAction(tr("Bash"));
+                connect(act,&QAction::triggered,[=](bool check)
+                        {
+
+                            if(!StartScript(QString::fromLocal8Bit("bash")))
+                            {
+                                QMessageBox::warning(this,tr("Warning"),tr("start script failed!"));
+                            }
+                        });
+                menu->addSeparator();
+            }
+#endif
             {
                 //添加退出操作
                 QAction * act=menu->addAction(tr("Exit"));

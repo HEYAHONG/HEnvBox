@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include <QMessageBox>
 #include "./ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -55,37 +56,10 @@ MainWindow::MainWindow(QWidget *parent)
                             QAction * act=menu->addAction(QIcon(QString::fromUtf8(":/HEnvBox-256x256.ico")),scriptname);
                             connect(act,&QAction::triggered,[=](bool check)
                             {
-#ifdef WIN32
-                                QProcess::startDetached(scriptpath);
-                                return;
-#else
+                                if(!StartScript(scriptpath))
                                 {
-                                    QStringList args;
-                                    QString term="x-terminal-emulator";
-                                    args << "-version";
-                                    if(QProcess::execute(term,args)==0)
-                                    {
-                                        args.clear();
-                                        args << "-e";
-                                        args << scriptpath;
-                                        QProcess::startDetached(term,args);
-                                        return;
-                                    }
+                                    QMessageBox::warning(this,tr("Warning"),tr("start script failed!"));
                                 }
-                                {
-                                    QStringList args;
-                                    QString term="x-terminal-emulator";
-                                    args << "--version";
-                                    if(QProcess::execute(term,args)==0)
-                                    {
-                                        args.clear();
-                                        args << "-e";
-                                        args << scriptpath;
-                                        QProcess::startDetached(term,args);
-                                        return;
-                                    }
-                                }
-#endif
                             });
                         }
                     }
@@ -111,6 +85,132 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+bool MainWindow::StartScript(QString scriptpath)
+{
+#ifdef WIN32
+    return QProcess::startDetached(scriptpath);
+#else
+
+    {
+        QStringList args;
+        QString term="deepin-terminal";
+        args << "--version";
+        if(QProcess::execute(term,args)==0)
+        {
+            args.clear();
+            args << "-e";
+            args << scriptpath;
+            return QProcess::startDetached(term,args);
+        }
+    }
+
+    {
+        QStringList args;
+        QString term="gnome-terminal";
+        args << "--version";
+        if(QProcess::execute(term,args)==0)
+        {
+            args.clear();
+            args << "--";
+            args << scriptpath;
+            return QProcess::startDetached(term,args);
+        }
+    }
+
+    {
+        QStringList args;
+        QString term="konsole";
+        args << "--version";
+        if(QProcess::execute(term,args)==0)
+        {
+            args.clear();
+            args << "-e";
+            args << scriptpath;
+            return QProcess::startDetached(term,args);
+        }
+    }
+
+
+    {
+        QStringList args;
+        QString term="xfce4-terminal";
+        args << "--version";
+        if(QProcess::execute(term,args)==0)
+        {
+            args.clear();
+            args << "-e";
+            args << scriptpath;
+            return QProcess::startDetached(term,args);
+        }
+    }
+
+    {
+        QStringList args;
+        QString term="qterminal";
+        args << "--version";
+        if(QProcess::execute(term,args)==0)
+        {
+            args.clear();
+            args << "-e";
+            args << scriptpath;
+            return QProcess::startDetached(term,args);
+        }
+    }
+
+    {
+        QStringList args;
+        QString term="lxterminal";
+        args << "--version";
+        if(QProcess::execute(term,args)==0)
+        {
+            args.clear();
+            args << "-e";
+            args << scriptpath;
+            return QProcess::startDetached(term,args);
+        }
+    }
+
+    {
+        QStringList args;
+        QString term="x-terminal-emulator";
+        args << "-version";
+        if(QProcess::execute(term,args)==0)
+        {
+            args.clear();
+            args << "-e";
+            args << scriptpath;
+            return QProcess::startDetached(term,args);
+        }
+    }
+    {
+        QStringList args;
+        QString term="x-terminal-emulator";
+        args << "--version";
+        if(QProcess::execute(term,args)==0)
+        {
+            args.clear();
+            args << "-e";
+            args << scriptpath;
+            return QProcess::startDetached(term,args);
+        }
+    }
+
+    {
+        QStringList args;
+        QString term="xterm";
+        args << "-version";
+        if(QProcess::execute(term,args)==0)
+        {
+            args.clear();
+            args << "-e";
+            args << scriptpath;
+            return QProcess::startDetached(term,args);
+        }
+    }
+#endif
+    return false;
 }
 
 void MainWindow::app_instance_pid_check()

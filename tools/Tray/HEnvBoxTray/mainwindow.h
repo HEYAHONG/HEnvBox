@@ -26,6 +26,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    bool StartScript(QString scriptpath);
 
 private:
     Ui::MainWindow *ui;

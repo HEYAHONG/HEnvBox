@@ -7,5 +7,18 @@
         <source>Exit</source>
         <translation>退出</translation>
     </message>
+    <message>
+        <source>Maintanence</source>
+        <translation>维护</translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>警告</translation>
+    </message>
+    <message>
+        <source>start script failed!</source>
+        <translation>启动脚本失败!
+</translation>
+    </message>
 </context>
 </TS>

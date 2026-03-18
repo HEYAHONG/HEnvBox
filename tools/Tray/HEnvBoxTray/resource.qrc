@@ -7,6 +7,8 @@
         <file alias="HEnvBox.ico">../../images/HEnvBox.ico</file>
         <file alias="HEnvBox.jpg">../../images/HEnvBox.jpg</file>
         <file alias="HEnvBox.png">../../images/HEnvBox.png</file>
+        <file alias="Exit.png">../../images/Exit.png</file>
+        <file alias="Terminal.png">../../images/Terminal.png</file>
     </qresource>
     <qresource prefix="/i18n">
         <file alias="HEnvBoxTray_zh_CN">HEnvBoxTray_zh_CN.qm</file>

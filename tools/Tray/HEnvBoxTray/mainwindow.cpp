@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include <QMessageBox>
+#include <QFileInfo>
 #include "./ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -82,6 +83,61 @@ MainWindow::MainWindow(QWidget *parent)
                         });
                 menu->addSeparator();
             }
+#else
+            {
+                //添加终端工具
+                QMenu *submenu=menu->addMenu(QIcon(QString::fromUtf8(":/Terminal.png")),tr("Tools"));
+                if(QFileInfo(QString::fromLocal8Bit(HENVBOX_TOOLS_PATH)+QString::fromLocal8Bit("/ConEmu/ConEmu.exe")).exists())
+                {
+                    QAction * act=submenu->addAction(QIcon(QString::fromUtf8(":/Terminal.png")),tr("Cmd"));
+                    connect(act,&QAction::triggered,[=](bool check)
+                            {
+                                QStringList scriptargs;
+                                {
+                                    scriptargs << "-Here";
+                                    scriptargs << "-run";
+                                    scriptargs << "cmd.exe /k " HENVBOX_ROOT_PATH  "/config.bat";
+                                }
+                                if(!StartScript(QString::fromLocal8Bit(HENVBOX_TOOLS_PATH)+QString::fromLocal8Bit("/ConEmu/ConEmu.exe"),scriptargs))
+                                {
+                                    QMessageBox::warning(this,tr("Warning"),tr("start script failed!"));
+                                }
+                            });
+                    submenu->addSeparator();
+                }
+                {
+                    QString MSYS2_ROOT_PATH=QString::fromLocal8Bit(HENVBOX_LOCAL_ROOT_PATH "/" HENVBOX_TOOLS_TYPE);
+                    const char *MSYS2_ENV_LIST[]=
+                    {
+                        "mingw32",
+                        "mingw64",
+                        "clang64",
+                        "ucrt64",
+                        "msys2"
+                    };
+                    for(size_t i=0;i<sizeof(MSYS2_ENV_LIST)/sizeof(MSYS2_ENV_LIST[0]);i++)
+                    {
+                        QString MSYS2_ENV_PATH=MSYS2_ROOT_PATH+QString::fromLocal8Bit("/")+QString::fromLocal8Bit(MSYS2_ENV_LIST[i])+QString::fromLocal8Bit(".exe");
+                        if(QFileInfo(MSYS2_ENV_PATH).exists())
+                        {
+                            QAction * act=submenu->addAction(QIcon(QString::fromUtf8(":/Terminal.png")),QString::fromLocal8Bit(MSYS2_ENV_LIST[i]));
+                            connect(act,&QAction::triggered,[=](bool check)
+                                    {
+                                        QStringList scriptargs;
+                                        {
+                                            scriptargs << "/console";
+                                        }
+                                        if(!StartScript(MSYS2_ENV_PATH,scriptargs))
+                                        {
+                                            QMessageBox::warning(this,tr("Warning"),tr("start script failed!"));
+                                        }
+                                    });
+                            submenu->addSeparator();
+                        }
+                    }
+                }
+                menu->addSeparator();
+            }
 #endif
             {
                 //添加退出操作
@@ -104,10 +160,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-bool MainWindow::StartScript(QString scriptpath)
+bool MainWindow::StartScript(QString scriptpath,QStringList scriptenargs)
 {
 #ifdef WIN32
-    return QProcess::startDetached(scriptpath);
+    return QProcess::startDetached(scriptpath,scriptenargs);
 #else
 
     {

@@ -175,6 +175,7 @@ bool MainWindow::StartScript(QString scriptpath,QStringList scriptenargs)
             args.clear();
             args << "-e";
             args << scriptpath;
+            args << scriptenargs;
             return QProcess::startDetached(term,args);
         }
     }
@@ -188,6 +189,7 @@ bool MainWindow::StartScript(QString scriptpath,QStringList scriptenargs)
             args.clear();
             args << "--";
             args << scriptpath;
+            args << scriptenargs;
             return QProcess::startDetached(term,args);
         }
     }
@@ -201,6 +203,7 @@ bool MainWindow::StartScript(QString scriptpath,QStringList scriptenargs)
             args.clear();
             args << "-e";
             args << scriptpath;
+            args << scriptenargs;
             return QProcess::startDetached(term,args);
         }
     }
@@ -215,6 +218,7 @@ bool MainWindow::StartScript(QString scriptpath,QStringList scriptenargs)
             args.clear();
             args << "-e";
             args << scriptpath;
+            args << scriptenargs;
             return QProcess::startDetached(term,args);
         }
     }
@@ -228,6 +232,7 @@ bool MainWindow::StartScript(QString scriptpath,QStringList scriptenargs)
             args.clear();
             args << "-e";
             args << scriptpath;
+            args << scriptenargs;
             return QProcess::startDetached(term,args);
         }
     }
@@ -241,6 +246,7 @@ bool MainWindow::StartScript(QString scriptpath,QStringList scriptenargs)
             args.clear();
             args << "-e";
             args << scriptpath;
+            args << scriptenargs;
             return QProcess::startDetached(term,args);
         }
     }
@@ -254,6 +260,7 @@ bool MainWindow::StartScript(QString scriptpath,QStringList scriptenargs)
             args.clear();
             args << "-e";
             args << scriptpath;
+            args << scriptenargs;
             return QProcess::startDetached(term,args);
         }
     }
@@ -266,6 +273,7 @@ bool MainWindow::StartScript(QString scriptpath,QStringList scriptenargs)
             args.clear();
             args << "-e";
             args << scriptpath;
+            args << scriptenargs;
             return QProcess::startDetached(term,args);
         }
     }
@@ -279,6 +287,7 @@ bool MainWindow::StartScript(QString scriptpath,QStringList scriptenargs)
             args.clear();
             args << "-e";
             args << scriptpath;
+            args << scriptenargs;
             return QProcess::startDetached(term,args);
         }
     }

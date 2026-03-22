@@ -1,18 +1,17 @@
 #!/bin/bash
-function CheckTool
-{
-	[  -n "$1"  ] ||
-	{
-		echo -e  "CheckTool 参数错误!!";
-		return 255;
-	};
-	ToolPath=`which $1`;
+function CheckTool {
+	[ -n "$1" ] ||
+		{
+			echo -e "CheckTool 参数错误!!"
+			return 255
+		}
+	ToolPath=$(which $1)
 	[ -e "$ToolPath" ] ||
-	{
-		 echo -e "$1 不存在，请先安装此工具!!!";
-		 return 255;
-	};
-	return 0;
+		{
+			echo -e "$1 不存在，请先安装此工具!!!"
+			return 255
+		}
+	return 0
 }
 
 CheckTool find
@@ -36,23 +35,20 @@ CheckTool tr
 CheckTool cat
 [ $? -eq 0 ] || exit
 
-if [ -z "${HENVBOX_LOCAL_ROOT_PATH_UNIX}" ]
-then
+if [ -z "${HENVBOX_LOCAL_ROOT_PATH_UNIX}" ]; then
 	echo -e "不在HEnvBox环境中，无法设定!"
 	exit
 fi
 
 #定义全局变量
-HENVBOX_LOCAL_ROOT_PATH_UNIX=`echo /${HENVBOX_LOCAL_ROOT_PATH_UNIX} | tr -d :`
+HENVBOX_LOCAL_ROOT_PATH_UNIX=$(echo /${HENVBOX_LOCAL_ROOT_PATH_UNIX} | tr -d :)
 ROOT_PATH="${HENVBOX_LOCAL_ROOT_PATH_UNIX}/crosstool-ng"
 INSTALL_PREFIX="${HENVBOX_LOCAL_ROOT_PATH_UNIX}"
 
 #准备目录,参数1为相对与ROOT_PATH的目录
-function __prepare_dir__()
-{
+function __prepare_dir__() {
 	mkdir -p ${ROOT_PATH}
-	if [ -n "${ROOT_PATH}/$1" ]
-	then
+	if [ -n "${ROOT_PATH}/$1" ]; then
 		[ -d "${ROOT_PATH}/$1" ] || mkdir -p "${ROOT_PATH}/$1"
 	fi
 }
@@ -61,8 +57,7 @@ __prepare_dir__
 
 [ -d ${ROOT_PATH} ] || exit
 
-if [ -x "${ROOT_PATH}/config.sh" ]
-then
+if [ -x "${ROOT_PATH}/config.sh" ]; then
 	. "${ROOT_PATH}/config.sh"
 fi
 
@@ -71,7 +66,19 @@ fi
 
 __prepare_dir__ "src"
 
-sed -i "s/CT_LOCAL_TARBALLS_DIR=.*/CT_LOCAL_TARBALLS_DIR=\"${ROOT_PATH//\//\\\/}\/src\"/g" .config 2> /dev/null > /dev/null
-sed -i "s/CT_PREFIX_DIR=.*/CT_PREFIX_DIR=\"${MSYSTEM_PREFIX//\//\\\/}\/crosstool-ng\/\$\{CT_TARGET\}\"/g" .config 2> /dev/null > /dev/null
+function CT_Mirrors() {
+	return 0
+}
+
+source .config
+
+sed -i "s/CT_LOCAL_TARBALLS_DIR=.*/CT_LOCAL_TARBALLS_DIR=\"${ROOT_PATH//\//\\\/}\/src\"/g" .config 2>/dev/null >/dev/null
+if [ "${CT_TOOLCHAIN_TYPE}" = "cross" ]; then
+	echo "cross toolchian!"
+	sed -i "s/CT_PREFIX_DIR=.*/CT_PREFIX_DIR=\"${INSTALL_PREFIX//\//\\\/}\/\$\{CT_TARGET\}\"/g" .config 2>/dev/null >/dev/null
+else
+	echo "canadian toolchian!"
+	sed -i "s/CT_PREFIX_DIR=.*/CT_PREFIX_DIR=\"${INSTALL_PREFIX//\//\\\/}\/\${CT_HOST:+HOST-\${CT_HOST}\/}\$\{CT_TARGET\}\"/g" .config 2>/dev/null >/dev/null
+fi
 
 echo -e "路径设定完成!"

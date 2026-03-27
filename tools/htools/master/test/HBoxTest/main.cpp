@@ -112,8 +112,14 @@ static int hcompiler_test(int argc,const char *argv[])
     return 0;
 }
 
+
+extern "C" int c_defaults_test(int argc,const char *argv[]);
+
 static int hdefaults_test(int argc,const char *argv[])
 {
+
+    c_defaults_test(argc,argv);
+
     {
 #ifdef HDEFAULTS_BITS_16_OR_8
         printf("hdefaults:16/8 bits environment!\r\n");
@@ -256,6 +262,17 @@ static int hdefaults_test(int argc,const char *argv[])
         printf("hdefaults libdl:symbol_table printf=%p\r\n",hdlsym(NULL,"printf"));
     }
 
+#if defined(HAVE_ATOMIC)
+    {
+        hatomic(int) a;
+        a=0;
+        a++;
+        a&=0;
+        a|=1;
+        printf("hdefaults:hatomic addr=%p,value=%d\r\n",&a,(int)a);
+    }
+#endif
+
     {
         hthrd_t th1= {0};
         auto func=[](void *arg)->int
@@ -267,11 +284,17 @@ static int hdefaults_test(int argc,const char *argv[])
             return 0;
         };
         printf("hdefaults thread:start\r\n");
+#if defined(HAVE_THREAD_LOCAL)
+        {
+            static hthread_local int a=0;
+            printf("hdefaults thread:hthread_local %p\r\n",&a);
+        }
+#endif
         if(hthrd_success==hthrd_create(&th1,func,NULL))
         {
-             printf("hdefaults thread:wait thread(sub)\r\n");
-             hthrd_join(th1,NULL);
-             printf("hdefaults thread:end\r\n");
+            printf("hdefaults thread:wait thread(sub)\r\n");
+            hthrd_join(th1,NULL);
+            printf("hdefaults thread:end\r\n");
         }
     }
 

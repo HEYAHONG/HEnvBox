@@ -1,4 +1,3 @@
-mingw-w64-i686-rust
 mingw-w64-x86_64-rust
 mingw-w64-ucrt-x86_64-rust
 mingw-w64-clang-x86_64-rust

@@ -210,3 +210,4 @@ htools作为本人常用C/C++代码的辅助开发工具。
 - [0install](https://0install.net/):去中心化的软件安装系统
 - [sysinternals](https://learn.microsoft.com/zh-cn/sysinternals/downloads/sysinternals-suite):Windows下实用工具。
 - [ConEmu](https://conemu.github.io/)
+- [w64devkit](https://github.com/skeeto/w64devkit.git):Windows开发工具(包含GCC、pkg-config、busybox-w32、cmake等)

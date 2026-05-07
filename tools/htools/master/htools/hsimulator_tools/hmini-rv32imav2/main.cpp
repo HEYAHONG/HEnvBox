@@ -8,6 +8,7 @@
 #include "thread"
 #include "chrono"
 #include H3RDPARTY_ARGTABLE3_HEADER
+#include "inttypes.h"
 
 
 static void show_banner()
@@ -21,15 +22,20 @@ static void show_banner()
 
 
 static std::string filename="Image";
+static std::string dtbfilename;
+static bool displaydtb=false;
 static void check_args(int argc,char *argv[])
 {
     struct arg_lit  * help=NULL;
-    struct arg_lit  * decompress=NULL;
+    struct arg_lit  * display_dtb=NULL;
     struct arg_file *file=NULL;
+    struct arg_file *dtbfile=NULL;
     void *argtable[]=
     {
         help=arg_lit0("h","help",                                      "print this help and exit"),
+        display_dtb=arg_lit0("D","displaydtb",                          "display dtb before vm start"),
         file=arg_file0(NULL,NULL,"<file>",                              "image file name(default:Image)"),
+        dtbfile=arg_file0("d","dtb","<file>",                           "dtb file name"),
         arg_end(20)
     };
     if(arg_nullcheck(argtable)!=0)
@@ -54,9 +60,19 @@ static void check_args(int argc,char *argv[])
         hexit(-1);
     }
 
+    if(display_dtb->count>0)
+    {
+        displaydtb=true;
+    }
+
     if(file->count > 0)
     {
         filename=std::string(file->filename[0]);
+    }
+
+    if(dtbfile->count > 0)
+    {
+        dtbfilename=std::string(dtbfile->filename[0]);
     }
 
     arg_freetable(argtable,sizeof(argtable)/sizeof(argtable[0]));
@@ -79,6 +95,7 @@ static void check_args(int argc,char *argv[])
             file.close();
         }
     }
+
 }
 
 #if defined(WINDOWS) || defined(WIN32) || defined(_WIN32)
@@ -229,7 +246,129 @@ static void console_init(void)
 
 #endif
 
+
 hminirv32ima_machine_default64mb_t machine;
+
+static void dtb_display(void)
+{
+    hprintf("dtb:\r\n");
+    /*
+     * 遍历节点
+     */
+
+    /*
+     * node_ctx[0]: depth
+     * node_ctx[1]: #address-cells
+     * node_ctx[2]: #size-cells
+     * node_ctx[3]: blank_space
+     */
+    intptr_t node_ctx[8]= {0};
+    node_ctx[1]=2;
+    node_ctx[2]=1;
+    hlibfdt_traverse_node(machine.dtb,[](const void *fdt,int offset,const char *name,int depth,void *usr)
+    {
+        intptr_t *node_ctx=(intptr_t *)usr;
+        std::string blank_space;
+        for(size_t i=0; i<(depth-1); i++)
+        {
+            blank_space+="\t";
+        }
+        if(name==NULL || strlen(name)==0)
+        {
+            name="/";
+        }
+        hprintf("%s%s\r\n",blank_space.c_str(),name);
+        node_ctx[0]=depth;
+        node_ctx[3]=(intptr_t)blank_space.c_str();
+        hlibfdt_traverse_node_property(fdt,offset,[](const void *fdt,int offset,const char *name,const uint8_t *value,size_t value_length,void *usr)
+        {
+            intptr_t *node_ctx=(intptr_t *)usr;
+            const char *blank_space=(const char *)node_ctx[3];
+            if(strcmp("#address-cells",name)==0)
+            {
+                uint32_t val=0;
+                for(size_t i=0; i<value_length; i++)
+                {
+                    val <<= 8;
+                    val +=  value[i];
+                }
+                node_ctx[1]=val;
+                hprintf( "%s\t%-20s:%" PRIu32 "\r\n",blank_space,name,val);
+            }
+            else if(strcmp("#size-cells",name)==0)
+            {
+                uint32_t val=0;
+                for(size_t i=0; i<value_length; i++)
+                {
+                    val <<= 8;
+                    val +=  value[i];
+                }
+                node_ctx[2]=val;
+                hprintf( "%s\t%-20s:%" PRIu32 "\r\n",blank_space,name,val);
+            }
+            else if(strcmp("reg",name)==0)
+            {
+                hprintf( "%s\t%-20s:",blank_space,name);
+                for(size_t i=0; i<value_length; i++)
+                {
+                    if(i==node_ctx[1]*4)
+                    {
+                        hprintf("\t");
+                    }
+                    if(i==(node_ctx[1]*4+node_ctx[2]*4))
+                    {
+                        hprintf("\t");
+                    }
+                    hprintf("%02X",(int)value[i]);
+                }
+                hprintf("\r\n");
+            }
+            else
+            {
+                const char *string_data_name_list[]
+                {
+                    "model",
+                    "compatible",
+                    "status",
+                    "device_type",
+                    "mmu-type",
+                    "riscv,isa",
+                    "bootargs"
+                };
+                bool is_string_data=false;
+                for(size_t i=0; i< sizeof(string_data_name_list)/sizeof(string_data_name_list[0]); i++)
+                {
+                    if(strcmp(string_data_name_list[i],name)==0)
+                    {
+                        is_string_data=true;
+                        break;
+                    }
+                }
+                hprintf( "%s\t%-20s:",blank_space,name);
+                if(is_string_data)
+                {
+                    size_t string_offset=0;
+                    while(string_offset<value_length)
+                    {
+                        hprintf(" %s",(char *)&value[string_offset]);
+                        string_offset+=strlen((char *)&value[string_offset])+1;
+                    }
+                }
+                else
+                {
+                    for(size_t i=0; i<value_length; i++)
+                    {
+                        hprintf("%02X",(int)value[i]);
+                    }
+                }
+                hprintf("\r\n");
+            }
+
+        },node_ctx);
+    },node_ctx);
+    hprintf("\r\n");
+}
+
 
 static void run_vm(int argc,char *argv[])
 {
@@ -258,6 +397,7 @@ static void run_vm(int argc,char *argv[])
         hminirv32ima_machine_default64mb_reset(&machine);
 
         {
+            //加载Image
             std::fstream file;
             file.open(filename.c_str(),std::ios::in|std::ios::binary);
             if(!file.is_open())
@@ -269,6 +409,27 @@ static void run_vm(int argc,char *argv[])
             file.read((char *)machine.ram,sizeof(machine.ram));
 
             file.close();
+        }
+
+        if(!dtbfilename.empty())
+        {
+            //加载dtb
+            std::fstream file;
+            file.open(dtbfilename.c_str(),std::ios::in|std::ios::binary);
+            if(!file.is_open())
+            {
+                hfprintf(stderr,"open %s failed!\r\n",dtbfilename.c_str());
+                hexit(-1);
+            }
+
+            file.read((char *)machine.dtb,sizeof(machine.dtb));
+
+            file.close();
+        }
+
+        if(displaydtb)
+        {
+            dtb_display();
         }
 
         bool cpu_cycle=true;

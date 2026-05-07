@@ -154,9 +154,8 @@ hbox可通过宏定义进行配置，配置文件模板见[template/config.h](te
 
 具体实现见[hruntime](hruntime)目录。
 
-## hsoftplc
+## hstandalone
 
-辅助实现软件PLC功能。 
+独立组件，hbox的其它组件一般不依赖这些组件。 
 
-具体实现见[hsoftplc](hsoftplc)目录。
-
+具体实现见[hstandalone](hstandalone)目录。

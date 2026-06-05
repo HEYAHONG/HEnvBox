@@ -72,6 +72,9 @@ CheckTool2 gmkdir
 [ $? -eq 0 ] && alias mkdir=gmkdir
 CheckTool2 gxargs
 [ $? -eq 0 ] && alias xargs=gxargs
+#默认若存在sudo.ws,使用sudo.ws
+CheckTool2 sudo.ws
+[ $? -eq 0 ] && alias sudo=sudo.ws
 
 if [ ${HENVBOX_UNSUPPORTED} -ne 1 ]; then
 	# shellcheck disable=SC2128  # ignore array expansion warning

@@ -29,7 +29,7 @@
 - 支持riscv裸机程序开发(采用riscv64-unknown-elf-gcc工具链)。
 - 支持使用[crosstool-ng](http://crosstool-ng.org)创建自定义工具链。
 - 支持基于[openwrt](https://openwrt.org/)/[buildroot](https://buildroot.org/)的固件程序编译。
-- 无论是Windows还是Linux,均采用[bash](https://www.gnu.org/software/bash/)作为默认脚本解释器,并且支持一些小工具，如neofetch。
+- 无论是Windows还是Linux,均采用[bash](https://www.gnu.org/software/bash/)作为默认脚本解释器,并且支持一些小工具，如neofetch(或fastfetch)。
 - 支持使用常用的编程语言编译程序,如C、C++、Go、Lua、Rust等。
 - 支持嵌入式开发工具，如[platformio](https://platformio.org/)等
 

@@ -134,7 +134,7 @@ cutecom-ng是一个基于Qt的串口工具,可用于串口调试。
 
 ## Linux
 
-- config.sh：在bash中使用`. config.bat路径 `可配置环境。
+- config.sh：在bash中使用`. config.sh路径 `可配置环境。
 - install.sh：安装或者更新软件包,可多次调用，为防止异常不要同时执行多个实例。
 - upgrade.sh：更新软件包,可多次调用。
 - uninstall.sh:卸载安装，主要用于删除.bashrc信息。注意:为保证系统稳定性，不会删除已安装的软件包。

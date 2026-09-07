@@ -4,13 +4,15 @@
 
 可外部配置的宏定义如下:
 
-| 宏定义                                 | 说明                                              | 备注                                                         |
-| -------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------ |
-| `HDEFAULTS_SYSCALL_NO_IMPLEMENTATION`  | 不实现系统调用                                    | 可节约部分空间，但会造成某些功能在未改变API表时失效          |
-| `HDEFAULTS_SYSCALL_NO_HFILEDESCRIPTOR` | 不使用`hfiledescriptor`组件实现文件描述符相关调用 | 可节约部分空间。但`close`、`read`、`write`、`lseek`、`open`等将在某些环境下不可用 |
-| `HSYSCALL_NO_IMPLEMENTATION`           | 不实现[hsyscall](hsyscall)                        | 可用于在编译器垃圾回收不完善时减少资源占用                   |
-| `HSYSCALL_NO_TIME`                     | 不实现[hsyscall](hsyscall)的时间组件              | 可用于在编译器垃圾回收不完善时减少资源占用                   |
-| `HSYSCALL_NO_RANDOM`                   | 不实现[hsyscall](hsyscall)的随机数组件            | 可用于在编译器垃圾回收不完善时减少资源占用                   |
+| 宏定义                                    | 说明                                              | 备注                                                         |
+| ----------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------ |
+| `HDEFAULTS_SYSCALL_NO_IMPLEMENTATION`     | 不实现系统调用                                    | 可节约部分空间，但会造成某些功能在未改变API表时失效          |
+| `HDEFAULTS_SYSCALL_NO_HFILEDESCRIPTOR`    | 不使用`hfiledescriptor`组件实现文件描述符相关调用 | 可节约部分空间。但`close`、`read`、`write`、`lseek`、`open`等将在某些环境下不可用 |
+| `HDEFAULTS_USERCALL_FUNCTION_DEFAULT`     | 默认函数调用                                      | 用于扩展用户调用                                             |
+| `HDEFAULTS_SYSCALL_FUNCTION_FIND_DEFAULT` | 默认函数查找                                      | 用于扩展未实现的调用                                         |
+| `HSYSCALL_NO_IMPLEMENTATION`              | 不实现[hsyscall](hsyscall)                        | 可用于在编译器垃圾回收不完善时减少资源占用                   |
+| `HSYSCALL_NO_TIME`                        | 不实现[hsyscall](hsyscall)的时间组件              | 可用于在编译器垃圾回收不完善时减少资源占用                   |
+| `HSYSCALL_NO_RANDOM`                      | 不实现[hsyscall](hsyscall)的随机数组件            | 可用于在编译器垃圾回收不完善时减少资源占用                   |
 
 # 目录说明
 
@@ -142,6 +144,19 @@
 | `HCLOSE`                      | 用户实现的`close` | 参数与返回值同`close` |
 | `HDEFAULTS_SYSCALL_NO_HCLOSE` | 不实现`close`     |                       |
 
+## `fsync`
+
+清空文件缓存
+
+当系统支持`fsync`时，采用系统的实现。
+
+可外部配置的宏定义如下:
+
+| 宏定义                        | 说明              | 备注                  |
+| ----------------------------- | ----------------- | --------------------- |
+| `HFSYNC`                      | 用户实现的`fsync` | 参数与返回值同`fsync` |
+| `HDEFAULTS_SYSCALL_NO_HFSYNC` | 不实现`fsync`     |                       |
+
 ## `read`
 
 从文件描述符读取数据
@@ -219,6 +234,19 @@
 | ------------------------------ | ------------------ | ------------------------ |
 | `HOPENAT`                      | 用户实现的`openat` | 参数与返回值同见具体实现 |
 | `HDEFAULTS_SYSCALL_NO_HOPENAT` | 不实现`openat`     |                          |
+
+## `mkdir`
+
+创建目录
+
+当系统支持`mkdir`时，采用系统的实现。
+
+可外部配置的宏定义如下:
+
+| 宏定义                        | 说明              | 备注                     |
+| ----------------------------- | ----------------- | ------------------------ |
+| `HMKDIR`                      | 用户实现的`mkdir` | 参数与返回值同见具体实现 |
+| `HDEFAULTS_SYSCALL_NO_HMKDIR` | 不实现`mkdir`     |                          |
 
 ## `ioctl`
 

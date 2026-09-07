@@ -4,6 +4,20 @@
 
 主机端的工具见[https://github.com/feaser/openblt](https://github.com/feaser/openblt)。
 
+# 头文件目录
+
+若不采用CMake，需要将下列目录添加至头文件搜索目录：
+
+-  [port](port)
+- [3rdparty](3rdparty)
+
+# 源代码文件目录
+
+若不采用CMake，需要将下列目录的文件（不包括子目录）添加至源代码树。
+
+-  [port](port)
+- [3rdparty](3rdparty)
+
 # 移植
 
 ## 主任务
@@ -56,6 +70,8 @@ openblt的主任务主要采用以下函数：
 
 定义`BOOT_FILE_SYS_ENABLE`为1时启用。
 
+此处提供了[file_patch.c](port/file_patch.c)用于用户在不使用fatfs时编译连接(即启用文件但不使用fatfs)，定义`HOPENBLT_FILE_NO_IMPLEMENTATION`可禁用此实现。若用户需要文件正常工作，需要使C库文件正常工作或者自行实现file_patch.c。
+
 **注意:[file.c](3rdparty/file.c)已实现接口,依赖[fatfs](https://github.com/feaser/openblt/tree/master/Target/Source/third_party/fatfs)。**
 
 ### 通信接口
@@ -93,6 +109,8 @@ openblt的主任务主要采用以下函数：
  实现网络通信接口，具体见[net.h](3rdparty/net.h)。
 
 定义`BOOT_COM_NET_ENABLE`为1时启用。
+
+由于uip协议栈相对老旧，此处提供了[net_patch.c](port/net_patch.c)用于用户在不使用uip时编译连接(即启用NET但不使用uip)，定义`HOPENBLT_NET_NO_IMPLEMENTATION`可禁用此实现。若用户需要NET正常工作，需要自行实现net_patch.c相关函数。
 
  **注意:[net.c](3rdparty/net.c)已实现接口,依赖[uip](https://github.com/feaser/openblt/tree/master/Target/Source/third_party/uip),若为其他环境可能需要重新实现net.c。**
 

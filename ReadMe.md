@@ -128,6 +128,8 @@ cutecom-ng是一个基于Qt的串口工具,可用于串口调试。
 
 - config.bat：在cmd窗口中使用`call config.bat路径 `可配置环境。
 - install.bat：安装或者更新软件包,可多次调用，为防止异常不要同时执行多个实例。
+- peinstall.bat:为PE环境(RAMOS环境或者带还原的环境)安装HEnvBox,同install.bat定位类似，需要在带有网络的环境中运行,仅执行安装程序。
+- peload.bat:在PE环境(RAMOS环境或者带还原的环境)加载HEnvBox，需要在install.bat或者peinstall.bat成功后使用，一般在PE环境(RAMOS环境）启动脚本中调用。
 - upgrade.bat：更新软件包,可多次调用。
 - uninstall.bat:卸载安装，主要用于删除右键信息
 - Kconfiglib.bat:配置Kconfig，在首次正确安装后可使用,用于配置可选项,采用python-kconfiglib配置。
@@ -149,6 +151,14 @@ cutecom-ng是一个基于Qt的串口工具,可用于串口调试。
 以管理员权限执行install.bat,等待安装完成(注意:由于第一次更新pacman可能主动关闭窗口,若第一次安装时间小于10分钟且右键菜单打不开,需要重新运行安装脚本)。
 
 完成后可在目录的右键菜单中找到HEnvBox选项。在需要使用各种MSYS2中的工具时可使用右键菜单打开HEnvBox。
+
+## Windows(PE/RAMOS/还原环境)
+
+保证目录可写（可参考MSYS2对目录的要求），确保安装路径中没有空格与中文。由于MSYS2依赖极少，对于符合Windows版本要求的Windows，即使极度精简仍然可正常运行，因此可放在U盘/移动硬盘中到处运行。
+
+在具有网络的环境中，以管理员权限执行peinstall.bat,等待安装完成(注意:由于第一次更新pacman可能主动关闭窗口,若第一次安装时间小于10分钟且右键菜单打不开,需要重新运行安装脚本)。
+
+如需使用见使用章节。
 
 ## Linux
 
@@ -180,6 +190,10 @@ ln -sf `which bash` /bin/bash
 - 如需保持工具的更新，请定期执行更新脚本，若太长时间（如几个月）不更新，可能因为GPG签名过期而无法更新。
 - 若出现Msys2相关子菜单无法打开，有可能是未安装完成，再次执行安装脚本即可。
 - 对于Windows11而言，右键菜单与之前版本不一致，需要按住Shift键再使用右键打开菜单。
+
+## Windows(PE/RAMOS/还原环境)
+
+以管理员权限执行peinstall.bat（Windows PE/Windows RAMOS时可添加至PECMD.ini或者其它启动项自动加载，Windows（还原环境）需要手动加载）。之后使用方式同普通的Windows环境一致。若不支持网络，需要在有网络的环境中使用peinstall.bat更新工具。
 
 ## Linux
 

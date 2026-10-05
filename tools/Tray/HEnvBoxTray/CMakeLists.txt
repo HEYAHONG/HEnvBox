@@ -155,9 +155,11 @@ endif()
 if(WIN32 OR WIN64)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/win32/HEnvBoxTray.bat.in ${CMAKE_BINARY_DIR}/HEnvBoxTray.bat @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/HEnvBoxTray.bat DESTINATION  ${HENVBOX_ROOT_PATH}/local/HEnvBoxTray/bin/)
+if(NOT DEFINED ENV{PE_INSTALL})
 install(FILES ${CMAKE_BINARY_DIR}/HEnvBoxTray.bat 
 	DESTINATION  ${WIN32STARTUP}
 	)
+endif()
 endif()
 
 if(QT_VERSION_MAJOR EQUAL 6)

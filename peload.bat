@@ -26,6 +26,9 @@ if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clang64.exe call :SetApp
 if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clangarm64.exe call :SetAppCompatFlags "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\clangarm64.exe"
 if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\ucrt64.exe call :SetAppCompatFlags "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\ucrt64.exe"
 
+@rem 启动HEnvBoxTray
+if exist "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\ucrt64\bin\HEnvBoxTray.exe"  start "HEnvBoxTray" "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\ucrt64\bin\HEnvBoxTray.exe"
+
 @rem 添加兼容信息
 @rem 参数1:应用路径
 goto :eof

@@ -7,6 +7,7 @@ set HENVBOX_ROOT_PATH=%~dp0
 call "%HENVBOX_ROOT_PATH%\config.bat"
 
 @rem 导入tools目录中的安装脚本
+set PE_INSTALL=1
 if exist "%HENVBOX_ROOT_PATH%\tools\%HENVBOX_TYPE%\install.bat" call "%HENVBOX_ROOT_PATH%\tools\%HENVBOX_TYPE%\install.bat"
 
 @rem 暂停以查看错误信息

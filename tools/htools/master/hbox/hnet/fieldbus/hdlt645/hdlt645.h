@@ -6,12 +6,14 @@
  * Copyright: HYH (hyhsystem.cn)
  * License:   MIT
  **************************************************************/
-#ifndef __HDLT645_H_INCLUDED__
-#define __HDLT645_H_INCLUDED__
+#ifndef __HDLT645_H__
+#define __HDLT645_H__
 
 
 #include "hdlt645_common.h"
 #include "hdlt645_slave.h"
+#include "hdlt645_master.h"
+#include "hdlt645_di.h"
 #include "hdlt645_utils.h"
 
 #ifdef __cplusplus

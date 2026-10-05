@@ -9,7 +9,12 @@
 #ifndef __HDLT645_SLAVE_H_INCLUDED__
 #define __HDLT645_SLAVE_H_INCLUDED__
 
+#include "hdefaults.h"
 #include "hdlt645_common.h"
+
+#if defined(HDLT645_SLAVE_EXTERN_HEADER_FILENAME)
+#include HDLT645_SLAVE_EXTERN_HEADER_FILENAME
+#endif
 
 #ifdef __cplusplus
 extern "C"
@@ -172,6 +177,8 @@ typedef struct hdlt645_slave_di hdlt645_slave_di_t;
 struct hdlt645_slave_di
 {
     uint32_t di_num;                                                                                                    /**< 数据标识 */
+    void (*set_n)(const hdlt645_slave_di_t *di,uint8_t N);                                                              /**< 设定负荷记录块数 */
+    void (*unset_n)(const hdlt645_slave_di_t *di);                                                                      /**< 取消负荷块数设定 */
     void (*set_time)(const hdlt645_slave_di_t *di,uint8_t mm,uint8_t hh,uint8_t DD,uint8_t MM,uint8_t YY);              /**< 设定查询时间,可选 */
     void (*reset_time)(const hdlt645_slave_di_t *di);                                                                   /**< 取消查询时间限制，可选 */
     void (*write_enable)(const hdlt645_slave_di_t *di,hdlt645_data_p_t *p,hdlt645_data_c_t *c);                         /**< 写使能，可选 */

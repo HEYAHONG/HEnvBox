@@ -160,6 +160,8 @@ cutecom-ng是一个基于Qt的串口工具,可用于串口调试。
 
 如需使用见使用章节。
 
+**推荐论坛：[无忧启动](http://bbs.wuyou.net/)**
+
 ## Linux
 
 使用具有管理员权限的账户(可使用sudo提权)执行install.sh,等待安装完成,期间可能要求输入用户密码。
@@ -194,6 +196,8 @@ ln -sf `which bash` /bin/bash
 ## Windows(PE/RAMOS/还原环境)
 
 以管理员权限执行peinstall.bat（Windows PE/Windows RAMOS时可添加至PECMD.ini或者其它启动项自动加载，Windows（还原环境）需要手动加载）。之后使用方式同普通的Windows环境一致。若不支持网络，需要在有网络的环境中使用peinstall.bat更新工具。
+
+**推荐论坛：[无忧启动](http://bbs.wuyou.net/)**
 
 ## Linux
 

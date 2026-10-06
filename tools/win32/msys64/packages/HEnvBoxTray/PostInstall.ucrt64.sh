@@ -30,11 +30,16 @@ fi
 #进入当前目录
 pushd ${script_dir}
 
+#Windows下需要先终止进程才能更新文件
+taskkill -f -im HEnvBoxtray.exe || true
+
 if [ -d "${HENVBOX_COMMON_ROOT_PATH}/../Tray/HEnvBoxTray" ]; then
 	mkdir -p ${script_dir}/local/build/
 	cmake -B "${script_dir}/local/build/" -S "${HENVBOX_COMMON_ROOT_PATH}/../Tray/HEnvBoxTray" && cmake --build "${script_dir}/local/build/" && cmake --build "${script_dir}/local/build/" -t install
 	rm -rf ${script_dir}/local/build/
 fi
+
+start StartHEnvBoxTray.bat
 
 #退出目录
 popd

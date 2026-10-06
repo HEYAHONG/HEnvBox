@@ -6,7 +6,11 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+#ifdef WIN32
+    ,app_instance_pid("/tmp/" "app_instance_pid_henvboxtray",nullptr),
+#else
     ,app_instance_pid("/tmp/" HENVBOX_ROOT_PATH "app_instance_pid_henvboxtray",nullptr),
+#endif
       m_trayicon(this)
 {
     ui->setupUi(this);
@@ -17,18 +21,35 @@ MainWindow::MainWindow(QWidget *parent)
     m_trayicon.show();
     m_trayicon.setContextMenu(new QMenu(this));
     {
+        QString henvbox_root_path(HENVBOX_ROOT_PATH);
+#ifdef WIN32
+        if(!QFile::exists(henvbox_root_path))
+        {
+            /*
+             * 使用盘符搜索
+             */
+            for(char i='A';i <= 'Z';i++)
+            {
+                henvbox_root_path.replace(0,1,QChar(i));
+                if(QFile::exists(henvbox_root_path))
+                {
+                    break;
+                }
+            }
+        }
+#endif
         //创建菜单
         QMenu *menu=m_trayicon.contextMenu();
         if(menu!=NULL)
         {
             {
                 //添加路径显示(通过菜单打开相应目录)
-                QAction * act=menu->addAction(QIcon(QString::fromUtf8(":/HEnvBox-256x256.ico")),HENVBOX_ROOT_PATH);
+                QAction * act=menu->addAction(QIcon(QString::fromUtf8(":/HEnvBox-256x256.ico")),henvbox_root_path);
                 connect(act,&QAction::triggered,[=](bool check)
                 {
-                    if(QFile::exists(HENVBOX_ROOT_PATH))
+                    if(QFile::exists(henvbox_root_path))
                     {
-                        QDesktopServices::openUrl(QUrl::fromLocalFile(HENVBOX_ROOT_PATH));
+                        QDesktopServices::openUrl(QUrl::fromLocalFile(henvbox_root_path));
                     }
                 });
                 menu->addSeparator();
@@ -36,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
             {
                 QMenu *submenu=menu->addMenu(QIcon(QString::fromUtf8(":/HEnvBox-256x256.ico")),tr("Maintanence"));
                 //添加脚本的快捷启动方式
-                QDir root(HENVBOX_ROOT_PATH);
+                QDir root(henvbox_root_path);
                 if(root.isReadable())
                 {
                     QStringList filters;
@@ -54,7 +75,7 @@ MainWindow::MainWindow(QWidget *parent)
                         }
                         qDebug() << "Found script:" << scriptname;
                         {
-                            QString scriptpath=QString(HENVBOX_ROOT_PATH)+"/"+scriptname;
+                            QString scriptpath=QString(henvbox_root_path)+"/"+scriptname;
                             QAction * act=submenu->addAction(QIcon(QString::fromUtf8(":/HEnvBox-256x256.ico")),scriptname);
                             connect(act,&QAction::triggered,[=](bool check)
                             {
@@ -96,7 +117,7 @@ MainWindow::MainWindow(QWidget *parent)
                                 {
                                     scriptargs << "-Here";
                                     scriptargs << "-run";
-                                    scriptargs << "cmd.exe /k " HENVBOX_ROOT_PATH  "/config.bat";
+                                    scriptargs << (QString::fromUtf8("cmd.exe /k ")+henvbox_root_path + QString::fromUtf8("/config.bat"));
                                 }
                                 if(!StartScript(QString::fromLocal8Bit(HENVBOX_TOOLS_PATH)+QString::fromLocal8Bit("/ConEmu/ConEmu.exe"),scriptargs))
                                 {
@@ -107,6 +128,22 @@ MainWindow::MainWindow(QWidget *parent)
                 }
                 {
                     QString MSYS2_ROOT_PATH=QString::fromLocal8Bit(HENVBOX_LOCAL_ROOT_PATH "/" HENVBOX_TOOLS_TYPE);
+#ifdef WIN32
+                    if(!QFile::exists(MSYS2_ROOT_PATH))
+                    {
+                        /*
+                         * 使用盘符搜索
+                         */
+                        for(char i='A';i <= 'Z';i++)
+                        {
+                            MSYS2_ROOT_PATH.replace(0,1,QChar(i));
+                            if(QFile::exists(MSYS2_ROOT_PATH))
+                            {
+                                break;
+                            }
+                        }
+                    }
+#endif
                     const char *MSYS2_ENV_LIST[]=
                     {
                         "mingw32",

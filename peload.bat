@@ -29,6 +29,9 @@ if exist %HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\ucrt64.exe call :SetAppC
 @rem 启动HEnvBoxTray
 if exist "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\ucrt64\bin\HEnvBoxTray.exe"  start "HEnvBoxTray" "%HENVBOX_LOCAL_ROOT_PATH%\%HENVBOX_TOOLS_TYPE%\ucrt64\bin\HEnvBoxTray.exe"
 
+@rem 更新console入口
+if exist "%HENVBOX_ROOT_PATH%\tools\%HENVBOX_TYPE%\PEUpdateConsole.bat" call "%HENVBOX_ROOT_PATH%\tools\%HENVBOX_TYPE%\PEUpdateConsole.bat"
+
 @rem 添加兼容信息
 @rem 参数1:应用路径
 goto :eof

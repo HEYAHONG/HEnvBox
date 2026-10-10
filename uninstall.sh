@@ -88,6 +88,17 @@ if [ ${HENVBOX_UNSUPPORTED} -ne 1 ]; then
 			sed -i "${BASHRC_ENV_BLOCK_BEGIN},${BASHRC_ENV_BLOCK_END}d" ${BASHRC_PATH}
 		fi
 	fi
+
+	#修改profile
+	PROFILE_PATH=~/.profile
+	touch ${PROFILE_PATH}
+	PROFILE_ENV_BLOCK_BEGIN=$(cat ${PROFILE_PATH} | grep -n "^#HEnvBox Block BEGIN$" | awk -F: '{print $1}')
+	PROFILE_ENV_BLOCK_END=$(cat ${PROFILE_PATH} | grep -n "^#HEnvBox Block END$" | awk -F: '{print $1}')
+	if [ -n "${PROFILE_ENV_BLOCK_BEGIN}" ]; then
+		if [ -n "${PROFILE_ENV_BLOCK_BEGIN}" ]; then
+			sed -i "${PROFILE_ENV_BLOCK_BEGIN},${PROFILE_ENV_BLOCK_END}d" ${PROFILE_PATH}
+		fi
+	fi
 else
 	echo 无法完成HEnvBox配置!
 fi

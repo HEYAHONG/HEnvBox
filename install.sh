@@ -91,6 +91,20 @@ if [ ${HENVBOX_UNSUPPORTED} -ne 1 ]; then
 			#HEnvBox Block END
 		EOF
 	fi
+
+	#修改profile
+	PROFILE_PATH=~/.profile
+	touch ${PROFILE_PATH}
+	PROFILE_ENV_BLOCK_BEGIN=$(cat ${PROFILE_PATH} | grep -n "^#HEnvBox Block BEGIN$")
+	PROFILE_ENV_BLOCK_END=$(cat ${PROFILE_PATH} | grep -n "^#HEnvBox Block END$")
+	if [ -z "${PROFILE_ENV_BLOCK_BEGIN}" ]; then
+		cat >>${PROFILE_PATH} <<-EOF
+			#HEnvBox Block BEGIN
+			source ${HENVBOX_ROOT_PATH}/config.sh
+			#HEnvBox Block END
+		EOF
+	fi
+
 else
 	echo 无法完成HEnvBox配置!
 fi

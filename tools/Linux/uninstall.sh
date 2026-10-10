@@ -79,7 +79,11 @@ if [ ${HENVBOX_UNSUPPORTED} -ne 1 ]; then
 		if [ ${HENVBOX_UID} -eq 0 ]; then
 			. "${HENVBOX_TOOLS_PATH}/${HENVBOX_TOOLS_TYPE}/uninstall.sh"
 		else
-			sudo --preserve-env "${HENVBOX_TOOLS_PATH}/${HENVBOX_TOOLS_TYPE}/uninstall.sh"
+			SUDO=$(which sudo.ws)
+			if [ ! -x "${SUDO}" ]; then
+				SUDO=$(which sudo)
+			fi
+			${SUDO} --preserve-env "${HENVBOX_TOOLS_PATH}/${HENVBOX_TOOLS_TYPE}/uninstall.sh"
 		fi
 		if [ "$?" -ne "0" ]; then
 			#添加失败重试

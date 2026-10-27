@@ -9,6 +9,18 @@
 #include "hhttp_client.h"
 #include "h3rdparty.h"
 
+void hhttp_client_io_init(hhttp_client_io_t *io,hhttp_client_io_send_t io_send,hhttp_client_io_close_t io_close,hhttp_client_io_is_ok_t io_is_ok,void *usr)
+{
+    if(io==NULL)
+    {
+        return;
+    }
+    io->send=io_send;
+    io->close=io_close;
+    io->is_ok=io_is_ok;
+    io->usr=(intptr_t)usr;
+}
+
 void hhttp_client_io_send(hhttp_client_io_t *io,hhttp_string_t part_data)
 {
     if(io==NULL)
@@ -60,6 +72,46 @@ void hhttp_client_init(hhttp_client_t *client)
     }
 
     memset(client,0,sizeof(*client));
+}
+
+void hhttp_client_io_set(hhttp_client_t *client,hhttp_client_io_t *io,void *usr)
+{
+    if(client==NULL)
+    {
+        return;
+    }
+
+    if(io!=NULL)
+    {
+        client->io=(*io);
+    }
+
+    client->usr=usr;
+}
+
+void hhttp_client_request_set(hhttp_client_t *client,hhttp_client_field_process_t field_alloc,hhttp_client_field_process_t field_free,void *request_usr)
+{
+    if(client==NULL)
+    {
+        return;
+    }
+
+    client->request.field_process_alloc=field_alloc;
+    client->request.field_process_free=field_free;
+    client->request.request_usr=request_usr;
+}
+
+void hhttp_client_response_set(hhttp_client_t *client,hhttp_client_process_status_t resp_status,hhttp_client_process_field_t resp_field,hhttp_client_process_body_t resp_body,hhttp_client_process_body_end_t resp_body_end,void *usr)
+{
+    if(client==NULL)
+    {
+        return;
+    }
+    client->response.process_status=resp_status;
+    client->response.process_field=resp_field;
+    client->response.process_body=resp_body;
+    client->response.process_body_end=resp_body_end;
+    client->response.response_usr=usr;
 }
 
 void hhttp_client_cleanup(hhttp_client_t *client)
@@ -170,7 +222,7 @@ bool hhttp_client_send_request(hhttp_client_t *client,hhttp_method_t method,cons
          */
         hhttp_request_line_t request_line;
         request_line.method=method;
-        request_line.target=hhttp_string_from_buffer(http_target.str,http_target.str_len);
+        request_line.target=hhttp_string_from_buffer((const uint8_t *)http_target.str,http_target.str_len);
         request_line.version=HHTTP_VERSION_1_1;
         hhttp_request_line_pack(&request_line,hhttp_client_write_callback,client);
     }
@@ -187,7 +239,7 @@ bool hhttp_client_send_request(hhttp_client_t *client,hhttp_method_t method,cons
             hhttp_field_t field;
             field.field_name=hhttp_string_from_cstring("Content-Length");
             uint8_t buffer[16]= {0};
-            field.field_values=hhttp_string_dec_from_uint64(buffer,sizeof(buffer),body.str_len);
+            field.field_values=hhttp_string_dec_from_uint64(buffer,sizeof(buffer)-1,body.str_len);
             bool file_field_alloc=false;
             if(client!=NULL && client->request.field_process_alloc!=NULL)
             {
@@ -209,7 +261,7 @@ bool hhttp_client_send_request(hhttp_client_t *client,hhttp_method_t method,cons
              */
             hhttp_field_t field;
             field.field_name=hhttp_string_from_cstring("Host");
-            field.field_values=hhttp_string_from_buffer(http_host.str,http_host.str_len);
+            field.field_values=hhttp_string_from_buffer((const uint8_t *)http_host.str,http_host.str_len);
             bool file_field_alloc=false;
             if(client!=NULL && client->request.field_process_alloc!=NULL)
             {
@@ -255,7 +307,7 @@ bool hhttp_client_send_request(hhttp_client_t *client,hhttp_method_t method,cons
             if(!huriparser_string_is_empty(userinfo))
             {
                 hhttp_field_basic_authorization_t basic_authorization;
-                basic_authorization.userinfo=hhttp_string_from_buffer(userinfo.str,userinfo.str_len);
+                basic_authorization.userinfo=hhttp_string_from_buffer((const uint8_t *)userinfo.str,userinfo.str_len);
                 if(!hhttp_field_basic_authorization_pack(&basic_authorization,hhttp_client_write_callback,client))
                 {
                     ret=false;
